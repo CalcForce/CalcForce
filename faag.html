@@ -93,8 +93,8 @@ footer{border-top:1px solid var(--border);padding:22px;text-align:center;color:v
 </aside>
 </div>
 <section id="faagGame" class="game-section" aria-labelledby="gameHeading">
-<div class="game-heading"><div><h2 id="gameHeading">🎯 Faag-pikapeli: nappaa tuotteet!</h2><p>30 sekuntia aikaa. Klikkaa ilmestyviä tuotteita ja kerää pisteitä. Pelaa myös puhelimella!</p></div><button type="button" class="primary game-start" id="gameStart">Aloita peli</button></div>
-<div class="game-stats"><span>Pisteet <strong id="gameScore">0</strong></span><span>Aika <strong id="gameTime">30 s</strong></span><span>Ennätys <strong id="gameBest">0</strong></span></div>
+<div class="game-heading"><div><h2 id="gameHeading">🎯 Faag-pikapeli: nappaa tuotteet!</h2><p>5 sekuntia aikaa. Klikkaa ilmestyviä tuotteita ja kerää pisteitä. Pelaa myös puhelimella!</p></div><button type="button" class="primary game-start" id="gameStart">Aloita peli</button></div>
+<div class="game-stats"><span>Pisteet <strong id="gameScore">0</strong></span><span>Aika <strong id="gameTime">5 s</strong></span><span>Ennätys <strong id="gameBest">0</strong></span></div>
 <div class="game-board" id="gameBoard" aria-label="Pelikenttä">
 <p class="game-message" id="gameMessage">Paina Aloita peli ja nappaa ilmestyvät tuotteet!</p>
 <button type="button" class="game-target" id="gameTarget" hidden aria-label="Nappaa tuote">🍫</button>
@@ -189,7 +189,7 @@ render();
 const start=document.getElementById('gameStart'),board=document.getElementById('gameBoard'),target=document.getElementById('gameTarget'),message=document.getElementById('gameMessage');
 const scoreEl=document.getElementById('gameScore'),timeEl=document.getElementById('gameTime'),bestEl=document.getElementById('gameBest');
 const key='calcforce-faag-game-best-v1';
-let score=0,remaining=30,interval=null,playing=false,best=0;
+let score=0,remaining=5,interval=null,playing=false,best=0;
 try{best=Math.max(0,parseInt(localStorage.getItem(key)||'0',10)||0)}catch(e){}
 bestEl.textContent=String(best);
 const icons=['🍫','🥤','📺','🎁','⭐'];
@@ -207,7 +207,7 @@ start.textContent='Pelaa uudelleen';
 }
 start.addEventListener('click',()=>{
 if(interval)clearInterval(interval);
-playing=true;score=0;remaining=30;scoreEl.textContent='0';timeEl.textContent='30 s';start.textContent='Aloita alusta';
+playing=true;score=0;remaining=5;scoreEl.textContent='0';timeEl.textContent='5 s';start.textContent='Aloita alusta';
 message.hidden=true;target.hidden=false;place();
 interval=setInterval(()=>{remaining--;timeEl.textContent=remaining+' s';if(remaining<=0)finish()},1000);
 });
