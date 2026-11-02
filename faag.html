@@ -31,6 +31,16 @@ button.primary:hover{filter:brightness(1.08)}
 .cart-summary{border-top:1px solid var(--border);padding-top:16px;margin-top:8px;color:var(--muted)}
 .notice{background:#08202f;border-left:3px solid var(--accent);padding:12px 14px;border-radius:4px;color:#bcd5df;font-size:.87rem;margin-top:18px}
 .status{min-height:24px;color:var(--accent);font-size:.9rem;margin:9px 0}
+.demo-modal{border:1px solid var(--border);border-radius:18px;background:#0b2333;color:var(--text);width:min(94vw,460px);padding:24px;box-shadow:0 22px 65px #000a}
+.demo-modal::backdrop{background:#000b}
+.demo-modal h2{margin-top:0}.demo-modal label{display:block;margin:14px 0 5px;font-size:.88rem;color:var(--muted)}
+.demo-modal input{width:100%;padding:12px;border:1px solid #44768b;background:#071724;color:white;border-radius:9px;font:inherit}
+.demo-modal .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.demo-modal .actions{display:flex;gap:10px;margin-top:20px}.demo-modal .actions button{flex:1}
+.demo-modal .secondary{border:1px solid #5a8fa1;background:#17394b;color:white;border-radius:10px;padding:12px}
+.demo-modal .warning{color:#c9e3eb;font-size:.85rem;background:#163747;padding:11px;border-radius:9px}
+.demo-modal .error{color:#ffbdc3;min-height:1.5em;font-size:.85rem}
+.demo-modal .success{color:#3de3e5;font-weight:700}
 footer{border-top:1px solid var(--border);padding:22px;text-align:center;color:var(--muted);font-size:.85rem}
 @media(max-width:850px){.shop-layout{grid-template-columns:1fr}.cart{position:static}}
 @media(max-width:580px){.products{grid-template-columns:1fr}.product img{height:300px}.head{align-items:flex-start}}
@@ -62,11 +72,32 @@ footer{border-top:1px solid var(--border);padding:22px;text-align:center;color:v
 <div class="cart-title"><h2>Ostoskori</h2><span class="count" id="cartCount">0</span></div>
 <div id="cartItems" aria-live="polite"><p class="cart-empty">Ostoskori on tyhjä.</p></div>
 <div class="cart-summary"><strong id="totalQuantity">0 tuotetta</strong><div><strong>Yhteensä: <span id="cartTotal">0,00 €</span></strong><div>Mahdolliset toimituskulut eivät sisälly summaan.</div></div></div>
+<button class="primary" id="demoPay" type="button" disabled>Maksa kortilla (testi)</button>
 <p class="status" id="cartStatus" role="status" aria-live="polite"></p>
 <div class="notice">Ostoskori toimii selaimessa ja säilyttää valinnat tällä laitteella. Tämä sivu ei vastaanota tilauksia eikä käsittele maksuja. Karhu 0 % -tuotteen kuva on viitteellinen ja esittää 4,6 % -tölkkiä.</div>
 </aside>
 </div>
 </main>
+<dialog class="demo-modal" id="paymentDialog" aria-labelledby="paymentTitle">
+<h2 id="paymentTitle">Korttimaksun testaus</h2>
+<p class="warning"><strong>TESTITILA</strong> · Tämä on paikallinen maksusimulaatio, ei oikea maksupalvelu. Älä syötä oikeaa korttinumeroa tai muita oikeita korttitietoja. Korttitietoja ei lähetetä eikä tallenneta.</p>
+<p>Maksettava testisumma: <strong id="paymentAmount">0,00 €</strong></p>
+<form id="paymentForm" novalidate>
+<label for="cardNumber">Testikortin numero</label>
+<input id="cardNumber" inputmode="numeric" autocomplete="off" placeholder="4242 4242 4242 4242" maxlength="23" required>
+<div class="form-grid">
+<div><label for="cardExpiry">Voimassaolo</label><input id="cardExpiry" inputmode="numeric" autocomplete="off" placeholder="12/30" maxlength="5" required></div>
+<div><label for="cardCvc">CVC (testi)</label><input id="cardCvc" inputmode="numeric" autocomplete="off" placeholder="123" maxlength="4" required></div>
+</div>
+<p class="error" id="paymentError" role="alert"></p>
+<div class="actions"><button type="button" class="secondary" id="cancelPayment">Peruuta</button><button class="primary" type="submit">Vahvista testimaksu</button></div>
+</form>
+<div id="paymentSuccess" hidden>
+<p class="success">Testimaksu onnistui! Tämä oli simulaatio, eikä rahaa veloitettu.</p>
+<p id="receiptInfo"></p>
+<button type="button" class="primary" id="closeSuccess">Sulje</button>
+</div>
+</dialog>
 <footer>© 2026 CalcForce · Faag-esittelykauppa</footer>
 <script>
 (function(){
@@ -76,6 +107,7 @@ const storageKey='calcforce-faag-cart-v1';
 let cart={};
 try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');for(const id of Object.keys(products)){const n=Number(saved[id]);if(Number.isSafeInteger(n)&&n>0)cart[id]=Math.min(n,99)}}catch(e){}
 const items=document.getElementById('cartItems'),count=document.getElementById('cartCount'),navCount=document.getElementById('navCount'),total=document.getElementById('totalQuantity'),status=document.getElementById('cartStatus'),cartTotal=document.getElementById('cartTotal');
+const payButton=document.getElementById('demoPay'),dialog=document.getElementById('paymentDialog'),paymentForm=document.getElementById('paymentForm'),paymentError=document.getElementById('paymentError'),paymentSuccess=document.getElementById('paymentSuccess');
 function persist(){try{localStorage.setItem(storageKey,JSON.stringify(cart))}catch(e){}}
 function render(){
 items.replaceChildren();
@@ -92,12 +124,38 @@ const output=document.createElement('output');output.textContent=String(n);contr
 row.append(title,small,controls);items.append(row);
 }
 if(!sum){const p=document.createElement('p');p.className='cart-empty';p.textContent='Ostoskori on tyhjä.';items.append(p)}
-count.textContent=String(sum);navCount.textContent='('+sum+')';total.textContent=sum+' '+(sum===1?'tuote':'tuotetta');cartTotal.textContent=(totalCents/100).toFixed(2).replace('.',',')+' €';
+count.textContent=String(sum);navCount.textContent='('+sum+')';total.textContent=sum+' '+(sum===1?'tuote':'tuotetta');cartTotal.textContent=(totalCents/100).toFixed(2).replace('.',',')+' €';payButton.disabled=sum===0;
 }
 document.querySelectorAll('[data-add]').forEach(btn=>btn.addEventListener('click',()=>{
 const id=btn.getAttribute('data-add');if(!products[id])return;
 cart[id]=Math.min(99,(cart[id]||0)+1);persist();render();status.textContent=products[id].name+' lisätty ostoskoriin.';
 }));
+function money(cents){return(cents/100).toFixed(2).replace('.',',')+' €'}
+function cartAmount(){return Object.entries(cart).reduce((n,[id,qty])=>n+(products[id]?products[id].priceCents*qty:0),0)}
+let pendingAmount=0;
+payButton.addEventListener('click',()=>{
+pendingAmount=cartAmount();if(pendingAmount<=0)return;
+document.getElementById('paymentAmount').textContent=money(pendingAmount);
+paymentForm.reset();paymentError.textContent='';paymentForm.hidden=false;paymentSuccess.hidden=true;
+dialog.showModal();
+});
+document.getElementById('cancelPayment').addEventListener('click',()=>dialog.close());
+document.getElementById('closeSuccess').addEventListener('click',()=>dialog.close());
+paymentForm.addEventListener('submit',event=>{
+event.preventDefault();
+const number=document.getElementById('cardNumber').value.replace(/\s/g,'');
+const expiry=document.getElementById('cardExpiry').value.trim();
+const cvc=document.getElementById('cardCvc').value.trim();
+if(number!=='4242424242424242'||!/^\d{2}\/\d{2}$/.test(expiry)||!/^[0-9]{3,4}$/.test(cvc)){
+paymentError.textContent='Käytä vain testikorttia 4242 4242 4242 4242, voimassaoloa 12/30 ja CVC:tä 123.';return;
+}
+const [month,year]=expiry.split('/').map(Number);
+if(month<1||month>12||year<26){paymentError.textContent='Anna kelvollinen testivoimassaolo, esimerkiksi 12/30.';return}
+if(cartAmount()!==pendingAmount||pendingAmount<=0){paymentError.textContent='Ostoskorin summa muuttui. Sulje ikkuna ja aloita testi uudelleen.';return}
+paymentForm.reset();paymentForm.hidden=true;paymentSuccess.hidden=false;
+document.getElementById('receiptInfo').textContent='Testisummaa '+money(pendingAmount)+' ei veloitettu. Tilausta ei lähetetty.';
+cart={};persist();render();status.textContent='Testimaksu onnistui. Rahaa ei veloitettu.';
+});
 render();
 })();
 </script>
