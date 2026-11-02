@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#132b28">
+<meta name="description" content="Faag-Tuote: kone-, laite- ja metallialan tuotteiden esittelysivusto.">
+<title>Faag-Tuote | Koneet, laitteet ja metalliratkaisut</title>
+<style>
+:root{font-family:Arial,Helvetica,sans-serif;--bg:#f4f6f2;--ink:#18312d;--muted:#54645f;--green:#1e5c4c;--lime:#e1f0db;--line:#d7e0d8}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);line-height:1.6}a{color:inherit}button{font:inherit;cursor:pointer}
+.container{width:min(1120px,calc(100% - 40px));margin:auto}
+header{position:sticky;top:0;z-index:10;background:#fffef9f5;box-shadow:0 2px 16px #102a2110;border-bottom:1px solid var(--line)}
+.navbar{min-height:82px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-weight:900;font-size:1.35rem;letter-spacing:-.04em}
+.brand-icon{width:46px;height:46px;border-radius:12px;background:var(--green);color:white;display:grid;place-items:center;font-size:1.1rem;letter-spacing:0}
+nav{display:flex;gap:20px;flex-wrap:wrap}nav a{text-decoration:none;font-weight:700;font-size:.92rem}nav a:hover{color:var(--green)}
+.hero{background:linear-gradient(115deg,#123d35 0%,#235e4b 64%,#35745b 100%);color:white;overflow:hidden}
+.hero-inner{display:grid;grid-template-columns:1.25fr .75fr;gap:45px;align-items:center;padding:90px 0 100px}
+.eyebrow{text-transform:uppercase;letter-spacing:.18em;font-weight:800;font-size:.78rem;color:#b9e9cf}
+h1{font-size:clamp(2.6rem,6vw,4.9rem);line-height:1.06;letter-spacing:-.06em;margin:14px 0 24px}
+.hero p{max-width:590px;font-size:1.12rem;color:#e3f1e8}
+.cta{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:9px;background:#e5f6df;color:#173e32;padding:14px 22px;text-decoration:none;font-weight:800;margin-top:15px}
+.hero-art{border:1px solid #ffffff38;border-radius:28px;min-height:310px;background:linear-gradient(145deg,#ffffff20,#ffffff05);display:grid;place-items:center;position:relative}
+.hero-art .gear{font-size:clamp(6rem,14vw,11rem);filter:drop-shadow(0 15px 15px #071d1744)}
+.hero-art:before,.hero-art:after{content:"";position:absolute;border:2px solid #ffffff33;border-radius:50%;width:220px;height:220px}.hero-art:after{width:300px;height:300px}
+.section{padding:76px 0}.section-heading{display:flex;justify-content:space-between;align-items:end;gap:25px;margin-bottom:27px}
+.kicker{color:var(--green);font-size:.8rem;text-transform:uppercase;letter-spacing:.16em;font-weight:900}
+h2{font-size:clamp(2rem,4vw,2.9rem);line-height:1.16;letter-spacing:-.04em;margin:8px 0}
+.section-heading p{color:var(--muted);max-width:470px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.card{background:white;border:1px solid var(--line);border-radius:17px;padding:27px;min-height:270px;display:flex;flex-direction:column;box-shadow:0 5px 22px #173a2b08}
+.symbol{width:58px;height:58px;border-radius:15px;background:var(--lime);display:grid;place-items:center;font-size:1.8rem;margin-bottom:20px}
+.card h3{font-size:1.24rem;margin:0 0 8px}.card p{color:var(--muted);font-size:.95rem;margin:0 0 16px}.card a{margin-top:auto;color:var(--green);font-weight:800;text-decoration:none}
+.about{background:#eaf0e8}.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+.about-panel{background:#fff;padding:35px;border-radius:20px;border:1px solid var(--line)}
+.about-panel ul{padding-left:20px;margin-bottom:0}.about-panel li{margin:9px 0}
+.contact{background:#123d35;color:white}.contact p{color:#d5e6de;max-width:670px}.contact .cta{margin-top:12px}
+.footer{background:#0c2823;color:#d4e3dc;padding:28px 0;font-size:.88rem}.footer-inner{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}.footer a{color:#d4e3dc}
+.note{font-size:.85rem;color:var(--muted);margin-top:22px}
+@media(max-width:800px){.hero-inner,.about-grid{grid-template-columns:1fr}.hero-art{min-height:210px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-inner{padding:55px 0}.hero-art .gear{font-size:6rem}}
+@media(max-width:550px){.grid{grid-template-columns:1fr}.navbar{padding:12px 0}.nav{gap:13px}nav a{font-size:.84rem}.hero-art{display:none}.section{padding:55px 0}.section-heading{display:block}}
+</style>
+</head>
+<body>
+<header><div class="container navbar"><a class="brand" href="#alku"><span class="brand-icon">FT</span>FAAG-TUOTE</a><nav aria-label="Päävalikko"><a href="#alku">Etusivu</a><a href="#tuotteet">Tuotteet</a><a href="#yritys">Tietoa</a><a href="#yhteys">Yhteystiedot</a><a href="faag.html">Faag-kauppa</a></nav></div></header>
+<main>
+<section class="hero" id="alku"><div class="container hero-inner"><div><div class="eyebrow">Koneet · Laitteet · Metalliratkaisut</div><h1>FAAG-TUOTE</h1><p>Ratkaisuja materiaalinkäsittelyyn, maatalouden koneisiin ja metallialan tarpeisiin. Tutustu tuotealueisiin ja löydä ideat seuraavaan projektiisi.</p><a class="cta" href="#tuotteet">Tutustu tuotteisiin →</a></div><div class="hero-art" aria-hidden="true"><span class="gear">⚙️</span></div></div></section>
+<section class="section" id="tuotteet"><div class="container"><div class="section-heading"><div><div class="kicker">Tuotteet ja palvelut</div><h2>Ratkaisuja eri käyttökohteisiin</h2></div><p>Tuotealueiden esittely. Tarkemmat mallit, mitat, saatavuus ja hinnat vahvistetaan erikseen.</p></div><div class="grid"><article class="card" id="tuote-1"><div class="symbol" aria-hidden="true">🌾</div><h3>Täyttö- ja siirtoruuvit</h3><p>Viljan ja irtomateriaalin siirtoon suunniteltavat ratkaisut. Tutustu eri käyttökohteisiin ja kysy sopivasta toteutuksesta.</p><a href="#yhteys">Kysy lisää <span aria-hidden="true">→</span></a></article>
+<article class="card" id="tuote-2"><div class="symbol" aria-hidden="true">⚙️</div><h3>Viljakuljettimet</h3><p>Kuljetinjärjestelmien vaihtoehtoja varastoihin ja käsittelylinjoihin.</p><a href="#yhteys">Kysy lisää <span aria-hidden="true">→</span></a></article>
+<article class="card" id="tuote-3"><div class="symbol" aria-hidden="true">🌱</div><h3>Peittauslaitteet</h3><p>Siementen käsittelyyn liittyvät laiteratkaisut ja lisävarusteet.</p><a href="#yhteys">Kysy lisää <span aria-hidden="true">→</span></a></article>
+<article class="card" id="tuote-4"><div class="symbol" aria-hidden="true">❄️</div><h3>Hiekoituslaitteet</h3><p>Kiinteistöjen ja piha-alueiden talvikunnossapitoon soveltuvat laitteet.</p><a href="#yhteys">Kysy lisää <span aria-hidden="true">→</span></a></article>
+<article class="card" id="tuote-5"><div class="symbol" aria-hidden="true">🏗️</div><h3>Siilojen purkuratkaisut</h3><p>Materiaalin hallittu purku ja siirto varastointikohteissa.</p><a href="#yhteys">Kysy lisää <span aria-hidden="true">→</span></a></article>
+<article class="card" id="tuote-6"><div class="symbol" aria-hidden="true">✂️</div><h3>Metallityöt ja laserleikkaus</h3><p>Levyosien, koneenosien ja erikoisratkaisujen valmistusmahdollisuudet.</p><a href="#yhteys">Kysy lisää <span aria-hidden="true">→</span></a></article></div><p class="note">Tämä on Faag-Tuotteen luonnossivusto. Tuotekategoriat ovat esimerkkejä, eivät vahvistettuja myynnissä olevia tuotteita.</p></div></section>
+<section class="section about" id="yritys"><div class="container about-grid"><div><div class="kicker">Tietoa meistä</div><h2>Käytännöllisiä ratkaisuja työn tueksi</h2><p>Faag-Tuote on tämän sivuston nimi. Sivuston tavoitteena on esitellä koneisiin, materiaalinkäsittelyyn ja metallityöhön liittyviä tuotealueita selkeästi.</p><p>Voimme täydentää sivulle oikeat tuotetiedot, yritysesittelyn, kuvat ja hinnaston myöhemmin.</p></div><div class="about-panel"><h3>Mitä sivulta löytyy?</h3><ul><li>Tuotteiden ja palvelujen esittely</li><li>Selkeä mobiiliystävällinen navigointi</li><li>Yhteydenotto-osio</li><li>Linkki Faag-verkkokauppaan</li></ul></div></div></section>
+<section class="section contact" id="yhteys"><div class="container"><div class="kicker" style="color:#b9e9cf">Ota yhteyttä</div><h2>Kerro, mitä tarvitset</h2><p>Yhteystiedot ja mahdollinen tarjouspyyntölomake voidaan lisätä, kun Faag-Tuotteen sähköpostiosoite ja muut yhteystiedot on vahvistettu.</p><a class="cta" href="faag.html">Siirry Faag-verkkokauppaan →</a></div></section>
+</main>
+<footer class="footer"><div class="container footer-inner"><span>© 2026 Faag-Tuote · Sivustoluonnos</span><span><a href="#alku">Takaisin ylös</a> · <a href="./">CalcForce</a></span></div></footer>
+</body></html>
