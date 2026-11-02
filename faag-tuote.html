@@ -117,6 +117,7 @@ footer{background:#303030;color:#ddd;padding:27px 0;font-size:.85rem}footer .wra
  <button type="button" id="harvestStart">Aloita puinti</button>
  <button type="button" id="harvestRestart" disabled>Uusi peli</button>
  <button type="button" id="harvestSound" aria-pressed="false" title="Ota puimurin ja sadon äänet käyttöön">🔇 Äänet pois</button>
+ <button type="button" id="harvestMusic" aria-pressed="false" title="Soita Stable Pulse -taustamusiikki">🎵 Musiikki päälle</button>
  </div>
  <div class="harvest-stats">
   <div class="harvest-stat"><strong id="harvestKg">0 kg</strong><span>Korjattu vilja</span></div>
@@ -234,4 +235,7 @@ canvas.addEventListener('pointerdown',e=>{if(state!=='running')return;goal=point
 document.querySelectorAll('[data-drive]').forEach(b=>{const k=b.dataset.drive;b.addEventListener('pointerdown',e=>{e.preventDefault();if(state==='running'){goal=null;keys.add(k);b.setPointerCapture(e.pointerId)}});const stop=()=>keys.delete(k);b.addEventListener('pointerup',stop);b.addEventListener('pointercancel',stop);b.addEventListener('lostpointercapture',stop)});
 draw();setStats();
 })();
-</script></body></html>
+</script><script id="faag-stable-pulse-music">
+(()=>{const button=document.getElementById('harvestMusic');if(!button)return;const audio=new Audio('Stable%20Pulse.mp3');audio.loop=true;audio.preload='none';audio.volume=.3;button.addEventListener('click',async()=>{if(!audio.paused){audio.pause();button.setAttribute('aria-pressed','false');button.textContent='🎵 Musiikki päälle';return}try{await audio.play();button.setAttribute('aria-pressed','true');button.textContent='⏸ Musiikki pois'}catch(e){console.warn('Stable Pulse -taustamusiikin toisto epäonnistui',e);button.textContent='🎵 Musiikki ei käynnistynyt'}});document.addEventListener('visibilitychange',()=>{if(document.hidden&&!audio.paused){audio.pause();button.setAttribute('aria-pressed','false');button.textContent='🎵 Musiikki päälle'}})})();
+</script>
+</body></html>
