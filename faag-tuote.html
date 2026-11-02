@@ -93,7 +93,10 @@ footer{background:#303030;color:#ddd;padding:27px 0;font-size:.85rem}footer .wra
 .feature{overflow:visible!important}
 .detail{overflow:visible!important}
 @media(max-width:540px){.feature-art,.feature-art img,.detail-visual,.detail-visual img{height:auto!important;max-height:none!important}}
-.nav-inner{display:flex;flex-wrap:wrap;max-width:1160px;margin:auto}.nav-inner>a,.nav-inner>.drop>.dropbtn{white-space:nowrap}.top-info{max-width:310px;overflow-wrap:break-word}@media(max-width:640px){.nav-inner>a,.nav-inner>.drop>.dropbtn{padding:10px 11px;font-size:.82rem}.top-inner{flex-wrap:wrap}.top-info{display:none}}.resource .detail-link{display:inline-block;margin-top:12px}</style></head>
+.nav-inner{display:flex;flex-wrap:wrap;max-width:1160px;margin:auto}.nav-inner>a,.nav-inner>.drop>.dropbtn{white-space:nowrap}.top-info{max-width:310px;overflow-wrap:break-word}@media(max-width:640px){.nav-inner>a,.nav-inner>.drop>.dropbtn{padding:10px 11px;font-size:.82rem}.top-inner{flex-wrap:wrap}.top-info{display:none}}.resource .detail-link{display:inline-block;margin-top:12px}
+#harvestSound[aria-pressed="true"]{background:#276249;color:#fff}
+#harvestSound[aria-pressed="false"]{background:#6b6b6b;color:#fff}
+</style></head>
 <body>
 <header><div class="top"><div class="wrap top-inner"><a class="logo" href="#etusivu"><span class="logo-mark">FAAG</span><span>FAAG-TUOTE</span></a><div class="top-info">Viljankäsittelyn ja metallialan ratkaisut<br>Tuote-esittely</div></div></div>
 <div class="nav-bar"><nav class="wrap nav-inner" aria-label="Päävalikko"><a href="faag-tuote.html#etusivu">Etusivu</a><div class="drop" id="productMenu"><button type="button" class="dropbtn" aria-expanded="false" aria-controls="productLinks">Tuotteet ja palvelut ▾</button><div class="dropdown" id="productLinks"><a href="#viljapuhallin">Faagi-Puhku 2000</a><a href="#tasokuljetin">Faagi-Liukuri</a><a href="#moottorilapio">Faagi-LapioTurbo</a><a href="#tayttoruuvit">Faagi-RuuviRalli</a><a href="#peittaimet">Faagi-SiemenSpa</a><a href="#viljaruuvit">Faagi-JyväJyrä</a><a href="#hiekoittimet">Faagi-LiukkaStop</a><a href="#suursakinpurkain">Faagi-SäkkiSärmä</a><a href="#siilon-tyhjennys">Faagi-SiiloSuutari</a><a href="#laserleikkaus">Faagi-LaserLäiske</a></div></div><a href="faag-esitteet.html">Esitteet</a><a href="faag-kayttoohjeet.html">Käyttöohjeet</a><a href="faag-hinnat.html">Hinnat</a><a href="#cartTitle">Ostoskori 🛒</a><a href="#sato-peli">🌾 Puintipeli</a><a href="faag-yhteystiedot.html">Yhteystiedot</a></nav></div></header>
@@ -113,6 +116,7 @@ footer{background:#303030;color:#ddd;padding:27px 0;font-size:.85rem}footer .wra
  <select id="harvestDifficulty"><option value="helppo">Satakunnan tasanko</option><option value="keskitaso">Pohjanmaan peltolohko</option><option value="vaikea">Hämeen kivipelto</option></select>
  <button type="button" id="harvestStart">Aloita puinti</button>
  <button type="button" id="harvestRestart" disabled>Uusi peli</button>
+ <button type="button" id="harvestSound" aria-pressed="false" title="Ota puimurin ja sadon äänet käyttöön">🔇 Äänet pois</button>
  </div>
  <div class="harvest-stats">
   <div class="harvest-stat"><strong id="harvestKg">0 kg</strong><span>Korjattu vilja</span></div>
@@ -126,7 +130,7 @@ footer{background:#303030;color:#ddd;padding:27px 0;font-size:.85rem}footer .wra
  </div>
  <div class="harvest-mobile" aria-label="Puimurin ohjaus"><button type="button" data-drive="left" aria-label="Ohjaa vasemmalle">◀</button><button type="button" data-drive="up" aria-label="Ohjaa ylös">▲</button><button type="button" data-drive="down" aria-label="Ohjaa alas">▼</button><button type="button" data-drive="right" aria-label="Ohjaa oikealle">▶</button></div>
  <div class="harvest-message" id="harvestMessage" role="status" aria-live="polite">Vinkki: suomalaisessa viljelyssä ohra, kaura, vehnä ja ruis ovat tuttuja viljoja. Pelin satomäärät ovat leikkimielisiä.</div>
- <div class="harvest-help"><p>🎮 Ohjaus: nuolinäppäimet / WASD, kosketus tai ruudun ohjauspainikkeet. 🌾 Tähkä +100 kg, ⛽ kanisteri +20 % polttoainetta, 🪨 kivi -15 % polttoainetta.</p><p>Kerää mahdollisimman paljon viljaa 75 sekunnissa. Peli toimii selaimessa ilman kirjautumista. Paras tulos tallentuu vain omalle laitteellesi.</p></div>
+ <div class="harvest-help"><p>🎮 Ohjaus: nuolinäppäimet / WASD, kosketus tai ruudun ohjauspainikkeet. 🔊 Äänipainikkeesta saat käyttöön puimurin moottorin, viljan keruun, tankkauksen ja osumien äänet. 🌾 Tähkä +100 kg, ⛽ kanisteri +20 % polttoainetta, 🪨 kivi -15 % polttoainetta.</p><p>Kerää mahdollisimman paljon viljaa 75 sekunnissa. Peli toimii selaimessa ilman kirjautumista. Paras tulos tallentuu vain omalle laitteellesi.</p></div>
  </div>
 </div>
 </section><section class="resources"><div class="wrap resource-grid"><article class="resource" id="esitteet"><h3>📘 Esitteet</h3><p>Tutustu Faag-Tuotteen keksittyihin koneisiin ja tuoteryhmiin.</p><a class="detail-link" href="faag-esitteet.html">Lue esittelyt →</a></article><article class="resource" id="kayttoohjeet"><h3>🛠️ Käyttöohjeet</h3><p>Yleisiä käyttö- ja turvallisuusvinkkejä viljankäsittelyyn.</p><a class="detail-link" href="faag-kayttoohjeet.html">Lue ohjeet →</a></article><article class="resource" id="hinnat"><h3>💶 Hinnat</h3><p>Kaikki 10 tuotetta ja niiden kuvitteelliset hinnat samassa taulukossa.</p><a class="detail-link" href="faag-hinnat.html">Avaa hinnasto →</a></article></div></section>
@@ -154,6 +158,46 @@ const canvas=document.getElementById('harvestCanvas');if(!canvas)return;
 const ctx=canvas.getContext('2d');const W=900,H=480;
 const el=id=>document.getElementById(id);
 const overlay=el('harvestOverlay'),msg=el('harvestMessage');
+
+const soundButton=el('harvestSound');
+let soundOn=false,audioCtx=null,engineNodes=null,engineTimer=0,lastSoundAt=0;
+const AudioContextType=window.AudioContext||window.webkitAudioContext;
+function ensureAudio(){if(!soundOn||!AudioContextType)return null;try{if(!audioCtx)audioCtx=new AudioContextType();if(audioCtx.state==='suspended')audioCtx.resume().catch(()=>{});return audioCtx}catch(e){return null}}
+function tone(freq,duration,kind='sine',volume=.09,delay=0,finishFreq=null){
+ const ac=ensureAudio();if(!ac)return;
+ const now=ac.currentTime+delay;
+ const osc=ac.createOscillator(),gain=ac.createGain();osc.type=kind;osc.frequency.setValueAtTime(Math.max(1,freq),now);
+ if(finishFreq)osc.frequency.exponentialRampToValueAtTime(Math.max(1,finishFreq),now+duration);
+ gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(Math.max(.0002,volume),now+.012);
+ gain.gain.exponentialRampToValueAtTime(.0001,now+duration);
+ osc.connect(gain);gain.connect(ac.destination);osc.start(now);osc.stop(now+duration+.02);
+}
+function playEffect(which){
+ if(!soundOn)return;
+ const now=performance.now();if(which==='grain'&&now-lastSoundAt<85)return;lastSoundAt=now;
+ if(which==='grain'){tone(720,.10,'triangle',.065,0,1040);tone(980,.14,'sine',.045,.07,1350)}
+ else if(which==='fuel'){tone(340,.15,'sine',.075,0,500);tone(530,.15,'sine',.075,.13,790);tone(790,.20,'triangle',.06,.25,1080)}
+ else if(which==='stone'){tone(140,.22,'sawtooth',.085,0,58);tone(95,.30,'triangle',.07,.06,45)}
+ else if(which==='rain'){tone(580,.30,'triangle',.075,0,280);tone(390,.38,'triangle',.065,.24,190);tone(250,.55,'sine',.06,.51,110)}
+ else if(which==='empty'){tone(230,.30,'sawtooth',.075,0,95);tone(180,.45,'triangle',.055,.30,70)}
+ else if(which==='start'){tone(180,.19,'sawtooth',.05,0,240);tone(270,.16,'triangle',.055,.18,410)}
+}
+function stopEngine(){if(engineTimer){clearInterval(engineTimer);engineTimer=0}if(engineNodes){const n=engineNodes;engineNodes=null;try{n.gain.gain.setTargetAtTime(.0001,audioCtx.currentTime,.045);setTimeout(()=>{try{n.osc.stop();n.osc.disconnect();n.gain.disconnect()}catch(e){}},200)}catch(e){}}}
+function startEngine(){
+ if(!soundOn||state!=='running'||engineNodes)return;
+ const ac=ensureAudio();if(!ac)return;
+ try{const osc=ac.createOscillator(),gain=ac.createGain();osc.type='sawtooth';osc.frequency.value=61;gain.gain.value=.0001;osc.connect(gain);gain.connect(ac.destination);osc.start();gain.gain.setTargetAtTime(.018,ac.currentTime,.16);engineNodes={osc,gain};
+ engineTimer=setInterval(()=>{if(!engineNodes||state!=='running'||!soundOn)return;const driving=keys.size>0||goal!==null;const target=driving?81:59;osc.frequency.setTargetAtTime(target+Math.sin(performance.now()/350)*2,ac.currentTime,.12)},160);
+ }catch(e){stopEngine()}
+}
+soundButton.addEventListener('click',()=>{
+ soundOn=!soundOn;soundButton.setAttribute('aria-pressed',String(soundOn));
+ soundButton.textContent=soundOn?'🔊 Äänet päällä':'🔇 Äänet pois';
+ soundButton.title=soundOn?'Mykistä pelin äänet':'Ota pelin äänet käyttöön';
+ if(soundOn){ensureAudio();if(state==='running')startEngine();else playEffect('grain')}
+ else stopEngine();
+});
+
 const keys=new Set();let objects=[],particles=[],state='ready',player={x:450,y:240},fuel=100,kg=0,remaining=75,last=0,spawn=0,frame=0,raf=0,goal=null,weather=0;
 let crop='ohra',difficulty='helppo',best=0;
 const bestKey='faag-harvest-best-v1';
@@ -164,11 +208,11 @@ const crops={ohra:{label:'Ohra',color:'#dfb34f'},kaura:{label:'Kaura',color:'#e4
 const diff={helppo:{stone:.13,spawn:1.0,speed:210},keskitaso:{stone:.22,spawn:.88,speed:220},vaikea:{stone:.31,spawn:.78,speed:230}};
 function setStats(){el('harvestKg').textContent=kg.toLocaleString('fi-FI')+' kg';el('harvestFuel').textContent=Math.max(0,Math.ceil(fuel))+' %';el('harvestTime').textContent=Math.max(0,Math.ceil(remaining))+' s';el('harvestBest').textContent=best.toLocaleString('fi-FI')+' kg'}
 function addObject(){const d=diff[difficulty];const n=Math.random();const type=n<d.stone?'stone':n<d.stone+.09?'fuel':'grain';objects.push({x:rand(38,W-38),y:rand(100,H-36),r:type==='stone'?20:23,type,phase:rand(0,7)});if(objects.length>40)objects.shift()}
-function start(){crop=el('harvestCrop').value;difficulty=el('harvestDifficulty').value;objects=[];particles=[];keys.clear();player={x:450,y:250};fuel=100;kg=0;remaining=75;weather=0;spawn=0;frame=0;goal=null;last=0;state='running';overlay.hidden=true;el('harvestStart').disabled=true;el('harvestRestart').disabled=false;el('harvestCrop').disabled=true;el('harvestDifficulty').disabled=true;msg.textContent='Puimuri käynnissä! Kerää tähkät ja väistä kivet.';for(let i=0;i<14;i++)addObject();setStats();if(!raf)raf=requestAnimationFrame(loop)}
-function finish(reason){state='ended';overlay.hidden=false;el('harvestOverlayTitle').textContent=reason==='rain'?'🌧️ Syyssade saapui!':'⛽ Puimurin tankki tyhjeni!';el('harvestOverlayText').textContent='Keräsit '+kg.toLocaleString('fi-FI')+' kg '+crops[crop].label.toLowerCase()+'a. '+(kg>=best&&kg>0?'Uusi ennätyssato!':'Kokeile uudestaan ja paranna satoa.');el('harvestOverlayStart').textContent='Pelaa uudestaan 🚜';el('harvestStart').disabled=false;el('harvestCrop').disabled=false;el('harvestDifficulty').disabled=false;msg.textContent='Puinti päättyi. '+kg.toLocaleString('fi-FI')+' kg korjattu.';setStats()}
+function start(){crop=el('harvestCrop').value;difficulty=el('harvestDifficulty').value;objects=[];particles=[];keys.clear();player={x:450,y:250};fuel=100;kg=0;remaining=75;weather=0;spawn=0;frame=0;goal=null;last=0;state='running';stopEngine();playEffect('start');startEngine();overlay.hidden=true;el('harvestStart').disabled=true;el('harvestRestart').disabled=false;el('harvestCrop').disabled=true;el('harvestDifficulty').disabled=true;msg.textContent='Puimuri käynnissä! Kerää tähkät ja väistä kivet.';for(let i=0;i<14;i++)addObject();setStats();if(!raf)raf=requestAnimationFrame(loop)}
+function finish(reason){state='ended';stopEngine();playEffect(reason==='rain'?'rain':'empty');overlay.hidden=false;el('harvestOverlayTitle').textContent=reason==='rain'?'🌧️ Syyssade saapui!':'⛽ Puimurin tankki tyhjeni!';el('harvestOverlayText').textContent='Keräsit '+kg.toLocaleString('fi-FI')+' kg '+crops[crop].label.toLowerCase()+'a. '+(kg>=best&&kg>0?'Uusi ennätyssato!':'Kokeile uudestaan ja paranna satoa.');el('harvestOverlayStart').textContent='Pelaa uudestaan 🚜';el('harvestStart').disabled=false;el('harvestCrop').disabled=false;el('harvestDifficulty').disabled=false;msg.textContent='Puinti päättyi. '+kg.toLocaleString('fi-FI')+' kg korjattu.';setStats()}
 function update(dt){remaining-=dt;fuel-=dt*.48;weather=1-remaining/75;frame+=dt;const speed=diff[difficulty].speed;let dx=(keys.has('right')?1:0)-(keys.has('left')?1:0),dy=(keys.has('down')?1:0)-(keys.has('up')?1:0);if(goal){const x=goal.x-player.x,y=goal.y-player.y,dist=Math.hypot(x,y);if(dist>7){dx=x/dist;dy=y/dist}else goal=null}
 const len=Math.hypot(dx,dy)||1;player.x=Math.max(30,Math.min(W-30,player.x+dx/len*speed*dt));player.y=Math.max(100,Math.min(H-30,player.y+dy/len*speed*dt));spawn+=dt;while(spawn>diff[difficulty].spawn){spawn-=diff[difficulty].spawn;addObject()}
-for(let i=objects.length-1;i>=0;i--){const o=objects[i];if(Math.hypot(o.x-player.x,o.y-player.y)<o.r+23){objects.splice(i,1);if(o.type==='grain'){kg+=100;msg.textContent='🌾 '+crops[crop].label+': +100 kg satoa!';for(let j=0;j<6;j++)particles.push({x:o.x,y:o.y,vx:rand(-70,70),vy:rand(-100,-20),life:.6,color:'#ffe181'})}else if(o.type==='fuel'){fuel=Math.min(100,fuel+20);msg.textContent='⛽ Tankattu! +20 % polttoainetta.'}else{fuel=Math.max(0,fuel-15);msg.textContent='🪨 Kivi osui puimuriin! -15 % polttoainetta.'}}}
+for(let i=objects.length-1;i>=0;i--){const o=objects[i];if(Math.hypot(o.x-player.x,o.y-player.y)<o.r+23){objects.splice(i,1);if(o.type==='grain'){playEffect('grain');kg+=100;msg.textContent='🌾 '+crops[crop].label+': +100 kg satoa!';for(let j=0;j<6;j++)particles.push({x:o.x,y:o.y,vx:rand(-70,70),vy:rand(-100,-20),life:.6,color:'#ffe181'})}else if(o.type==='fuel'){playEffect('fuel');fuel=Math.min(100,fuel+20);msg.textContent='⛽ Tankattu! +20 % polttoainetta.'}else{playEffect('stone');fuel=Math.max(0,fuel-15);msg.textContent='🪨 Kivi osui puimuriin! -15 % polttoainetta.'}}}
 for(const p of particles){p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt}particles=particles.filter(p=>p.life>0);if(kg>best){best=kg;try{localStorage.setItem(bestKey,String(best))}catch(e){}}
 setStats();if(remaining<=0)finish('rain');else if(fuel<=0)finish('fuel')}
 function draw(){const c=ctx;c.clearRect(0,0,W,H);const sky=c.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#9dc3dc');sky.addColorStop(.25,'#d8e7c6');sky.addColorStop(.26,'#c8a55d');sky.addColorStop(1,'#ae8b4a');c.fillStyle=sky;c.fillRect(0,0,W,H);
