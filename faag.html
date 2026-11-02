@@ -44,7 +44,15 @@ button.primary:hover{filter:brightness(1.08)}
 footer{border-top:1px solid var(--border);padding:22px;text-align:center;color:var(--muted);font-size:.85rem}
 @media(max-width:850px){.shop-layout{grid-template-columns:1fr}.cart{position:static}}
 @media(max-width:580px){.products{grid-template-columns:1fr}.product img{height:300px}.head{align-items:flex-start}}
-</style>
+.game-section{margin-top:30px;border:1px solid var(--border);border-radius:18px;padding:22px;background:linear-gradient(135deg,#10364b,#0a2231)}
+.game-heading{display:flex;justify-content:space-between;gap:18px;align-items:center;flex-wrap:wrap}.game-heading h2{margin-bottom:4px}.game-heading p,.game-tip{color:var(--muted);margin:0;font-size:.92rem}
+.game-start{width:auto!important;min-width:160px}.game-stats{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}
+.game-stats span{border:1px solid var(--border);border-radius:9px;padding:7px 13px;background:#071724}.game-stats strong{color:var(--accent)}
+.game-board{position:relative;overflow:hidden;height:310px;border:2px solid #28617b;border-radius:16px;background:radial-gradient(circle at 35% 40%,#19516a,#071724 75%);touch-action:manipulation}
+.game-message{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:20px;color:#bcd5df}
+.game-target{position:absolute;width:70px;height:70px;border:2px solid #3de3e5;border-radius:50%;background:#16475f;font-size:2.2rem;box-shadow:0 6px 20px #0009;display:grid;place-items:center;transition:transform .08s;touch-action:manipulation}
+.game-target[hidden]{display:none}.game-target:active{transform:scale(.9)}.game-tip{margin-top:12px}
+@media(max-width:580px){.game-board{height:270px}.game-target{width:64px;height:64px}}</style>
 </head>
 <body>
 <header><div class="head"><a class="logo" href="./"><span class="cf">CF</span>CALCFORCE</a><nav class="nav" aria-label="Sivuston valikko"><a href="./#ominaisuudet">Ominaisuudet</a><a href="./#tietoa">Tietoa</a><a href="./#julkaisu">Julkaisu</a><a href="privacy.html">Tietosuoja</a><a href="faag.html" aria-current="page">Faag</a><a href="#ostoskori">Ostoskori <span id="navCount">0</span></a></nav></div></header>
@@ -84,6 +92,15 @@ footer{border-top:1px solid var(--border);padding:22px;text-align:center;color:v
 <div class="notice">Ostoskori toimii selaimessa ja säilyttää valinnat tällä laitteella. Tämä sivu ei vastaanota tilauksia eikä käsittele maksuja. Karhu 0 % -tuotteen kuva on viitteellinen ja esittää 4,6 % -tölkkiä.</div>
 </aside>
 </div>
+<section id="faagGame" class="game-section" aria-labelledby="gameHeading">
+<div class="game-heading"><div><h2 id="gameHeading">🎯 Faag-pikapeli: nappaa tuotteet!</h2><p>30 sekuntia aikaa. Klikkaa ilmestyviä tuotteita ja kerää pisteitä. Pelaa myös puhelimella!</p></div><button type="button" class="primary game-start" id="gameStart">Aloita peli</button></div>
+<div class="game-stats"><span>Pisteet <strong id="gameScore">0</strong></span><span>Aika <strong id="gameTime">30 s</strong></span><span>Ennätys <strong id="gameBest">0</strong></span></div>
+<div class="game-board" id="gameBoard" aria-label="Pelikenttä">
+<p class="game-message" id="gameMessage">Paina Aloita peli ja nappaa ilmestyvät tuotteet!</p>
+<button type="button" class="game-target" id="gameTarget" hidden aria-label="Nappaa tuote">🍫</button>
+</div>
+<p class="game-tip">Vinkki: jokaisesta osumasta saat yhden pisteen. Tämä peli ei vaikuta ostoskoriin tai hintoihin.</p>
+</section>
 </main>
 <dialog class="demo-modal" id="paymentDialog" aria-labelledby="paymentTitle">
 <h2 id="paymentTitle">Korttimaksun testaus</h2>
@@ -164,6 +181,40 @@ document.getElementById('receiptInfo').textContent='Testisummaa '+money(pendingA
 cart={};persist();render();status.textContent='Testimaksu onnistui. Rahaa ei veloitettu.';
 });
 render();
+})();
+</script>
+<script>
+(function(){
+'use strict';
+const start=document.getElementById('gameStart'),board=document.getElementById('gameBoard'),target=document.getElementById('gameTarget'),message=document.getElementById('gameMessage');
+const scoreEl=document.getElementById('gameScore'),timeEl=document.getElementById('gameTime'),bestEl=document.getElementById('gameBest');
+const key='calcforce-faag-game-best-v1';
+let score=0,remaining=30,interval=null,playing=false,best=0;
+try{best=Math.max(0,parseInt(localStorage.getItem(key)||'0',10)||0)}catch(e){}
+bestEl.textContent=String(best);
+const icons=['🍫','🥤','📺','🎁','⭐'];
+function place(){
+target.textContent=icons[Math.floor(Math.random()*icons.length)];
+const width=target.offsetWidth||70,height=target.offsetHeight||70;
+target.style.left=Math.floor(Math.random()*Math.max(1,board.clientWidth-width-8))+4+'px';
+target.style.top=Math.floor(Math.random()*Math.max(1,board.clientHeight-height-8))+4+'px';
+}
+function finish(){
+clearInterval(interval);interval=null;playing=false;target.hidden=true;
+if(score>best){best=score;bestEl.textContent=String(best);try{localStorage.setItem(key,String(best))}catch(e){}}
+message.hidden=false;message.textContent='Peli päättyi! Sait '+score+' pistettä. '+(score>=20?'Huippusuoritus! 🏆':'Kokeile uudelleen!');
+start.textContent='Pelaa uudelleen';
+}
+start.addEventListener('click',()=>{
+if(interval)clearInterval(interval);
+playing=true;score=0;remaining=30;scoreEl.textContent='0';timeEl.textContent='30 s';start.textContent='Aloita alusta';
+message.hidden=true;target.hidden=false;place();
+interval=setInterval(()=>{remaining--;timeEl.textContent=remaining+' s';if(remaining<=0)finish()},1000);
+});
+target.addEventListener('click',()=>{
+if(!playing)return;score++;scoreEl.textContent=String(score);place();
+});
+window.addEventListener('pagehide',()=>{if(interval)clearInterval(interval)});
 })();
 </script>
 </body></html>
