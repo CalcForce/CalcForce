@@ -1,4 +1,4 @@
-<!doctype html><html lang="fi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Elatusapulaskuri 0.274</title><style>
+<!doctype html><html lang="fi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Elatusapulaskuri 0.275</title><style>
 :root{--cyan:#00d9ef;--blue:#0860ef;--border:#00cde5;--muted:#7cb8c7;--panel:#001827;--head:#002b44;--input:#081722;--text:#00d9ef;--inputtext:#fff;--line:#17677c;--result:#00e6d8}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 60% 0%,#00345c 0%,#000c17 38%,#000710 100%);font:16px Arial,sans-serif;color:var(--text)}.app{max-width:900px;margin:auto}.toolbar{display:flex;align-items:center;gap:15px;background:linear-gradient(100deg,#003475,#0052cd,#00245e);padding:13px 17px;color:white}.brand{font-size:24px;font-weight:bold;flex:1}.menu-holder{position:relative}.menu-trigger{font-size:22px!important;background:transparent!important;border:0!important;padding:5px 9px!important;color:white!important}.app-menu{position:absolute;z-index:50;top:42px;left:0;width:260px;background:#092b45;color:white;border:1px solid #2a9fc7;border-radius:9px;padding:12px;box-shadow:0 12px 35px #0009}.app-menu[hidden]{display:none}.app-menu label{color:white}.app-menu select{margin:7px 0 12px}.app-menu button{width:100%;text-align:left}.version{font-size:12px;color:#c8e6f2}.panel{margin:6px 8px;border:1px solid var(--border);border-radius:6px;background:var(--panel);overflow:hidden;padding:0 12px 12px}.panel h2{display:flex;align-items:center;gap:11px;background:var(--head);margin:0 -12px 10px;padding:5px;color:var(--text);font-size:18px}.number{display:grid;place-items:center;min-width:39px;height:39px;border-radius:50%;background:linear-gradient(#067bff,#004ad8);border:1px solid #168aff;color:white}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px 15px}.grid label,.costgroup>label{display:flex;flex-direction:column;gap:5px}label{font-size:14px;color:var(--text)}input,select{background:var(--input);border:1px solid #6e8999;border-radius:3px;color:var(--inputtext);font:16px Arial;padding:4px 10px;width:100%;height:30px;text-align:right}select{text-align:right}input:focus,select:focus{outline:2px solid #168aff;outline-offset:1px}button{padding:10px 14px;background:#0055e9;border:1px solid #2791ff;border-radius:4px;color:#fff;cursor:pointer;font:14px Arial;margin:3px}button.secondary{background:#071b27;border-color:#5e8999}.muted{color:var(--muted);font-size:12px;line-height:1.5}.warning{margin:8px 10px;padding:9px 12px;background:var(--head);border-left:3px solid #f2b852;color:var(--text);font-size:12px;line-height:1.5}.result{font-size:42px;font-weight:800;color:var(--result);padding:12px;border:1px solid #008963;background:#063a2b;border-radius:5px;text-align:center;margin:8px 0}table{width:100%;border-collapse:collapse}td{padding:8px;border-bottom:1px solid var(--line);font-size:14px}td:last-child{text-align:right;font-weight:bold}.costgroup{padding:10px 0;border-top:1px solid var(--line)}.costgroup h3{font-size:16px;margin:4px 0 10px}.tag{font-size:12px}.printonly{display:none}footer{padding:12px}a{color:var(--text)}
 body[data-theme=light]{--cyan:#075a85;--border:#70a7c4;--muted:#536f80;--panel:#fff;--head:#e4f1fa;--input:#fff;--text:#075a85;--inputtext:#142c40;--line:#d9e9f6;--result:#147950;background:#f3f7fb}body[data-theme=light] .result{background:#e8f8ee}body[data-theme=forest]{--cyan:#9de6c0;--border:#3baf87;--muted:#a1cdbb;--panel:#10271f;--head:#163a2d;--input:#091a15;--text:#9de6c0;--inputtext:#fff;--line:#275b48;--result:#9de6c0;background:linear-gradient(140deg,#0c241e,#08120f)}body[data-theme=forest] .toolbar{background:linear-gradient(90deg,#125a44,#167c5a)}body[data-theme=forest] .number{background:#187c5b;border-color:#4ab48d}body[data-theme=forest] .result{background:#063a2b}
 @media(max-width:560px){.brand{font-size:19px}.panel h2{font-size:15px}.grid{grid-template-columns:1fr}.result{font-size:32px}}@media print{body,body[data-theme]{background:white!important;color:black!important}.toolbar,.no-print,.menu-holder{display:none!important}.panel{border:1px solid #aaa;break-inside:avoid;background:white!important}.panel h2{color:black!important;background:#eee!important}input,select{color:black!important;background:white!important}.result{color:black!important;background:white!important}.printonly{display:block}}
@@ -602,7 +602,7 @@ button.field-info, button.kid-info, #childSelectorInfo, button[aria-label^="Info
  #parentNamesPanel .field-unit,.panel:has(.children-controls) .field-unit,#payer .field-unit,#resident .field-unit{font-size:11px!important}
 }
 </style>
-<!-- GitHub Pages -uudelleenjulkaisu: v0.274 -->
+<!-- GitHub Pages -uudelleenjulkaisu: v0.275 -->
 </head><body data-theme="ocean"><div class="app"><header class="toolbar"><div class="menu-holder"><button class="menu-trigger" onclick="toggleMenu()" aria-label="Avaa valikko">☰</button><div id="appMenu" class="app-menu" hidden>
 <div class="menu-brand"><strong>Elatusapulaskuri</strong><small>CalcForce</small></div>
 <div class="menu-theme"><label for="themeSelect">Teema</label><select id="themeSelect" onchange="setTheme(this.value)"><option value="ocean">Sininen</option><option value="light">Vaalea</option><option value="forest">Vihreä</option></select></div>
@@ -614,7 +614,7 @@ button.field-info, button.kid-info, #childSelectorInfo, button[aria-label^="Info
 <button type="button" onclick="load();toggleMenu()">▣ Lataa viimeisin selaimesta</button>
 <button type="button" onclick="save();toggleMenu()">▣ Tallenna selaimeen</button>
 </div><input type="file" id="importElatusFile" accept=".json,application/json" hidden onchange="importElatusFile(this)">
-<div class="version menu-version">CalcForce · Versio 0.274</div></div></div><div class="calcforce-logo" aria-hidden="true">CF</div><div class="brand"><span class="brand-name">CalcForce</span><span class="brand-subtitle">Elatusapulaskuri</span></div><span class="version">0.274</span></header><p class="warning">Arviolaskuri, ei virallinen elatusapupäätös eikä vielä täysin oikeusministeriön laskentaohjeen mukainen. Maksajan autoedun 971 € ja asuntoedun 1 124 € oletusarvot ovat käyttäjän lähtötietoja. Bruttorahapalkan ja verojen oletusarvot ovat esimerkkejä. Vanhemman 2 1 700 € nettotulo on vain esimerkkiluku. Olivia on esimerkkinimi. Vuoden 2026 oletusmäärät ovat valmiina, mutta tarkista niiden ajantasaisuus ja soveltuvuus. Vuoroasumisen laskentaa ei ole toteutettu tässä versiossa. Älä käytä tulosta sellaisenaan oikeudellisena vaatimuksena.</p><section class="panel" id="parentNamesPanel"><h2><span class="number">1</span>Vanhempien tiedot</h2><p class="muted">Nimet ovat vapaaehtoisia. Niitä käytetään laskurin otsikoissa, tuloksissa ja PDF-raportissa.</p><div class="grid parent-names-grid">
+<div class="version menu-version">CalcForce · Versio 0.275</div></div></div><div class="calcforce-logo" aria-hidden="true">CF</div><div class="brand"><span class="brand-name">CalcForce</span><span class="brand-subtitle">Elatusapulaskuri</span></div><span class="version">0.275</span></header><p class="warning">Arviolaskuri, ei virallinen elatusapupäätös eikä vielä täysin oikeusministeriön laskentaohjeen mukainen. Maksajan autoedun 971 € ja asuntoedun 1 124 € oletusarvot ovat käyttäjän lähtötietoja. Bruttorahapalkan ja verojen oletusarvot ovat esimerkkejä. Vanhemman 2 1 700 € nettotulo on vain esimerkkiluku. Olivia on esimerkkinimi. Vuoden 2026 oletusmäärät ovat valmiina, mutta tarkista niiden ajantasaisuus ja soveltuvuus. Vuoroasumisen laskentaa ei ole toteutettu tässä versiossa. Älä käytä tulosta sellaisenaan oikeudellisena vaatimuksena.</p><section class="panel" id="parentNamesPanel"><h2><span class="number">1</span>Vanhempien tiedot</h2><p class="muted">Nimet ovat vapaaehtoisia. Niitä käytetään laskurin otsikoissa, tuloksissa ja PDF-raportissa.</p><div class="grid parent-names-grid">
 <label><span class="field-label">Vanhempi 1 – Nimi</span><span class="field-symbol"></span><input id="parent1Name" type="text" maxlength="80" value="Matti" placeholder="Vanhempi 1" autocomplete="off"><span class="field-unit"></span><button type="button" class="field-info parent-name-info" data-parent="1" aria-label="Vanhemman 1 nimen lisätiedot">i</button></label>
 <label><span class="field-label">Vanhempi 2 – Nimi</span><span class="field-symbol"></span><input id="parent2Name" type="text" maxlength="80" value="Maija" placeholder="Vanhempi 2" autocomplete="off"><span class="field-unit"></span><button type="button" class="field-info parent-name-info" data-parent="2" aria-label="Vanhemman 2 nimen lisätiedot">i</button></label>
 </div><div class="unified-parent-cards">
@@ -806,9 +806,9 @@ function updateAutomaticShares(b){
  window.__autoSharePct={payer:payerPct,resident:residentPct};
  for(const child of window.__elatusChildren||[])child.share=payerPct.toFixed(2);
 }
-/* v0.274: yksi laskentamalli. Tämän funktion kutsut ohjataan vain näkyvien syötteiden laskentaan. */
+/* v0.275: yksi laskentamalli. Tämän funktion kutsut ohjataan vain näkyvien syötteiden laskentaan. */
 function calc(){if(typeof window.__elatusCalculate==='function')window.__elatusCalculate();}
-/* Laskentatapahtumat käsitellään yhdessä paikassa v0.274 laskennassa. */document.getElementById('singleSupplement').value=(window.__elatusChildren||[]).some(k=>k.singleSupplement==='yes')?'yes':'no';function save(){localStorage.setItem('elatusapu-other-kids-v0017',JSON.stringify(otherKids));localStorage.setItem('elatusapu-v0003',JSON.stringify(Object.fromEntries(inputs.map(x=>[x.id,x.value]))));alert('Tallennettu tähän selaimeen.')}function load(){const d=JSON.parse(localStorage.getItem('elatusapu-v0003')||'{}');inputs.forEach(x=>{if(d[x.id]!==undefined)x.value=d[x.id]});try{const k=JSON.parse(localStorage.getItem('elatusapu-other-kids-v0017')||'{}');for(const side of ['payer','resident']){otherKids[side]=[];document.getElementById(side+'_kidsCount').value=String(otherKids[side].length);renderOtherKids(side)}}catch(e){}document.getElementById('singleSupplement').value=(window.__elatusChildren||[]).some(k=>k.singleSupplement==='yes')?'yes':'no';calc()}function resetAll(){if(!confirm('Tyhjennetäänkö kaikki syötteet?'))return;inputs.forEach(x=>{if(x.tagName==='SELECT')x.selectedIndex=0;else x.value='0'});document.getElementById('basic').value=362;for(const side of ['payer','resident']){document.getElementById(side+'_living').value=726;document.getElementById(side+'_housing').value=side==='payer'?1124:900;}document.getElementById('housingShare').value=23;document.getElementById('child').value='Olivia';for(const side of ['payer','resident']){otherKids[side]=[];document.getElementById(side+'_kidsCount').value=String(otherKids[side].length);renderOtherKids(side)}for(const side of ['payer','resident']){document.getElementById(side+'_grossIncome').value=side==='payer'?3333:2000;document.getElementById(side+'_taxPercent').value=side==='payer'?20:15;document.getElementById(side+'_taxes').value=side==='payer'?667:300;document.getElementById(side+'_income').value=side==='payer'?980:1700;document.getElementById(side+'_autoBenefit').value=side==='payer'?971:0;document.getElementById(side+'_homeBenefit').value=side==='payer'?1124:0;}calc()}for(const side of ['payer','resident'])renderOtherKids(side);calc();</script></div>
+/* Laskentatapahtumat käsitellään yhdessä paikassa v0.275 laskennassa. */document.getElementById('singleSupplement').value=(window.__elatusChildren||[]).some(k=>k.singleSupplement==='yes')?'yes':'no';function save(){localStorage.setItem('elatusapu-other-kids-v0017',JSON.stringify(otherKids));localStorage.setItem('elatusapu-v0003',JSON.stringify(Object.fromEntries(inputs.map(x=>[x.id,x.value]))));alert('Tallennettu tähän selaimeen.')}function load(){const d=JSON.parse(localStorage.getItem('elatusapu-v0003')||'{}');inputs.forEach(x=>{if(d[x.id]!==undefined)x.value=d[x.id]});try{const k=JSON.parse(localStorage.getItem('elatusapu-other-kids-v0017')||'{}');for(const side of ['payer','resident']){otherKids[side]=[];document.getElementById(side+'_kidsCount').value=String(otherKids[side].length);renderOtherKids(side)}}catch(e){}document.getElementById('singleSupplement').value=(window.__elatusChildren||[]).some(k=>k.singleSupplement==='yes')?'yes':'no';calc()}function resetAll(){if(!confirm('Tyhjennetäänkö kaikki syötteet?'))return;inputs.forEach(x=>{if(x.tagName==='SELECT')x.selectedIndex=0;else x.value='0'});document.getElementById('basic').value=362;for(const side of ['payer','resident']){document.getElementById(side+'_living').value=726;document.getElementById(side+'_housing').value=side==='payer'?1124:900;}document.getElementById('housingShare').value=23;document.getElementById('child').value='Olivia';for(const side of ['payer','resident']){otherKids[side]=[];document.getElementById(side+'_kidsCount').value=String(otherKids[side].length);renderOtherKids(side)}for(const side of ['payer','resident']){document.getElementById(side+'_grossIncome').value=side==='payer'?3333:2000;document.getElementById(side+'_taxPercent').value=side==='payer'?20:15;document.getElementById(side+'_taxes').value=side==='payer'?667:300;document.getElementById(side+'_income').value=side==='payer'?980:1700;document.getElementById(side+'_autoBenefit').value=side==='payer'?971:0;document.getElementById(side+'_homeBenefit').value=side==='payer'?1124:0;}calc()}for(const side of ['payer','resident'])renderOtherKids(side);calc();</script></div>
 <script>
 (function(){
  const descriptions={
@@ -1516,7 +1516,7 @@ function render(){
    basicRow.style.display='';
    const basicInput=basicRow.querySelector('input');if(basicInput)basicInput.readOnly=true;
   }
-  // v0.274: lapsen perustiedot samassa selkeässä järjestyksessä.
+  // v0.275: lapsen perustiedot samassa selkeässä järjestyksessä.
   const legalOptions=[{id:'p1',name:document.getElementById('parent1Name')?.value.trim()||'Vanhempi 1'},
     {id:'p2',name:document.getElementById('parent2Name')?.value.trim()||'Vanhempi 2'},
     ...(window.__extraParentRecords||[]).map((p,j)=>({id:p.id||`extra-${j+1}`,name:p.name||`Muu vanhempi ${j+1}`}))];
@@ -2060,155 +2060,114 @@ calc();
   });
  };
  function calculate(){
-  const children=childData();
-  const childBasic=children.reduce((s,c)=>s+c.basic,0);
-  const childBenefit=children.reduce((s,c)=>s+c.benefit,0);
-  const mainNeed=Math.max(0,childBasic-childBenefit);
-  const data={};
+  const raw=window.__elatusChildren||[];
+  const safe=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const format=x=>Number(x||0).toLocaleString('fi-FI',{minimumFractionDigits:2,maximumFractionDigits:2})+' €/kk';
+  const parentNames={payer:get('parent1Name')?.value?.trim()||'Vanhempi 1',resident:get('parent2Name')?.value?.trim()||'Vanhempi 2'};
+  let extras=[];
+  try{const saved=JSON.parse(localStorage.getItem('elatusapu-extra-parents-v0242')||'[]');if(Array.isArray(saved))extras=saved}catch(e){}
+  if(!extras.length)extras=[{id:'extra-default-anna',name:'Anna',income:2666.4,housing:0,living:726}];
+  const parents=new Map();
   for(const side of ['payer','resident']){
-   const baseIncome=['income','capitalIncome','other','autoBenefit','homeBenefit','benefitCounted'].reduce((s,k)=>s+val(side+'_'+k),0);
-   const baseHousing=Math.max(0,val(side+'_housing')-val(side+'_housingAid'));
-   const baseExtra=['work','health','travel','othercost'].reduce((s,k)=>s+val(side+'_'+k),0);
-   const baseCapacity=Math.max(0,baseIncome-val(side+'_living')-baseHousing-baseExtra);
-   const kids=other(side,baseCapacity),otherBasic=kids.reduce((s,k)=>s+k.responsibility,0);
-   const currentChildren=window.__elatusChildren||[];
-   const ownChildBenefits=currentChildren.reduce((sum,k,i)=>sum+((k.benefitRecipient||'resident')===side?(window.elatusChildBenefit?.(currentChildren,i)||0):0),0);
-   const otherChildBenefits=kids.reduce((sum,k)=>sum+(k.recipient==='this'?k.benefit:0),0);
-   const benefitIncome=ownChildBenefits+otherChildBenefits;
-   const benefitSummary=get(side+'_childBenefitsInfo');if(benefitSummary)benefitSummary.value=benefitIncome.toFixed(2);
-   const taxFreeSummary=get(side+'_taxFreeTotal');if(taxFreeSummary)taxFreeSummary.value=(benefitIncome+val(side+'_housingAid')).toFixed(2);
    const income=['income','capitalIncome','other','autoBenefit','homeBenefit','benefitCounted'].reduce((s,k)=>s+val(side+'_'+k),0);
    const cash=['income','capitalIncome','other'].reduce((s,k)=>s+val(side+'_'+k),0);
-   const living=val(side+'_living');
-   const rent=val(side+'_housing');
-   const aid=val(side+'_housingAid');
-   const housing=Math.max(0,rent-aid);
+   const living=val(side+'_living'),housing=Math.max(0,val(side+'_housing')-val(side+'_housingAid'));
    const extra=['work','health','travel','othercost'].reduce((s,k)=>s+val(side+'_'+k),0);
-   const capacity=Math.max(0,income-living-housing-extra-otherBasic);
-   data[side]={income,cash,living,housing,extra,otherBasic,capacity,kids};
-   field(side+'_kidsGeneralTotal',otherBasic);
+   parents.set(side,{id:side,name:parentNames[side],income,cash,living,housing,extra,capacity:Math.max(0,income-living-housing-extra)});
   }
-  const p=data.payer,r=data.resident,total=p.capacity+r.capacity;
-  const pShare=total>0?p.capacity/total:0;
+  for(const x of extras){
+   if(!x.id)continue;
+   const income=Math.max(0,Number(x.income)||0),living=Math.max(0,Number(x.living)||0),housing=Math.max(0,Number(x.housing)||0);
+   parents.set(x.id,{id:x.id,name:String(x.name||'Muu vanhempi'),income,cash:income,living,housing,extra:0,capacity:Math.max(0,income-living-housing)});
+  }
+  const aliases=id=>id==='p1'?'payer':id==='p2'?'resident':id;
+  const children=raw.map((x,i)=>{
+   const age=['0–2 v','3–6 v','7–12 v','13–17 v'].indexOf(x.age);
+   const basic=Math.max(0,Number(x.basic)||[362,362,422,568][Math.max(0,age)]);
+   const benefit=Math.max(0,Number(typeof window.elatusChildBenefit==='function'?window.elatusChildBenefit(raw,i):0)||0);
+   const school=Math.max(0,Number(x.school)||0),special=Math.max(0,Number(x.special)||0);
+   const need=Math.max(0,basic+school+special-benefit);
+   const a=aliases(x.legalParentA||'p1'),b=aliases(x.legalParentB||'p2');
+   return {name:x.child||'Lapsi '+(i+1),need,basic,benefit,a,b,shares:[]};
+  });
+  // Jokainen lapsi esiintyy vain kerran. Vanhemmat luetaan lapsen omista kentistä.
+  const rows=[],totals=new Map([...parents.keys()].map(id=>[id,0]));
+  for(const child of children){
+   const pa=parents.get(child.a),pb=parents.get(child.b);
+   if(!pa||!pb||child.a===child.b){child.invalid=true;rows.push(child);continue}
+   const combined=pa.capacity+pb.capacity;
+   const a=combined>0?child.need*pa.capacity/combined:0;
+   const b=combined>0?child.need*pb.capacity/combined:0;
+   child.shares=[[child.a,a],[child.b,b]];
+   rows.push(child);
+   totals.set(child.a,(totals.get(child.a)||0)+a);
+   totals.set(child.b,(totals.get(child.b)||0)+b);
+  }
+  const allocated=new Map();
+  for(const [id,parent] of parents){
+   const requested=totals.get(id)||0;
+   allocated.set(id,requested>0?Math.min(1,parent.capacity/requested):1);
+  }
+  const adjusted=(child,id)=>{const found=child.shares.find(x=>x[0]===id);return found?found[1]*(allocated.get(id)||0):0};
+  const shared=rows.filter(x=>!x.invalid&&x.shares.some(s=>s[0]==='payer')&&x.shares.some(s=>s[0]==='resident'));
+  const payer=shared.reduce((sum,x)=>sum+adjusted(x,'payer'),0);
+  const resident=shared.reduce((sum,x)=>sum+adjusted(x,'resident'),0);
+  const p=parents.get('payer'),r=parents.get('resident');
+  const total=p.capacity+r.capacity,pShare=total>0?p.capacity/total:0;
   window.__autoSharePct={payer:pShare*100,resident:total>0?100-pShare*100:0};
-  // Elatuskyvyn suhde esitetään samoista arvoista kuin varsinainen laskenta.
   const fmtPct=x=>x.toLocaleString('fi-FI',{minimumFractionDigits:1,maximumFractionDigits:1})+' %';
   const setText=(id,v)=>{const el=get(id);if(el)el.textContent=v};
-  setText('payerCapacityPct',fmtPct(pShare*100));
-  setText('residentCapacityPct',fmtPct(total>0?(1-pShare)*100:0));
-  setText('payerCapacityEuro',money(p.capacity));
-  setText('residentCapacityEuro',money(r.capacity));
-  setText('totalCapacityEuro',money(total));
-  setText('capacityShareTotalPct',total>0?'100 %':'0 %');
+  setText('payerCapacityPct',fmtPct(pShare*100));setText('residentCapacityPct',fmtPct(total>0?(1-pShare)*100:0));
+  setText('payerCapacityEuro',money(p.capacity));setText('residentCapacityEuro',money(r.capacity));
+  setText('totalCapacityEuro',money(total));setText('capacityShareTotalPct',total>0?'100 %':'0 %');
   const pb=get('payerCapacityBar'),rb=get('residentCapacityBar');
-  if(pb)pb.style.width=(pShare*100)+'%';
-  if(rb)rb.style.width=(total>0?(1-pShare)*100:0)+'%';
-  const track=document.querySelector('.capacity-share-track');
-  if(track)track.setAttribute('aria-label',total>0?'Elatuskyvyn suhde: maksaja '+fmtPct(pShare*100)+', toinen vanhempi '+fmtPct((1-pShare)*100):'Kummallakaan vanhemmalla ei ole laskennallista elatuskykyä');
-  const payer=Math.max(0,Math.min(mainNeed*pShare,p.capacity));
-  const resident=Math.max(0,mainNeed-payer);
+  if(pb)pb.style.width=(pShare*100)+'%';if(rb)rb.style.width=(total>0?(1-pShare)*100:0)+'%';
   put('amount',payer);put('residentAmount',resident);
-  // Kassavirtalaskelma ei vähennä muiden lasten laskennallista vastuuta toistamiseen.
-  // Menot ovat syötettyjä rahamenoja; laskennallinen elatuskyky esitetään erikseen.
   put('payerTakehome',p.cash-p.living-p.housing-p.extra-payer);
   put('residentTakehome',r.cash-r.living-r.housing-r.extra+payer);
   for(const side of ['payer','resident']){
-   const d=data[side],payment=side==='payer'?-payer:payer;
+   const d=parents.get(side),payment=side==='payer'?-payer:payer;
+   const childBenefit=raw.reduce((sum,k,i)=>sum+((k.benefitRecipient||'resident')===side?(children[i]?.benefit||0):0),0);
+   field(side+'_kidsGeneralTotal',0);
+   field(side+'_childBenefitsInfo',childBenefit);
+   field(side+'_taxFreeTotal',childBenefit+val(side+'_housingAid'));
    const target=get(side+'CashflowDetails');
-   if(target)target.innerHTML=[
-    row('Rahatulot',d.cash),
-    row('Yleiskulut',-d.living),
-    row('Asumismenot',-d.housing),
-    row('Muut ilmoitetut menot',-d.extra),
-    row(side==='payer'?'Maksettava elatusapu':'Saatu elatusapu',payment),
-    row('Muiden lasten laskennallinen elatusvastuu (ei kassavirtavähennys)',d.otherBasic)
-   ].join('');
-  }
-  for(const side of ['payer','resident']){
-   const d=data[side];
-   const part=side==='payer'?payer:resident;
+   if(target)target.innerHTML=[row('Rahatulot',d.cash),row('Yleiskulut',-d.living),row('Asumismenot',-d.housing),row('Muut ilmoitetut menot',-d.extra),row(side==='payer'?'Arvioitu maksu':'Arvioitu saatu elatusapu',payment)].join('');
    const el=get(side+'Breakdown');
-   if(el)el.innerHTML=[
-    row('Tulot yhteensä',d.income,'summary-breakdown-row'),
-    row('Yleiset elinkustannukset',d.living,'summary-breakdown-row'),
-    row('Asumismenot',d.housing,'summary-breakdown-row'),
-    row('Muut näkyvät kulut',d.extra,'summary-breakdown-row'),
-    row('Muiden lasten elatusvastuut yhteensä',d.otherBasic,'summary-breakdown-row'),
-    row('Elatuskyky',d.capacity,'summary-breakdown-row'),
-    row('Osuus yhteisen lapsen elatuksesta',part,'summary-breakdown-row')
-   ].join('');
+   if(el)el.innerHTML=[row('Tulot yhteensä',d.income),row('Yleiset elinkustannukset',d.living),row('Asumismenot',d.housing),row('Muut kulut',d.extra),row('Elatuskyky ennen lasten vastuita',d.capacity),row('Kaikkien lasten alustava vastuu',totals.get(side)||0),row('Kaikkien lasten suhteellisesti jaettu vastuu',(totals.get(side)||0)*(allocated.get(side)||0))].join('');
   }
-  // Yhteenveto kaikista vanhemmista ja lapsista samoista laskentatuloksista.
-  const safe=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  const parentNames={
-   payer:get('parent1Name')?.value?.trim()||'Vanhempi 1',
-   resident:get('parent2Name')?.value?.trim()||'Vanhempi 2'
-  };
-  let extras=[];
-  try{const raw=JSON.parse(localStorage.getItem('elatusapu-extra-parents-v0242')||'[]');if(Array.isArray(raw))extras=raw}catch(e){}
-  const byId=new Map(extras.map((x,i)=>[x.id,{id:x.id,name:String(x.name||'Muu vanhempi '+(i+1)),income:Math.max(0,Number(x.income)||0),housing:Math.max(0,Number(x.housing)||0),living:Math.max(0,Number(x.living)||0)}]));
-  const parentTotals=new Map([['payer',0],['resident',0],...extras.map(x=>[x.id,0])]);
-  const rows=[];
-  // Varsinaiset lapset: sama laskennallinen osuus kuin päätuloksessa.
-  for(const child of children){
-   const need=Math.max(0,child.basic-child.benefit);
-   const a=total>0?Math.min(need*pShare,p.capacity):0;
-   const b=Math.max(0,need-a);
-   rows.push({name:child.name,need,shares:[['payer',a],['resident',b]],kind:'Varsinainen laskelma'});
-   parentTotals.set('payer',(parentTotals.get('payer')||0)+a);
-   parentTotals.set('resident',(parentTotals.get('resident')||0)+b);
-  }
-  // Muut lapset: toisen vanhemman osuus on laskennallinen, ei maksusuoritus.
-  for(const side of ['payer','resident']){
-   const records=(window.otherKids||{})[side]||[];
-   for(let i=0;i<data[side].kids.length;i++){
-    const k=data[side].kids[i],source=records[i]||{};
-    const otherId=byId.has(source.extraParentId)?source.extraParentId:null;
-    const otherName=otherId?byId.get(otherId).name:'Määrittelemätön toinen vanhempi';
-    const own=Math.max(0,k.responsibility);
-    const counterpart=Math.max(0,k.need-own);
-    rows.push({name:source.name||'Muu lapsi '+(i+1),need:k.need,shares:[[side,own],[otherId||otherName,counterpart]],kind:'Muu lapsi'});
-    parentTotals.set(side,(parentTotals.get(side)||0)+own);
-    if(otherId)parentTotals.set(otherId,(parentTotals.get(otherId)||0)+counterpart);
-   }
-  }
-  const format=x=>Number(x||0).toLocaleString('fi-FI',{minimumFractionDigits:2,maximumFractionDigits:2})+' €/kk';
-  const names=new Map([['payer',parentNames.payer],['resident',parentNames.resident],...extras.map(x=>[x.id,x.name||'Muu vanhempi'])]);
   const table=(headers,body)=>'<div class="all-parent-scroll"><table class="all-parent-table"><thead><tr>'+headers.map(h=>'<th>'+safe(h)+'</th>').join('')+'</tr></thead><tbody>'+body+'</tbody></table></div>';
-  const parentLines=[['payer',p.capacity,p.cash],['resident',r.capacity,r.cash],...extras.map(x=>[x.id,Math.max(0,(Number(x.income)||0)-(Number(x.housing)||0)-(Number(x.living)||0)),Number(x.income)||0])];
-  const capacityFor=(id,capacity)=>Math.max(0,id==='payer'?p.capacity+p.otherBasic:id==='resident'?r.capacity+r.otherBasic:capacity);
   const hero=get('allParentMainAmount');if(hero)hero.textContent=format(payer);
-  const direction=get('allParentMainDirection');if(direction)direction.textContent=parentNames.payer+' maksaa → '+parentNames.resident;
+  const direction=get('allParentMainDirection');if(direction)direction.textContent=p.name+' → '+r.name+' (yhteiset lapset)';
   const summary=get('allParentResponsibility');
-  if(summary)summary.innerHTML=table(['Vanhempi','Elatuskyky','Vastuut yhteensä','Riittävyys'],parentLines.map(([id,capacity])=>{
-   const available=capacityFor(id,capacity),responsibility=parentTotals.get(id)||0;
-   const deficit=Math.max(0,responsibility-available);
-   return '<tr><td>'+safe(names.get(id))+'</td><td>'+format(available)+'</td><td>'+format(responsibility)+'</td><td>'+(deficit>0?'Vajaus '+format(deficit):'Riittää')+'</td></tr>';
+  if(summary)summary.innerHTML=table(['Vanhempi','Elatuskyky','Alustavat vastuut','Vajaus'],[...parents.values()].map(x=>{
+   const requested=totals.get(x.id)||0;
+   return '<tr><td>'+safe(x.name)+'</td><td>'+format(x.capacity)+'</td><td>'+format(requested)+'</td><td>'+(requested>x.capacity?format(requested-x.capacity):'Ei vajetta')+'</td></tr>';
   }).join(''));
   const allocation=get('allParentAllocation');
   if(allocation){
-   const previousOpen=new Set([...allocation.querySelectorAll('details[data-allocation-parent][open]')].map(el=>el.dataset.allocationParent));
-   allocation.innerHTML=parentLines.map(([id,capacity])=>{
-    const name=names.get(id)||id,available=capacityFor(id,capacity);
-    const entries=rows.flatMap(item=>item.shares.filter(([parent])=>parent===id).map(([,amount])=>({name:item.name,amount:Math.max(0,Number(amount)||0)})));
-    const requested=entries.reduce((sum,x)=>sum+x.amount,0);
-    const ratio=requested>0?Math.min(1,available/requested):1;
-    const adjusted=entries.map(x=>({...x,adjusted:x.amount*ratio}));
-    const finalSum=adjusted.reduce((sum,x)=>sum+x.adjusted,0);
-    const shortage=Math.max(0,requested-available),pct=requested>0?Math.min(100,100*available/requested):100;
-    return '<details class="allocation-card" data-allocation-parent="'+safe(id)+'" '+(previousOpen.has(id)?'open':'')+'><summary>'+safe(name)+' · '+(shortage>0?'Vajaus '+format(shortage):'Elatuskyky riittää')+'</summary>'+
-      '<div class="allocation-metrics"><div>Elatuskyky<strong>'+format(available)+'</strong></div><div>Alustavat vastuut<strong>'+format(requested)+'</strong></div><div>Suhteellinen jako<strong>'+format(finalSum)+'</strong></div></div>'+
-      '<div class="allocation-track" role="img" aria-label="Elatuskyvyn riittävyys '+pct.toFixed(1)+' prosenttia"><span style="width:'+pct.toFixed(2)+'%"></span></div>'+
-      table(['Lapsi','Alustava vastuu','Havainnollistava jako'],adjusted.map(x=>'<tr><td>'+safe(x.name)+'</td><td>'+format(x.amount)+'</td><td>'+format(x.adjusted)+'</td></tr>').join('')+
-      '<tr><th>Yhteensä</th><th>'+format(requested)+'</th><th>'+format(finalSum)+'</th></tr>')+'</details>';
+   const opened=new Set([...allocation.querySelectorAll('details[data-allocation-parent][open]')].map(x=>x.dataset.allocationParent));
+   allocation.innerHTML=[...parents.values()].map(x=>{
+    const entries=rows.filter(child=>child.shares.some(s=>s[0]===x.id));
+    const requested=totals.get(x.id)||0,ratio=allocated.get(x.id)||0,finalSum=requested*ratio;
+    const pct=requested>0?Math.min(100,100*x.capacity/requested):100;
+    return '<details class="allocation-card" data-allocation-parent="'+safe(x.id)+'" '+(opened.has(x.id)?'open':'')+'><summary>'+safe(x.name)+' · '+(requested>x.capacity?'Vajaus '+format(requested-x.capacity):'Elatuskyky riittää')+'</summary>'+
+     '<div class="allocation-metrics"><div>Elatuskyky<strong>'+format(x.capacity)+'</strong></div><div>Alustavat vastuut<strong>'+format(requested)+'</strong></div><div>Suhteellinen jako<strong>'+format(finalSum)+'</strong></div></div>'+
+     '<div class="allocation-track"><span style="width:'+pct.toFixed(2)+'%"></span></div>'+
+     table(['Lapsi','Alustava vastuu','Havainnollistava jako'],entries.map(child=>{
+      const base=child.shares.find(s=>s[0]===x.id)[1];
+      return '<tr><td>'+safe(child.name)+'</td><td>'+format(base)+'</td><td>'+format(base*ratio)+'</td></tr>';
+     }).join(''))+'</details>';
    }).join('');
   }
   const details=get('allChildrenResponsibility');
-  if(details)details.innerHTML=table(['Lapsi','Elatuksen tarve','Vanhempien laskennalliset osuudet'],rows.map(x=>'<tr><td>'+safe(x.name)+'</td><td>'+format(x.need)+'</td><td>'+x.shares.map(([id,amount])=>safe(names.get(id)||id)+': '+format(amount)).join('<div></div>')+'</td></tr>').join(''));
+  if(details)details.innerHTML=table(['Lapsi','Elatuksen tarve','Vanhemmat ja laskennalliset osuudet'],rows.map(x=>
+   '<tr><td>'+safe(x.name)+'</td><td>'+format(x.need)+'</td><td>'+(x.invalid?'Tarkista lapsen vanhemmat':x.shares.map(([id,amount])=>safe(parents.get(id)?.name||id)+': '+format(amount)+' (jaettu '+format(adjusted(x,id))+')').join('<div></div>'))+'</td></tr>'
+  ).join(''));
   const payments=get('allParentPayments');
-  if(payments)payments.innerHTML='<p><strong>'+safe(parentNames.payer)+' → '+safe(parentNames.resident)+': '+format(payer)+'</strong> (arvioitu elatusapu kuukaudessa).</p><p class="muted">Muiden lasten osalta näkyvät vain laskennalliset elatusvastuut. Laskuri ei määritä niiden perusteella automaattisesti maksuja vanhempien välillä.</p>';
+  if(payments)payments.innerHTML='<p><strong>'+safe(p.name)+' → '+safe(r.name)+': '+format(payer)+'</strong> (vain heidän yhteisten lastensa alustava arvio).</p><p class="muted">Muiden vanhempien välisiä rahamaksuja ei johdeta automaattisesti pelkistä elatusvastuista. Lapsen asuminen ja muut oikeudelliset tekijät on tarkistettava erikseen.</p>';
   const notes=get('notes');
-  if(notes)notes.textContent='Laskenta näkyvistä kentistä: lapsen yleiskulut yhteensä '+money(childBasic)+', lapsilisät yhteensä '+money(childBenefit)+', elatuksen tarve '+money(mainNeed)+'. Vanhempien elatuskykyjen suhteet: maksaja '+(pShare*100).toFixed(1)+' %, vanhempi 2 '+((1-pShare)*100).toFixed(1)+' %. Piilotettuja syötteitä, luonapitovähennystä tai erillisiä asumisosuuksia ei käytetä. Tämä on yksinkertaistettu arvio, ei virallinen elatusapulaskelma.';
+  if(notes)notes.textContent='Jokainen lapsi lasketaan kerran omien vanhempiensa kesken. Elatuskyky huomioidaan kaikkien saman vanhemman lasten alustavissa vastuissa. Suhteellinen jakokerroin on havainnollistava, ei oikeusministeriön vahvistettu laskentasääntö. Erillisiä muiden lasten rivejä ei lisätä toistamiseen. Arvio ei ole virallinen elatusapulaskelma.';
  }
  window.__elatusCalculate=calculate;
  window.calc=calculate;
@@ -2545,7 +2504,7 @@ section.panel:has(#childSelector) .children-controls>.children-actions.kid-actio
 </script>
 
 <script id="beta-226-pdf">
-/* v0.274: PDF-raportti käyttää täsmälleen saman laskentatuloksen kuin näkyvä kohta 4. */
+/* v0.275: PDF-raportti käyttää täsmälleen saman laskentatuloksen kuin näkyvä kohta 4. */
 function printElatusReport(){
  const menu=document.getElementById('appMenu');if(menu)menu.hidden=true;
  if(typeof window.__elatusCalculate==='function')window.__elatusCalculate();
@@ -2600,7 +2559,7 @@ function printElatusReport(){
  @media print{body{background:#fff;padding:0}main{box-shadow:none;padding:0}section{break-inside:auto}.totals{break-inside:avoid}h2{break-after:avoid}}
  @media(max-width:600px){main{padding:14px}.totals{grid-template-columns:1fr}}
 `+'</style></head><body><main>'+`
-<header><div><small>CalcForce</small><h1>Elatusapulaskelma</h1><small>Versio 0.274 · ${esc(new Date().toLocaleDateString('fi-FI'))}</small></div><div class="muted">SUUNTAA-ANTAVA ARVIO</div></header>
+<header><div><small>CalcForce</small><h1>Elatusapulaskelma</h1><small>Versio 0.275 · ${esc(new Date().toLocaleDateString('fi-FI'))}</small></div><div class="muted">SUUNTAA-ANTAVA ARVIO</div></header>
 <div class="totals"><div><div class="muted">${esc(window.elatusParentName(1))}</div><div class="big">${esc(get('amount')?.textContent||'')}</div></div><div><div class="muted">${esc(window.elatusParentName(2))}n osuus</div><div class="big">${esc(get('residentAmount')?.textContent||'')}</div></div></div>
 <h2>2. Lasten tiedot</h2>
 <table class="children"><thead><tr><th>Lapsi</th><th>Ikäryhmä</th><th>Yleiskulut</th><th>Lapsilisä</th></tr></thead><tbody>${childLines}</tbody></table>
@@ -2630,12 +2589,12 @@ function printElatusReport(){
  get('elatusReportFrame').srcdoc=html;
 }
 
-/* v0.274: JSON-tallennus ja palautus; osa laskurin päävalikkoa. */
+/* v0.275: JSON-tallennus ja palautus; osa laskurin päävalikkoa. */
 function exportElatusFile(){
  try{
   save();
   const keys=['elatusapu-v0003','elatusapu-other-kids-v0017','elatusapu-children-v0013','elatusapu-theme','elatusapu-parent-names-v0232'];
-  const data={format:'calcforce-elatusapulaskuri',version:'0.274',created:new Date().toISOString(),storage:{}};
+  const data={format:'calcforce-elatusapulaskuri',version:'0.275',created:new Date().toISOString(),storage:{}};
   for(const key of keys)data.storage[key]=localStorage.getItem(key);
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json;charset=utf-8'});
   const url=URL.createObjectURL(blob),a=document.createElement('a');
@@ -3362,7 +3321,7 @@ button.capacity-share-info:disabled{opacity:.5;cursor:not-allowed!important}
 #parentNamesPanel #extraParents .extra-parent-card>label>.field-info{grid-column:5!important;grid-row:1!important;width:23px!important;height:23px!important}
 @media(max-width:600px){#parentNamesPanel .extra-parent-details{padding:6px}#parentNamesPanel .extra-parent-details>summary{font-size:12px}#parentNamesPanel #extraParents .extra-parent-card>label{gap:2px 5px!important}}
 </style>
-<!-- v0.274: Betakorjaus. Suljettu details-kortti ei saa nollata laskennan syötteitä. -->
+<!-- v0.275: Betakorjaus. Suljettu details-kortti ei saa nollata laskennan syötteitä. -->
 
 <style id="v0271-cashflow-details">.cashflow-details{margin-top:10px;text-align:left;font:12px/1.35 Arial,sans-serif}.cashflow-details .breakdown-row{display:flex;justify-content:space-between;gap:8px;padding:3px 0}.cashflow-details .breakdown-row span{max-width:70%}.cashflow-details .breakdown-row strong{white-space:nowrap}</style>
 
