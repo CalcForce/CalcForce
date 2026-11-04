@@ -2048,15 +2048,7 @@ calc();
   const parents=new Map();
   // Shared parent model, used by both primary and additional parents.
   const number=x=>Math.max(0,Number(x)||0);
-  const normalized=(id,name,source)=>{
-   const n=key=>number(source[key]);
-   const cash=n('income')+n('capitalIncome')+n('other');
-   const income=cash+n('autoBenefit')+n('homeBenefit')+n('benefitCounted');
-   const housingExpense=source.housingMode==='benefit'?n('rentPaid'):n('housing');
-   const housing=Math.max(0,housingExpense-n('housingAid'));
-   const living=n('living'),extra=['work','health','travel','othercost'].reduce((sum,key)=>sum+n(key),0);
-   return {id,name,income,cash,living,housing,extra,capacity:Math.max(0,income-living-housing-extra)};
-  };
+  const normalized=window.__elatusNormalizeParent;
   for(const side of ['payer','resident']){
    const fields=['income','capitalIncome','other','autoBenefit','homeBenefit','benefitCounted','housing','rentPaid','housingAid','living','work','health','travel','othercost'];
    const source=Object.fromEntries(fields.map(key=>[key,val(side+'_'+key)]));
@@ -2889,6 +2881,23 @@ refresh();window.__refreshChildLegalParents=refresh;
 .tax-config select,.tax-config input{min-width:125px;max-width:210px;padding:7px;background:var(--input);color:var(--inputtext);border:1px solid var(--border);border-radius:5px}
 .tax-note{font-size:12px;line-height:1.4;color:var(--muted);margin:6px 0}
 </style>
+<script id="v0287-shared-parent-model">
+(function(){
+'use strict';
+const number=x=>Math.max(0,Number(x)||0);
+  function normalize(id,name,source){
+   const n=key=>number(source[key]);
+   const cash=n('income')+n('capitalIncome')+n('other');
+   const income=cash+n('autoBenefit')+n('homeBenefit')+n('benefitCounted');
+   const housingExpense=source.housingMode==='benefit'?n('rentPaid'):n('housing');
+   const housing=Math.max(0,housingExpense-n('housingAid'));
+   const living=n('living'),extra=['work','health','travel','othercost'].reduce((sum,key)=>sum+n(key),0);
+   return {id,name,income,cash,living,housing,extra,capacity:Math.max(0,income-living-housing-extra)};
+  }
+
+window.__elatusNormalizeParent=normalize;
+})();
+</script>
 <script id="v0259-tax-model">
 (function(){
 'use strict';
