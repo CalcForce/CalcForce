@@ -48,8 +48,8 @@ const initialChildren=[
 initialChild('child-venla','Venla','0-6','parent-tero','parent-enni'),
 initialChild('child-eetu','Eetu','0-6','parent-tero','parent-enni'),
 initialChild('child-arttu','Arttu','13-17','parent-tero','parent-anna',{resident:'parent-tero',nightsA:16,nightsB:14,benefitRecipient:'parent-anna',singleSupplement:true}),
-initialChild('child-vilho','Vilho','13-17','parent-tero','parent-anna',{resident:'parent-tero',nightsA:16,nightsB:14,benefitRecipient:'parent-anna'}),
-initialChild('child-alma','Alma','7-12','parent-tero','parent-anna',{resident:'parent-tero',nightsA:16,nightsB:14,benefitRecipient:'parent-anna'})
+initialChild('child-vilho','Vilho','13-17','parent-tero','parent-anna',{resident:'parent-tero',nightsA:16,nightsB:14,benefitRecipient:'parent-anna',singleSupplement:true}),
+initialChild('child-alma','Alma','7-12','parent-tero','parent-anna',{resident:'parent-tero',nightsA:16,nightsB:14,benefitRecipient:'parent-anna',singleSupplement:true})
 ];
 let state={version:'0.308',parents:initialParents,children:initialChildren},sequence=0;
 const id=prefix=>prefix+'-'+Date.now().toString(36)+'-'+(++sequence);
