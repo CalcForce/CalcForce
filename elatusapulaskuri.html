@@ -2050,9 +2050,7 @@ calc();
   const number=x=>Math.max(0,Number(x)||0);
   const normalized=window.__elatusNormalizeParent;
   for(const side of ['payer','resident']){
-   const fields=['income','capitalIncome','other','autoBenefit','homeBenefit','benefitCounted','housing','rentPaid','housingAid','living','work','health','travel','othercost'];
-   const source=Object.fromEntries(fields.map(key=>[key,val(side+'_'+key)]));
-   source.housingMode=get(side+'_housingMode')?.value||'rent';
+   const source=window.__elatusReadParentForm(side);
    parents.set(side,normalized(side,parentNames[side],source));
   }
   for(const x of extras)if(x.id)parents.set(x.id,normalized(x.id,String(x.name||'Muu vanhempi'),x));
@@ -2896,6 +2894,13 @@ const number=x=>Math.max(0,Number(x)||0);
   }
 
 window.__elatusNormalizeParent=normalize;
+const fields=['income','capitalIncome','other','autoBenefit','homeBenefit','benefitCounted','housing','rentPaid','housingAid','living','work','health','travel','othercost'];
+window.__elatusReadParentForm=function(side){
+ const source=Object.fromEntries(fields.map(key=>[key,document.getElementById(side+'_'+key)?.value??0]));
+ source.housingMode=document.getElementById(side+'_housingMode')?.value||'rent';
+ return source;
+};
+
 })();
 </script>
 <script id="v0259-tax-model">
