@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="fi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Elatusapulaskuri 0.520</title>
+<title>Elatusapulaskuri 0.521</title>
 <style>
 :root{--bg:#061422;--panel:#0d2639;--head:#103f67;--line:#28617f;--text:#e9f8ff;--muted:#a5c6d7;--accent:#32d5ed;--field:#092033}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px Arial,sans-serif}.app{max-width:980px;margin:auto;padding-bottom:40px}
@@ -255,6 +255,15 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 #parents .parent-card .fields>label:has(>input[data-field="nonDeductible"]){display:none!important}
 #parents .parent-card .fields>label:has(>input[data-field="housing"]){display:flex!important}
 #parents .parent-card .fields>label:has(>input[data-field="housing"]):has(~label){min-width:0}
+
+/* v0.521: redesigned parent cards */
+#parents .revised-parent .fields{display:block;max-width:750px}
+#parents .revised-parent .fields>.field-row{display:flex!important;align-items:center;gap:12px;min-width:0;margin:5px 0}
+#parents .revised-parent .field-label{flex:1 1 55%;min-width:0;white-space:normal;overflow-wrap:anywhere}
+#parents .revised-parent .field-input{flex:0 1 180px;min-width:0;max-width:45%;box-sizing:border-box}
+#parents .revised-parent .parent-section-heading{margin:18px 0 10px;font-weight:700}
+#parents .revised-total{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 0;margin:8px 0;border-top:1px solid var(--border);overflow-wrap:anywhere}
+@media(max-width:420px){#parents .revised-parent .field-input{flex-basis:120px;max-width:43%}}
 </style></head><body data-theme="ocean"><div class="app"><header><div class="menu-holder"><button id="menuTrigger" class="menu-trigger" type="button" aria-label="Avaa valikko" aria-expanded="false" aria-controls="appMenu">☰</button><div id="appMenu" class="app-menu" hidden><div class="menu-brand"><strong>Elatusapulaskuri</strong><small>CalcForce</small></div><div class="menu-theme"><label for="theme">Teema</label><select id="theme"><option value="ocean">Sininen</option><option value="light">Vaalea</option><option value="forest">Vihreä</option></select></div><div class="menu-actions"><button id="print" type="button">▣ PDF-raportti (tulosta / tallenna PDF)</button><button id="save" type="button">▣ Tallenna laskelma tiedostoon</button><button id="load" type="button">▣ Avaa tallennettu laskelma</button><button id="clear" type="button" class="danger">▣ Tyhjennä laskuri</button></div><input id="file" type="file" accept=".json,application/json" hidden><div class="menu-version">CalcForce · Versio 0.520</div></div></div><div><strong>CalcForce</strong><small>Elatusapulaskuri</small></div><span class="version">v0.520</span></header><main>
 <div class="warning">Suuntaa antava laskuri. Tulokset eivät ole virallinen elatusapupäätös. Elatuskyky, muiden lasten vastuu ja asumisjärjestelyt on arvioitava tapauskohtaisesti.</div>
 <section class="panel"><div class="row"><h2><span class="section-number">1</span>Vanhempien tiedot</h2></div><p class="muted">Avaa vanhempikortti nähdäksesi kaikki tulot ja menot.</p><div id="parents"></div></section>
@@ -291,7 +300,7 @@ initialChild('child-arttu','Arttu','13-17','parent-tero','parent-other-children'
 initialChild('child-vilho','Vilho','13-17','parent-tero','parent-other-children',{supportMode:'capacity',agreementMode:'agreed',agreementType:'percent',agreementValue:50,resident:'parent-tero',nightsA:16,nightsB:14,benefitRecipient:'',singleSupplement:true,livingArrangement:'shared',sharedPaymentMode:'zero'}),
 initialChild('child-alma','Alma','7-12','parent-tero','parent-other-children',{supportMode:'capacity',agreementMode:'agreed',agreementType:'percent',agreementValue:50,resident:'parent-tero',nightsA:16,nightsB:14,benefitRecipient:'',singleSupplement:true,livingArrangement:'shared',sharedPaymentMode:'zero'})
 ];
-let state={version:'0.520',parents:initialParents,children:initialChildren},sequence=0;
+let state={version:'0.521',parents:initialParents.map(p=>p.id==='parent-other-children'?p:{...p,revisedParent:true,earningsNet:0,businessNet:0,unemploymentNet:0,pensionNet:0,socialNet:0,singleSupplementNet:0,capitalNet:0,assetNet:0,miscNet:0,extraHousing:0}),children:initialChildren},sequence=0;
 const id=prefix=>prefix+'-'+Date.now().toString(36)+'-'+(++sequence);
 const parentGroup=k=>({gross:'Tulot',housingSharePct:'Asuminen',work:'Erikseen selvitettävät menot',nonDeductible:'Menot, joita ei yleensä vähennetä'})[k]||'';
 const field=(k,label,kind,opts,labels,value)=>(parentGroup(k)?'<div class="field-group-heading">'+parentGroup(k)+'</div>':'')+(k==='nonDeductible'?'<p class="expense-guidance">Esimerkiksi ruoka, vaatteet, puhelin, harrastukset, kulutusluotot ja säästäminen sisältyvät yleiskuluihin tai eivät yleensä oikeuta erilliseen vähennykseen. Tähän merkitty summa ei vaikuta elatuskykyyn.</p>':k==='work'?'<p class="expense-guidance">Vain perusteltavat ja ohjeen mukaan hyväksyttävät menot. Säilytä selvitykset ja kuitit. Tavalliset elinkustannukset sisältyvät jo yleiskuluihin.</p>':'')+'<label>'+esc(label)+(kind==='select'?'<select data-field="'+k+'">'+opts.map((v,i)=>'<option value="'+v+'" '+(v===value?'selected':'')+'>'+esc(labels[i])+'</option>').join('')+'</select>':'<input data-field="'+k+'" type="number" min="0" step="1" value="'+esc(fixed2(value))+'">')+'</label>';
@@ -343,7 +352,28 @@ for(const card of document.querySelectorAll('#parents [data-parent]')){
  for(const n of nodes)if(!used.has(n)&&n.isConnected&&n.matches('label'))fields.insertBefore(n,fields.firstChild);
 }
 }
+const revisedIncomeFields=[['earningsNet','Ansiotulot'],['businessNet','Elinkeinotoiminnan tulot'],['unemploymentNet','Työttömyyspäiväraha'],['pensionNet','Eläkkeet'],['socialNet','Sosiaalietuudet'],['singleSupplementNet','Lapsilisän yksinhuoltajakorotus'],['capitalNet','Pääomatulot'],['assetNet','Muu varallisuudesta saatava tulo'],['miscNet','Muut tulot']];
+const revisedExpenseFields=[['living','Yleiset elinkustannukset'],['housing','Asumiskustannukset'],['extraHousing','Muut asumiskustannukset'],['housingAid','Asumistuki'],['otherCost','Muut elinkustannukset'],['health','Erityiset terveydenhoitomenot'],['work','Työmatkakustannukset'],['studentLoan','Opintolainamenot'],['travel','Matkakulut lapsen tapaamisesta']];
+function revisedIncome(p){return revisedIncomeFields.reduce((sum,[k])=>sum+num(p[k]),0)}
+function revisedExpense(p){return revisedExpenseFields.reduce((sum,[k])=>sum+(k==='housingAid'?-1:1)*num(k==='living'&&p.livingMode!=='manual'?estimatedLiving(p):p[k]),0)}
+function revisedField(k,label,value){return '<label class="field-row"><span class="field-label">'+esc(label)+'</span><input class="field-input" data-field="'+k+'" type="number" min="0" step="0.01" value="'+esc(fixed2(value))+'"></label>'}
+function renderRevisedParents(){
+const opened=new Set([...document.querySelectorAll('#parents>details[open]')].map(x=>x.dataset.parent));
+$('parents').innerHTML=state.parents.filter(p=>p.id!=='parent-other-children').map(p=>{
+const income=revisedIncome(p),expense=revisedExpense(p);
+return '<details class="parent-card revised-parent" data-parent="'+esc(p.id)+'" '+(opened.has(p.id)?'open':'')+'><summary>'+esc(p.name)+'</summary><div class="card-body"><div class="fields">'+
+'<label class="field-row"><span class="field-label">Vanhemman nimi</span><input class="field-input" data-field="name" type="text" maxlength="80" value="'+esc(p.name)+'"></label>'+
+'<div class="parent-section-heading">Tulot</div>'+
+revisedIncomeFields.map(([k,label])=>revisedField(k,label,p[k])).join('')+
+'<div class="revised-total"><strong>TULOT YHTEENSÄ</strong><strong>'+money(income)+'</strong></div>'+
+'<div class="parent-section-heading">Menot</div>'+
+'<label class="field-row"><span class="field-label">Vanhemman perhetilanne</span><select class="field-input" data-field="livingSituation"><option value="single" '+(p.livingSituation!=='partner'?'selected':'')+'>Yksin asuva</option><option value="partner" '+(p.livingSituation==='partner'?'selected':'')+'>Parisuhteessa asuva</option></select></label>'+
+revisedExpenseFields.map(([k,label])=>revisedField(k,label,k==='living'&&p.livingMode!=='manual'?estimatedLiving(p):p[k])).join('')+
+'<div class="revised-total"><strong>MENOT YHTEENSÄ</strong><strong>'+money(expense)+'</strong></div>'+
+'</div></div></details>'}).join('');
+}
 function renderParents(){
+if(state.parents.some(p=>p.revisedParent)){renderRevisedParents();return}
 const open=new Set([...document.querySelectorAll('#parents > details[open]')].map(x=>x.dataset.parent));
 firstParentRender=false;
 $('parents').innerHTML=state.parents.some(p=>p.id!=='parent-other-children')?state.parents.filter(p=>p.id!=='parent-other-children').map((p,i)=>
@@ -532,7 +562,7 @@ function parentHousingShare(p,parents=state.parents,children=state.children){
  const childShare=residents.reduce((sum,c)=>sum+(c.a===p.id?allocations.get(c.id)?.a||0:allocations.get(c.id)?.b||0),0);
  return Math.max(0,net-Math.min(net,childShare));
 }
-function capacity(p){const gross=num(p.gross),auto=num(p.autoBenefit),home=num(p.homeBenefit),rate=Math.min(100,num(p.taxMode==='manual'?p.tax:estimatedTax(gross))),employee=p.taxKind==='employee',yel=p.taxKind==='sole'?num(p.yel):0;
+function capacity(p){if(p.revisedParent){const cash=revisedIncome(p),housing=Math.max(0,parentHousingShare(p)+num(p.extraHousing)),costs=(p.livingMode==='manual'?num(p.living):estimatedLiving(p))+num(p.work)+num(p.health)+num(p.travel)+num(p.studentLoan)+num(p.otherCost)+num(p.otherChildren);const rawCapacity=cash-housing-costs;return {cash,housing,costs,benefitAddition:0,homeValue:0,rawCapacity,capacity:Math.max(0,rawCapacity)}}const gross=num(p.gross),auto=num(p.autoBenefit),home=num(p.homeBenefit),rate=Math.min(100,num(p.taxMode==='manual'?p.tax:estimatedTax(gross))),employee=p.taxKind==='employee',yel=p.taxKind==='sole'?num(p.yel):0;
 const deductions=gross*rate/100+(employee?gross*.0819:0)+yel;
 const cash=Math.max(0,gross-auto-home-deductions)+num(p.capital)+num(p.otherIncome);
 const housing=parentHousingShare(p);
@@ -791,7 +821,7 @@ if(card)card.open=true}calculate()}
 function toggleAdvanced(e,kind){const b=e.target.closest('[data-action="toggle-advanced"]');if(!b)return;const card=b.closest(kind==='parent'?'[data-parent]':'[data-child]');if(!card)return;const id=card.dataset[kind];if(expandedAdvanced.has(id))expandedAdvanced.delete(id);else expandedAdvanced.add(id);card.classList.toggle('advanced-open',expandedAdvanced.has(id));b.textContent=expandedAdvanced.has(id)?'Piilota lisäasetukset':'Näytä lisäasetukset'}
 $('parents').addEventListener('click',e=>toggleAdvanced(e,'parent'));
 $('children').addEventListener('click',e=>toggleAdvanced(e,'child'));
-const rerenderOnChange=new Set(['homeBenefitMethod','housingMode','housing','housingAid','rentPaid','taxKind','taxMode','livingMode','livingSituation','gross','autoBenefit','homeBenefit','benefitMode','benefitRecipient','age','housingCostMode','sharedHousingMethod','includeImputedHousing','sharedResponsibilityMode','agreementMode','agreementType','sharedPaymentMode','sharedBenefitMode','resident','supportMode','livingArrangement','a','b']);
+const rerenderOnChange=new Set(['livingSituation','homeBenefitMethod','housingMode','housing','housingAid','rentPaid','taxKind','taxMode','livingMode','livingSituation','gross','autoBenefit','homeBenefit','benefitMode','benefitRecipient','age','housingCostMode','sharedHousingMethod','includeImputedHousing','sharedResponsibilityMode','agreementMode','agreementType','sharedPaymentMode','sharedBenefitMode','resident','supportMode','livingArrangement','a','b']);
 $('parents').addEventListener('change',update);$('parents').addEventListener('input',e=>{if(e.target.dataset.field==='name'){const p=state.parents.find(x=>x.id===e.target.closest('[data-parent]')?.dataset.parent);if(p){p.name=e.target.value;e.target.closest('details').querySelector('summary').textContent=p.name||'Nimetön';calculate()}}else if(!rerenderOnChange.has(e.target.dataset.field))update(e)});
 document.addEventListener('focusout',e=>{const el=e.target;if(el.matches('#parents input[type="number"],#children input[type="number"]')&&!['nightsA','nightsB'].includes(el.dataset.field))el.value=fixed2(el.value)});
 $('children').addEventListener('input',e=>{if(!rerenderOnChange.has(e.target.dataset.field))update(e)});$('children').addEventListener('change',update);
