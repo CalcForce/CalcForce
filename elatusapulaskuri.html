@@ -18,7 +18,6 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 @media(max-width:600px){header strong{font-size:19px}.panel>.row h2,.panel>h2{font-size:15px}.fields input,.fields select{font-size:13px;padding:3px 5px}.section-number{min-width:34px;height:34px}.result{font-size:30px}.panel>.row>button{padding:6px;font-size:12px}}
 @media print{body,body[data-theme]{background:white!important;color:black!important}.panel{border-color:#aaa}.panel>.row,.panel>h2{background:#eee!important}.panel h2,.panel h3{color:black!important}.result{color:black!important;background:white!important}}
 .app-menu .menu-brand{display:flex;flex-direction:column;gap:2px;margin:0 0 12px;color:#fff}.app-menu .menu-brand strong{font-size:17px}.app-menu .menu-brand small{font-size:12px;color:#c8e6f2}.app-menu .menu-theme label{display:block;color:#fff;font-size:14px}.app-menu .menu-theme select{display:block;width:100%;margin:7px 0 12px;height:32px}.app-menu .menu-actions{display:grid;gap:5px}.app-menu .menu-actions button{width:100%;text-align:left;margin:0;padding:10px 8px;font:14px Arial,sans-serif;background:#0055e9;border:1px solid #2791ff;color:#fff}.app-menu .menu-actions button.danger{background:#702b38;border-color:#b86b79}.app-menu .menu-version{margin-top:14px;padding-top:10px;border-top:1px solid #2a9fc7;font-size:12px;color:#c8e6f2}.menu-trigger{font-size:22px!important;background:transparent!important;border:0!important;padding:5px 9px!important;color:white!important}.app-menu{top:42px;left:0;width:260px;background:#092b45;color:white;border:1px solid #2a9fc7;border-radius:9px;padding:12px}
-.results-section{border:0;box-shadow:none;background:transparent;padding-left:0;padding-right:0}
 
 #parents input[type=number],#children input[type=number]{appearance:textfield;-moz-appearance:textfield}
 #parents input[type=number]::-webkit-inner-spin-button,#parents input[type=number]::-webkit-outer-spin-button,#children input[type=number]::-webkit-inner-spin-button,#children input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
@@ -41,7 +40,6 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 .fields input,.fields select{height:var(--control-height);min-height:var(--control-height);border-radius:4px}
 .tile{border:1px solid var(--card-outline);border-radius:var(--card-radius);background:var(--panel);padding:12px}
 .tile>.child-result:first-of-type{margin-top:12px}
-.results-section{border:0!important;box-shadow:none!important;background:transparent!important}
 @media(max-width:600px){
 .parent-card>summary,.child-card>summary,.child-result>summary{font-size:14px;min-height:39px}
 #parents label:has(>input[type=number])::after,#children label:has(>input[type=number])::after{font-size:11px}
@@ -74,37 +72,8 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 
 
 @media(max-width:600px){.parent-card>summary,.child-card>summary{font-size:14px}.parent-section-heading,.field-group-heading{font-size:13px}}
-
-.results-section #results{min-width:0;max-width:100%}
-.results-section #results>h3{font-size:14px;font-weight:700;color:var(--text);margin:18px 0 6px;padding:9px 0 7px;border-bottom:1px solid var(--border)}
-.results-section #results>details.child-result{
- border:1px solid var(--card-outline);border-radius:var(--card-radius);
- background:var(--panel);margin:var(--card-space) 0;min-width:0;overflow:hidden
-}
-.results-section #results>details.child-result>summary{
- min-height:42px;padding:11px 12px 11px 33px;font-size:15px;
- line-height:1.35;background:var(--head);color:var(--text);
- overflow-wrap:anywhere;cursor:pointer
-}
-.results-section #results>details.child-result[open]>summary{border-bottom:1px solid var(--line)}
-.results-section #results>details.child-result>div,
-.results-section #results>details.child-result>p{margin-left:12px;margin-right:12px}
-.results-section #results .result-lines>span{
- min-width:0;overflow-wrap:anywhere;line-height:1.4;
- padding:6px 0;border-bottom:1px solid var(--line)
-}
-.results-section #results .tile,.results-section #results .quick-results>div{
- border:1px solid var(--card-outline);border-radius:var(--card-radius);
- background:var(--panel);min-width:0
-}
-.results-section #results .summary-grid{min-width:0;max-width:100%}
 @media(max-width:700px){
- .results-section #results>details.child-result>summary{font-size:14px}
- .results-section #results .result-lines>span{padding:8px 0}
 }
-
-.panel.results-section{background:var(--panel)!important;border:1px solid var(--border)!important;border-radius:6px!important;box-shadow:none!important;padding:0 12px 12px!important;margin:6px 8px!important;overflow:hidden}
-.panel.results-section>h2{margin:0 -12px 10px;padding:5px;background:var(--head);min-height:49px}
 
 @media(min-width:701px){
  #results .result-lines{display:grid;grid-template-columns:240px 200px 43px!important;column-gap:8px!important;row-gap:0!important;justify-content:start!important;align-items:stretch}
@@ -252,12 +221,12 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 <div class="warning">Suuntaa antava laskuri. Tulokset eivät ole virallinen elatusapupäätös. Elatuskyky, muiden lasten vastuu ja asumisjärjestelyt on arvioitava tapauskohtaisesti.</div>
 <section class="panel"><div class="row"><h2><span class="section-number">1</span>Vanhempien tiedot</h2></div><p class="muted">Avaa vanhempikortti nähdäksesi kaikki tulot ja menot.</p><div id="parents"></div></section>
 <section class="panel"><div class="row"><h2><span class="section-number">2</span>Lasten tiedot</h2><button id="addChild">+ Lisää lapsi</button></div><p class="muted">Avaa lapsikortti nähdäksesi valitun laskentatavan tiedot.</p><div id="children"></div></section>
-<section class="panel results-section"><h2><span class="section-number">3</span>Yhteenveto</h2><div id="results"></div></section>
+
 
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.539';
+const APP_VERSION='0.540';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
@@ -774,9 +743,7 @@ function computeSupportModel(parents,children){
  return {rows:result.rows,warnings:result.warnings};
 }
 // Kohta 3 ei suorita eikä näytä laskentaa. Korttien omat yhteenvedot säilyvät.
-function calculate(){
- // Kohta 3 jätetään tarkoituksella tyhjäksi.
-}
+function calculate(){ /* Yhteenveto-osio poistettu; kutsut säilytetään yhteensopivuuden vuoksi. */ }
 
 function update(e){const el=e.target,key=el.dataset.field;
 if(!key)return;
