@@ -203,7 +203,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.543';
+const APP_VERSION='0.544';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
@@ -727,6 +727,8 @@ function computeSupportModel(parents,children){
 function calculate(){ /* Yhteenveto-osio poistettu; kutsut säilytetään yhteensopivuuden vuoksi. */ }
 
 function update(e){const el=e.target,key=el.dataset.field;
+let childrenNeedRender=false;
+const requestChildrenRender=()=>{childrenNeedRender=true};
 if(!key)return;
 const p=el.closest('[data-parent]'),c=el.closest('[data-child]');
 const obj=p?state.parents.find(x=>x.id===p.dataset.parent):c?state.children.find(x=>x.id===c.dataset.child):null;
@@ -735,7 +737,7 @@ obj[key]=key==='includeIncome'?el.checked:el.value;
 if(p&&['homeBenefitMethod','housingMode','parentMode','agreementType'].includes(key)){if(key==='parentMode'){obj.includeIncome=el.value!=='agreement';
 if(el.value==='agreement'){obj.agreementType=obj.agreementType||'percent';
 obj.agreementValue=obj.agreementValue??50}}renderParents();
-renderChildren()}if(p&&['homeBenefit','housingMode','housing','housingAid','rentPaid'].includes(key))renderChildren();
+requestChildrenRender()}if(p&&['homeBenefit','housingMode','housing','housingAid','rentPaid'].includes(key))requestChildrenRender();
 if(p&&key==='tax')obj.taxMode='manual';
 if(p&&key==='living')obj.livingMode='manual';
 if(p&&(key==='livingSituation'||key==='livingMode')&&obj.livingMode!=='manual'){obj.living=estimatedLiving(obj);
@@ -746,29 +748,31 @@ const taxInput=p.querySelector('[data-field="tax"]');
 if(taxInput)taxInput.value=fixed2(obj.tax)}if(p&&key==='taxMode'){const taxInput=p.querySelector('[data-field="tax"]');
 if(taxInput)taxInput.value=obj.tax}if(c&&key==='benefit')obj.benefitMode='manual';
 if(c&&key==='benefitMode'&&el.value==='auto')obj.benefit=baseBenefitFor(obj);
-if(c&&['sharedHousingMethod','includeImputedHousing','sharedResponsibilityMode','agreementMode','agreementType'].includes(key))renderChildren();
+if(c&&['sharedHousingMethod','includeImputedHousing','sharedResponsibilityMode','agreementMode','agreementType'].includes(key))requestChildrenRender();
 if(c&&key==='housingCost')obj.housingCostMode='manual';
 if(c&&obj.revisedChild){if(key==='visitingNights'){obj.nightsA=el.value;obj.nightsB=Math.max(0,30-num(el.value));}if(key==='age')obj.basicMode='auto';}
 if(c&&key==='basic')obj.basicMode='manual';
 if(c&&key==='basicMode'&&el.value==='auto')obj.basic=ageCosts[obj.age]??362;
 if(c&&key==='age'&&obj.basicMode!=='manual')obj.basic=ageCosts[el.value]??362;
-if(c&&(key==='benefitMode'||key==='benefitRecipient'||key==='age'||key==='housingCostMode')){renderChildren()}if(c&&(key==='age'||key==='basicMode')){const basic=c.querySelector('[data-field="basic"]');
+if(c&&(key==='benefitMode'||key==='benefitRecipient'||key==='age'||key==='housingCostMode')){requestChildrenRender()}if(c&&(key==='age'||key==='basicMode')){const basic=c.querySelector('[data-field="basic"]');
 if(basic)basic.value=fixed2(obj.basic)}if(key==='name'){const summary=el.closest('details')?.querySelector('summary');
 if(summary)summary.textContent=el.value||'Nimetön';
-if(p)renderChildren()}if(c&&['sharedPaymentMode','sharedBenefitMode'].includes(key))renderChildren();
-if(c&&(key==='resident'||key==='supportMode'))renderChildren();
+if(p)requestChildrenRender()}if(c&&['sharedPaymentMode','sharedBenefitMode'].includes(key))requestChildrenRender();
+if(c&&(key==='resident'||key==='supportMode'))requestChildrenRender();
 if(c&&key==='livingArrangement'){if(el.value==='shared'){obj.sharedPaymentMode='zero';
 if(!obj.sharedResponsibilityMode)obj.sharedResponsibilityMode='half'}const shared=c.querySelector('.shared-fields');
 if(shared)shared.style.display=el.value==='shared'?'':'none';
-renderChildren()}if(c&&(key==='a'||key==='b')){if(obj.a===obj.b&&obj.a){obj.b='';
+requestChildrenRender()}if(c&&(key==='a'||key==='b')){if(obj.a===obj.b&&obj.a){obj.b='';
 }if(obj.resident!==obj.a&&obj.resident!==obj.b)obj.resident='';
-renderChildren()}if(p&&['livingSituation','housingSharePct'].includes(key))renderChildren();
+requestChildrenRender()}if(p&&['livingSituation','housingSharePct'].includes(key))requestChildrenRender();
 if(p&&(key==='taxKind'||key==='taxMode'||key==='livingMode'||key==='livingSituation')){const pid=p.dataset.parent;
 const opened=[...document.querySelectorAll('#parents details[open]')].map(d=>d.dataset.parent);
 renderParents();
 for(const d of document.querySelectorAll('#parents details'))d.open=opened.includes(d.dataset.parent);
 const card=[...document.querySelectorAll('#parents [data-parent]')].find(d=>d.dataset.parent===pid);
-if(card)card.open=true}calculate()}
+if(card)card.open=true}
+if(childrenNeedRender)renderChildren();
+calculate()}
 function toggleAdvanced(e,kind){const b=e.target.closest('[data-action="toggle-advanced"]');if(!b)return;const card=b.closest(kind==='parent'?'[data-parent]':'[data-child]');if(!card)return;const id=card.dataset[kind];if(expandedAdvanced.has(id))expandedAdvanced.delete(id);else expandedAdvanced.add(id);card.classList.toggle('advanced-open',expandedAdvanced.has(id));b.textContent=expandedAdvanced.has(id)?'Piilota lisäasetukset':'Näytä lisäasetukset'}
 $('parents').addEventListener('click',e=>toggleAdvanced(e,'parent'));
 $('children').addEventListener('click',e=>toggleAdvanced(e,'child'));
