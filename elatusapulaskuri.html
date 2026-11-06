@@ -172,20 +172,21 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 #parents .parent-card .fields>label:has(>input[data-field="housing"]){display:flex!important}
 #parents .parent-card .fields>label:has(>input[data-field="housing"]):has(~label){min-width:0}
 
-#parents .revised-parent .fields{display:block;max-width:750px}
-#parents .revised-parent .fields>.field-row{display:flex!important;align-items:center;gap:12px;min-width:0;margin:5px 0}
-#parents .revised-parent .field-label{flex:1 1 55%;min-width:0;white-space:normal;overflow-wrap:anywhere}
-#parents .revised-parent .field-input{flex:0 1 180px;min-width:0;max-width:45%;box-sizing:border-box}
 #parents .revised-parent .parent-section-heading{margin:18px 0 10px;font-weight:700}
 #parents .revised-total{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 0;margin:8px 0;border-top:1px solid var(--border);overflow-wrap:anywhere}
-@media(max-width:420px){#parents .revised-parent .field-input{flex-basis:120px;max-width:43%}}
 
-#children .revised-child .fields{display:block;max-width:750px}
-#children .revised-child .fields>.field-row{display:flex!important;align-items:center;gap:12px;margin:5px 0;min-width:0}
-#children .revised-child .field-label{flex:1 1 55%;min-width:0;white-space:normal;overflow-wrap:anywhere}
-#children .revised-child .field-input{flex:0 1 180px;min-width:0;max-width:45%;box-sizing:border-box}
 #children .revised-child .parent-section-heading{margin:17px 0 8px;font-weight:700}
 #children .revised-child .revised-total{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 0;margin-top:10px;border-top:1px solid var(--border)}
+
+/* Yhteinen kenttärakenne vanhemman ja lapsen uudistetuissa korteissa. */
+:is(#parents .revised-parent,#children .revised-child) .fields{display:block;max-width:750px}
+:is(#parents .revised-parent,#children .revised-child) .fields>.field-row{display:flex!important;align-items:center;gap:12px;min-width:0;margin:5px 0}
+:is(#parents .revised-parent,#children .revised-child) .field-label{flex:1 1 55%;min-width:0;white-space:normal;overflow-wrap:anywhere}
+:is(#parents .revised-parent,#children .revised-child) .field-input{flex:0 1 180px;min-width:0;max-width:45%;box-sizing:border-box}
+@media(max-width:420px){
+ :is(#parents .revised-parent,#children .revised-child) .fields>.field-row{gap:8px}
+ :is(#parents .revised-parent,#children .revised-child) .field-input{flex-basis:120px;max-width:43%}
+}
 
 :is(#parents .revised-parent,#children .revised-child) .field-label{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
 :is(#parents .revised-parent,#children .revised-child) .label-unit{white-space:nowrap}
@@ -203,7 +204,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.544';
+const APP_VERSION='0.545';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
