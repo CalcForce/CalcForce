@@ -252,12 +252,12 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 <div class="warning">Suuntaa antava laskuri. Tulokset eivät ole virallinen elatusapupäätös. Elatuskyky, muiden lasten vastuu ja asumisjärjestelyt on arvioitava tapauskohtaisesti.</div>
 <section class="panel"><div class="row"><h2><span class="section-number">1</span>Vanhempien tiedot</h2></div><p class="muted">Avaa vanhempikortti nähdäksesi kaikki tulot ja menot.</p><div id="parents"></div></section>
 <section class="panel"><div class="row"><h2><span class="section-number">2</span>Lasten tiedot</h2><button id="addChild">+ Lisää lapsi</button></div><p class="muted">Avaa lapsikortti nähdäksesi valitun laskentatavan tiedot.</p><div id="children"></div></section>
-<section class="panel results-section"><h2><span class="section-number">3</span>Yhteenveto</h2><div id="results">Laskenta on poistettu tästä osiosta.</div></section>
+<section class="panel results-section"><h2><span class="section-number">3</span>Yhteenveto</h2><div id="results"></div></section>
 
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.538';
+const APP_VERSION='0.539';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
@@ -775,9 +775,7 @@ function computeSupportModel(parents,children){
 }
 // Kohta 3 ei suorita eikä näytä laskentaa. Korttien omat yhteenvedot säilyvät.
 function calculate(){
- const results=$('results');
- const message='Laskenta on poistettu tästä osiosta.';
- if(results&&results.textContent!==message)results.textContent=message;
+ // Kohta 3 jätetään tarkoituksella tyhjäksi.
 }
 
 function update(e){const el=e.target,key=el.dataset.field;
