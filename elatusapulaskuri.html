@@ -75,22 +75,14 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 .field-help{font-size:13px;color:var(--muted);cursor:help}
 .agreement-input{display:flex;align-items:center;gap:8px}.agreement-input input{min-width:0;flex:1}.agreement-unit{font-size:14px;font-weight:700;white-space:nowrap;min-width:24px}
 .child-age-summary,.child-agreed-summary{font-size:12px;font-weight:400;color:var(--muted)}
-@media(max-width:600px){.child-age-summary,.child-agreed-summary{font-size:11px}}
+@media(max-width:600px){.child-age-summary,.child-agreed-summary{font-size:11px}
 
 
 
 
 
 
-@media(max-width:600px){:is(.parent-card,.child-card)>summary{font-size:14px}.parent-section-heading,.field-group-heading{font-size:13px}}
-@media(max-width:700px){
-}
-
-@media(min-width:701px){
-}
-@media(max-width:700px){
-}
-
+:is(.parent-card,.child-card)>summary{font-size:14px}.parent-section-heading,.field-group-heading{font-size:13px}}
 :is(#parents .parent-card,#children .child-card) :is(.fields,.child-all-fields,.shared-fields){
  display:block;min-width:0;width:100%;max-width:750px
 }
@@ -221,7 +213,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.555';
+const APP_VERSION='0.556';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
