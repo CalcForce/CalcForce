@@ -204,13 +204,16 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.550';
+const APP_VERSION='0.551';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
 // Muotoilu tehdään kentästä poistuttaessa, jotta kirjoittaminen ei keskeydy.
 const fixed2=v=>Number.isFinite(Number(v))?String(Math.round(Math.max(0,Number(v)))):'0';
 const formatNumericInputs=()=>document.querySelectorAll('#parents input[type="number"],#children input[type="number"]').forEach(el=>{if(el.dataset.field!=='nightsA'&&el.dataset.field!=='nightsB')el.value=fixed2(el.value)});
+// ═══════════════════════════════════════════════════════
+// 1. TIETOMALLIT JA OLETUSARVOT
+// ═══════════════════════════════════════════════════════
 const parentFields=[
 ['gross','Bruttotulot sisältäen luontoisedut','number'],['taxMode','Veroprosentin laskentatapa','select',['auto','manual'],['Automaattinen arvio','Oma veroprosentti']],['tax','Arvioitu veroprosentti (%) – muokattavissa','number'],['taxKind','Tulolaji','select',['employee','sole','company'],['Palkansaaja','Yksityinen elinkeinonharjoittaja','Osakeyhtiö']],['yel','Itse maksettava YEL (vain toiminimi)','number'],
 ['autoBenefit','Autoetu, verotusarvo','number'],['homeBenefit','Asuntoetu, verotusarvo','number'],['homeBenefitMethod','Asuntoedun huomiointi elatuskyvyssä','select',['housing','manual','tax'],['Asumismenojen kautta (oletus)','Erikseen arvioitu taloudellinen hyöty','Verotusarvo alustavana arviona']],['homeBenefitValue','Asuntoedun arvioitu taloudellinen hyöty €/kk','number'],['capital','Pääomatulot verojen jälkeen','number'],['otherIncome','Muut rahatulot','number'],['benefitAddition','Luontoisetujen erikseen arvioitu vaikutus elatuskykyyn','number'],
@@ -243,6 +246,9 @@ const expandedAdvanced=new Set();
 let firstParentRender=true,firstChildRender=true;
 const parentAdvanced=new Set(['taxMode','tax','yel','homeBenefitMethod','homeBenefitValue','capital','otherIncome','benefitAddition','housingSharePct','rentPaid','livingMode','living','work','health','travel','studentLoan','otherCost','nonDeductible','otherChildren','housingAid','housing','capital','otherIncome','benefitAddition','work','health','travel','studentLoan','otherCost']);
 const childAdvanced=new Set(['basicMode','basic','benefitMode','housingShareMethod','sharedHousingMethod','housingCostMode','housingCost','includeImputedHousing','sharedPaymentMode','sharedPaidA','sharedPaidB','sharedHousingA','sharedHousingB','sharedBenefitMode','sharedBenefitA','sharedBenefitB','careDeduction','careMode','special','other']);
+// ═══════════════════════════════════════════════════════
+// 2. KÄYTTÖLIITTYMÄN APUFUNKTIOT JA KORTIT
+// ═══════════════════════════════════════════════════════
 function decorateAdvanced(kind){const root=$(kind==='parent'?'parents':'children');
 for(const card of root.querySelectorAll(kind==='parent'?'[data-parent]':'[data-child]')){const id=card.dataset[kind];
 card.classList.toggle('advanced-open',expandedAdvanced.has(id));
@@ -485,6 +491,9 @@ applyCardFieldRows('#children .child-card')
 }
 
 
+// ═══════════════════════════════════════════════════════
+// 3. LASKENTALOGIIKKA JA ELATUSVASTUUN JAKO
+// ═══════════════════════════════════════════════════════
 function housingScope(c){return c.housingScope&&c.housingScope!=='auto'?c.housingScope:(c.livingArrangement==='shared'?'both':'primary')}
 function housingEligible(c,p){if(c.a!==p.id&&c.b!==p.id||housingScope(c)==='none')return false;if(num(c.a===p.id?c.nightsA:c.nightsB)<=0)return false;return housingScope(c)==='both'||c.resident===p.id}
 function housingWeight(c,p){if(c.housingShareMethod!=='nights'&&!(c.livingArrangement==='shared'&&c.sharedHousingMethod==='nights'))return 1;const own=num(c.a===p.id?c.nightsA:c.nightsB),both=num(c.nightsA)+num(c.nightsB);return both>0?Math.min(1,own/both):0}
@@ -690,6 +699,9 @@ return {...x,aa,bb,uncovered:Math.max(0,x.need-aa-bb),payer:x.supportMode==='cap
 
 /* Toistettavat laskennan regressiotestit: avaa sivu osoitteella ?test=1.
    Testit eivät muuta laskurin käyttäjän tietoja eivätkä tallenna mitään. */
+// ═══════════════════════════════════════════════════════
+// 4. AUTOMAATTISET REGRESSIOTESTIT
+// ═══════════════════════════════════════════════════════
 function runRegressionTests(){
  const checks=[];
  const test=(name,fn)=>{try{if(!fn())throw Error('Ehto ei täyttynyt');checks.push({name,ok:true})}catch(e){checks.push({name,ok:false,error:e.message})}};
@@ -766,6 +778,9 @@ function runRegressionTests(){
  return {passed,total:checks.length,checks};
 }
 
+// ═══════════════════════════════════════════════════════
+// 5. LASKENNAN JULKINEN RAJAPINTA
+// ═══════════════════════════════════════════════════════
 function computeSupportModel(parents,children){
  const result=allocate(parents,children);
  return {rows:result.rows,warnings:result.warnings};
@@ -788,6 +803,9 @@ function validateNumericInput(el){
  if(nights&&!Number.isInteger(value)){el.value=String(Math.round(value));return false}
  return true;
 }
+// ═══════════════════════════════════════════════════════
+// 6. KÄYTTÖLIITTYMÄN TAPAHTUMAKÄSITTELY
+// ═══════════════════════════════════════════════════════
 function update(e){const el=e.target,key=el.dataset.field;
 if(e.type==='change')validateNumericInput(el);
 let childrenNeedRender=false;
@@ -839,6 +857,9 @@ calculate()}
 function toggleAdvanced(e,kind){const b=e.target.closest('[data-action="toggle-advanced"]');if(!b)return;const card=b.closest(kind==='parent'?'[data-parent]':'[data-child]');if(!card)return;const id=card.dataset[kind];if(expandedAdvanced.has(id))expandedAdvanced.delete(id);else expandedAdvanced.add(id);card.classList.toggle('advanced-open',expandedAdvanced.has(id));b.textContent=expandedAdvanced.has(id)?'Piilota lisäasetukset':'Näytä lisäasetukset'}
 $('parents').addEventListener('click',e=>toggleAdvanced(e,'parent'));
 $('children').addEventListener('click',e=>toggleAdvanced(e,'child'));
+// ═══════════════════════════════════════════════════════
+// 7. TAPAHTUMIEN REKISTERÖINTI JA SOVELLUKSEN KÄYNNISTYS
+// ═══════════════════════════════════════════════════════
 const rerenderOnChange=new Set(['visitingNights','livingSituation','homeBenefitMethod','housingMode','housing','housingAid','rentPaid','taxKind','taxMode','livingMode','livingSituation','gross','autoBenefit','homeBenefit','benefitMode','benefitRecipient','age','housingCostMode','sharedHousingMethod','includeImputedHousing','sharedResponsibilityMode','agreementMode','agreementType','sharedPaymentMode','sharedBenefitMode','resident','supportMode','livingArrangement','a','b']);
 $('parents').addEventListener('change',update);$('parents').addEventListener('input',e=>{if(e.target.dataset.field==='name'){const p=state.parents.find(x=>x.id===e.target.closest('[data-parent]')?.dataset.parent);if(p){p.name=e.target.value;e.target.closest('details').querySelector('summary').textContent=p.name||'Nimetön';calculate()}}else if(!rerenderOnChange.has(e.target.dataset.field))update(e)});
 document.addEventListener('focusout',e=>{const el=e.target;if(el.matches('#parents input[type="number"],#children input[type="number"]')&&!['nightsA','nightsB'].includes(el.dataset.field))el.value=fixed2(el.value)});
