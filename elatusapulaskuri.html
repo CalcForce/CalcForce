@@ -58,13 +58,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 .field-help{font-size:13px;color:var(--muted);cursor:help}
 .agreement-input{display:flex;align-items:center;gap:8px}.agreement-input input{min-width:0;flex:1}.agreement-unit{font-size:14px;font-weight:700;white-space:nowrap;min-width:24px}
 .child-age-summary,.child-agreed-summary{font-size:12px;font-weight:400;color:var(--muted)}
-
-
-#results>.quick-results{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}
-#results>.quick-results>div:first-child{border-color:var(--border);background:var(--head)}
-#results>.quick-results>div:first-child strong{font-size:clamp(24px,4vw,34px);color:var(--result)}
-#results>h3{margin-top:18px}
-@media(max-width:600px){#results>.quick-results{grid-template-columns:1fr}.child-age-summary,.child-agreed-summary{font-size:11px}}
+@media(max-width:600px){.child-age-summary,.child-agreed-summary{font-size:11px}}
 
 
 
@@ -76,16 +70,8 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 }
 
 @media(min-width:701px){
- #results .result-lines{display:grid;grid-template-columns:240px 200px 43px!important;column-gap:8px!important;row-gap:0!important;justify-content:start!important;align-items:stretch}
- #results .result-lines>span{min-width:0;min-height:44px;display:flex;align-items:center;padding:4px 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
- #results .result-lines>span:nth-child(odd){grid-column:1;justify-content:flex-start;text-align:left}
- #results .result-lines>span:nth-child(even){grid-column:2;justify-content:flex-end;text-align:right;width:200px;max-width:200px;font-variant-numeric:tabular-nums}
- #results .result-lines>span.total{font-weight:700;color:var(--result);border-top:1px solid var(--border)}
 }
 @media(max-width:700px){
- #results .result-lines{grid-template-columns:minmax(0,1fr) minmax(85px,auto)!important;gap:6px 10px!important}
- #results .result-lines>span:nth-child(odd){text-align:left}
- #results .result-lines>span:nth-child(even){text-align:right;justify-self:end}
 }
 
 :is(#parents .parent-card,#children .child-card) :is(.fields,.child-all-fields,.shared-fields){
@@ -146,20 +132,11 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
  :is(#parents .parent-card,#children .child-card) .fields label.field-row>.field-input{font-size:12px!important;padding:4px!important}
 }
 
-#results .child-payment-breakdown{padding:12px 8px;min-width:0}
-#results .child-payment-breakdown h4{font-size:14px;line-height:1.35;color:var(--text);margin:16px 0 6px;padding:0 0 6px;border-bottom:1px solid var(--border)}
-#results .child-payment-breakdown h4:first-child{margin-top:0}
-#results .child-payment-breakdown .result-lines{margin:0 0 8px}
-#results .child-payment-parties{margin-top:12px;font-weight:700}
-
 .panel,.tile,.parent-card,.child-card,.card-body,.fields,.fields>label,#results details{min-width:0;max-width:100%;overflow-wrap:anywhere}
 .fields input,.fields select,.fields textarea{width:100%;max-width:100%;box-sizing:border-box}
 .result-lines{grid-template-columns:minmax(0,1fr) minmax(0,max-content);min-width:0;max-width:100%}
 .result-lines>span{min-width:0;overflow-wrap:anywhere;white-space:normal}
 .result-lines>span:nth-child(even){text-align:right}
-#results .tile>div[style*="display:flex"],#results .child-result summary{min-width:0;flex-wrap:wrap}
-#results .tile>div[style*="display:flex"]>span,#results .child-result summary>*{min-width:0;overflow-wrap:anywhere}
-#results .tile>div[style*="display:flex"]>span:last-child{margin-left:auto;text-align:right}
 @media(max-width:420px){.result-lines{column-gap:8px;row-gap:7px}.result-lines>span{font-size:13px}.result-lines>span:nth-child(even){max-width:38vw}.panel,.tile{min-width:0}}
 
 :where(.app,.panel,.tile,.parent-card,.child-card,.card-body,.fields,.result-lines,#results,details,summary){min-width:0;max-width:100%}
@@ -226,7 +203,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.541';
+const APP_VERSION='0.542';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
