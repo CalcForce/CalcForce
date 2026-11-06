@@ -204,7 +204,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.546';
+const APP_VERSION='0.547';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
@@ -722,7 +722,7 @@ function runRegressionTests(){
  });
  test('Useita lapsia samalla vanhempiparilla',()=>{
   const result=computeSupportModel(parents,[child({id:'child-1'}),child({id:'child-2'})]);
-  return result.rows.length===2&&new Set(result.rows.map(x=>x.id)).size===2;
+  return result.rows.length===2&&new Set(result.rows.map(x=>x.childId)).size===2;
  });
  test('Lapset eri vanhempipareilla',()=>{
   const all=[...parents,parent('test-c',2500)];
@@ -737,6 +737,18 @@ function runRegressionTests(){
   const base=revisedChildDeductions(child());
   const withIncome=revisedChildDeductions(child({studyIncome:120,childCapital:80}));
   return near(withIncome-base,200)&&near(childNetNeed(100,200),0);
+ });
+ test('Numeeristen syötteiden alaraja',()=>{
+  const el={type:'number',value:'-25',dataset:{field:'housing'}};
+  return validateNumericInput(el)===false&&el.value==='0';
+ });
+ test('Prosentin yläraja',()=>{
+  const el={type:'number',value:'150',dataset:{field:'housingSharePct'}};
+  return validateNumericInput(el)===false&&el.value==='100';
+ });
+ test('Yöpymisten kokonaislukuraja',()=>{
+  const el={type:'number',value:'31',dataset:{field:'nightsA'}};
+  return validateNumericInput(el)===false&&el.value==='30';
  });
  const passed=checks.filter(x=>x.ok).length;
  const box=document.createElement('section');box.className='panel';box.id='regression-tests';
@@ -753,7 +765,23 @@ function computeSupportModel(parents,children){
 // Kohta 3 ei suorita eikä näytä laskentaa. Korttien omat yhteenvedot säilyvät.
 function calculate(){ /* Yhteenveto-osio poistettu; kutsut säilytetään yhteensopivuuden vuoksi. */ }
 
+// Tarkistetaan numeeriset syötteet kentästä poistuttaessa. Ei katkaista keskeneräistä kirjoittamista.
+function validateNumericInput(el){
+ if(!el||el.type!=='number')return true;
+ const raw=String(el.value??'').trim(),value=Number(raw);
+ const field=el.dataset.field||'';
+ const percentage=['tax','housingSharePct','sharedResponsibilityPct','agreementValue'].includes(field)&&field!=='agreementValue';
+ const nights=['nightsA','nightsB','visitingNights'].includes(field);
+ const max=nights?30:percentage?100:Infinity;
+ if(raw===''||!Number.isFinite(value)||value<0||value>max){
+  el.value=String(raw===''||!Number.isFinite(value)?0:Math.min(max,Math.max(0,value)));
+  return false;
+ }
+ if(nights&&!Number.isInteger(value)){el.value=String(Math.round(value));return false}
+ return true;
+}
 function update(e){const el=e.target,key=el.dataset.field;
+if(e.type==='change')validateNumericInput(el);
 let childrenNeedRender=false;
 const requestChildrenRender=()=>{childrenNeedRender=true};
 if(!key)return;
