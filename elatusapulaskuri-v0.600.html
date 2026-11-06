@@ -1,0 +1,277 @@
+<!doctype html><html lang="fi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Elatusapulaskuri 0.600</title><style>
+:root{--bg:#061422;--panel:#0d2639;--head:#103f67;--line:#28617f;--text:#e9f8ff;--muted:#a5c6d7;--accent:#32d5ed;--field:#092033}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px Arial,sans-serif}.app{max-width:980px;margin:auto;padding-bottom:40px}
+header{display:flex;align-items:center;gap:12px;padding:14px;background:linear-gradient(100deg,#003475,#0052cd,#00245e)}header strong{font-size:21px}.menu-holder{position:relative}.menu-trigger{background:transparent;border:0;font-size:23px;padding:5px 9px}.app-menu{position:absolute;top:calc(100% + 9px);left:0;width:min(320px,calc(100vw - 32px));z-index:50;padding:14px;border:1px solid var(--line);border-radius:9px;background:var(--panel);box-shadow:0 12px 35px #0009;color:var(--text)}.app-menu[hidden]{display:none}.app-menu .actions{display:grid;grid-template-columns:1fr}.app-menu .actions button{width:100%;text-align:left}.app-menu label{margin:10px 0}.menu-brand{font-weight:bold;margin-bottom:12px}header small{display:block;color:#c9e7f8}.version{margin-left:auto;border:1px solid #7cb3e0;border-radius:20px;padding:5px 10px;font-weight:bold;font-size:12px}
+main{padding:8px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:15px;margin:9px 0}h2{font-size:19px;margin:0 0 12px}h3{font-size:16px;margin:14px 0 9px;border-bottom:1px solid var(--line);padding-bottom:6px}.muted{color:var(--muted);font-size:13px;line-height:1.5}
+button{border:1px solid #368df7;background:#0757cf;color:white;border-radius:6px;padding:9px 12px;cursor:pointer;font:inherit}button.secondary{background:#17384c;border-color:#56839a}button.danger{background:#702b38;border-color:#b86b79}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}summary{cursor:pointer;padding:13px;background:var(--head);font-weight:bold}.card-body{padding:13px}label{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--muted)}input,select{width:100%;min-width:0;background:var(--field);color:var(--text);border:1px solid #63899d;border-radius:5px;padding:9px;font:15px Arial}input:focus,select:focus{outline:2px solid var(--accent)}.row{display:flex;gap:8px;align-items:center;justify-content:space-between}.result{font-size:25px;font-weight:bold;color:#62f0dc}.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}.tile{padding:12px;border:1px solid var(--line);border-radius:8px}.child-result{margin:10px 0;padding:0;border:0;border-radius:8px;background:var(--panel);overflow:hidden}.child-result>summary{list-style:none;display:block;padding:9px 12px;background:var(--head);color:var(--text);font-size:15px;font-weight:bold;text-align:left;overflow-wrap:anywhere}.child-result>summary::-webkit-details-marker{display:none}.child-result>summary:before{content:'▶';font-size:13px;color:var(--text);margin-right:8px;display:inline-block}.child-result[open]>summary:before{content:'▼'}.child-result>summary .child-label{flex:1}.child-result>summary .child-amount{white-space:nowrap}.child-result .child-inner{padding:2px 0 12px 20px}.child-result h3{margin-top:0}.result-lines{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 16px;align-items:baseline}.result-lines span:nth-child(even){text-align:right;font-variant-numeric:tabular-nums}.result-lines .total{font-weight:bold;border-top:1px solid var(--line);padding-top:9px}.result-note{margin-top:10px}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:9px 5px;border-bottom:1px solid var(--line)}.scroll{overflow-x:auto}.warning{padding:12px;border-left:3px solid #e6b55d;background:#203144;font-size:13px}.empty{padding:14px;border:1px dashed var(--line);border-radius:7px;color:var(--muted)}
+body[data-theme=light]{--bg:#f4f8fc;--panel:#fff;--head:#e5f1fc;--line:#a7c5d9;--text:#15344b;--muted:#456477;--accent:#0757cf;--field:#fff}body[data-theme=forest]{--bg:#071b15;--panel:#123025;--head:#19503b;--line:#357e60;--text:#e4fff0;--muted:#add2bd;--accent:#61d9a0;--field:#0c251b}
+@media(max-width:600px){.fields{grid-template-columns:1fr}header strong{font-size:18px}.panel{padding:11px}table{font-size:13px}}
+@media print{body{background:#fff;color:#000}.actions,.no-print,button{display:none!important}.panel,.tile{border-color:#888;break-inside:avoid}input,select{color:#000;background:#fff}summary{color:#000;background:#eee}}
+
+/* v0.517: v0.292 visual language, modern unified calculator */
+:root{--bg:#000c17;--panel:#001827;--head:#002b44;--line:#17677c;--text:#00d9ef;--muted:#7cb8c7;--accent:#168aff;--field:#081722;--border:#00cde5;--inputtext:#fff;--result:#00e6d8}
+body{background:radial-gradient(ellipse at 60% 0%,#00345c 0%,#000c17 38%,#000710 100%);font:16px Arial,sans-serif}.app{max-width:900px}header{padding:13px 17px}header strong{font-size:24px}main{padding:0}.panel{margin:6px 8px;padding:0 12px 12px;border:1px solid var(--border);border-radius:6px;overflow:hidden}.panel>.row{background:var(--head);margin:0 -12px 10px;padding:5px;gap:8px}.panel>.row h2,.panel>h2{font-size:18px;color:var(--text)}.panel>.row h2{margin:0;display:flex;align-items:center;gap:11px}.panel>h2{background:var(--head);margin:0 -12px 10px;padding:5px;display:flex;align-items:center;gap:11px}.section-number{display:grid;place-items:center;min-width:39px;height:39px;border-radius:50%;background:linear-gradient(#067bff,#004ad8);border:1px solid #168aff;color:white;font-weight:bold}.panel>.row>button{font-size:14px}.parent-card,.child-card{background:var(--panel);border:1px solid var(--line);border-radius:5px;overflow:hidden}.child-card>summary{border-bottom:0}.child-card[open]>summary{border-bottom:1px solid var(--line)}.parent-card summary,.child-card summary{padding:9px 12px;background:var(--head);color:var(--text)}.card-body{padding:10px 12px}input,select{height:32px;padding:4px 10px;border-radius:3px;font:15px Arial;color:var(--inputtext);text-align:right}select{text-align:right}button{border-radius:4px;background:#0055e9;border-color:#2791ff;font:14px Arial}.app-menu{background:#092b45;color:white;border-color:#2a9fc7;width:260px}.app-menu label{color:white}.muted{font-size:12px}.warning{background:var(--head);color:var(--text);margin:8px 0;font-size:12px}.result{font-size:36px;color:var(--result);background:#063a2b;border:1px solid #008963;border-radius:5px;text-align:center;padding:10px;margin:8px 0}.tile{background:var(--panel);border-radius:5px}.child-result{background:var(--panel);border-color:var(--border);border-radius:6px}.child-result h3{color:var(--text)}.result-lines .total{color:var(--result)}
+body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;--text:#075a85;--muted:#536f80;--accent:#168aff;--field:#fff;--border:#70a7c4;--inputtext:#142c40;--result:#147950;background:#f3f7fb}body[data-theme=light] .result{background:#e8f8ee}body[data-theme=forest]{--bg:#08120f;--panel:#10271f;--head:#163a2d;--line:#275b48;--text:#9de6c0;--muted:#a1cdbb;--accent:#4ab48d;--field:#091a15;--border:#3baf87;--inputtext:#fff;--result:#9de6c0;background:linear-gradient(140deg,#0c241e,#08120f)}body[data-theme=forest] header{background:linear-gradient(90deg,#125a44,#167c5a)}body[data-theme=forest] .section-number{background:#187c5b;border-color:#4ab48d}
+@media(max-width:600px){header strong{font-size:19px}.panel>.row h2,.panel>h2{font-size:15px}.fields input,.fields select{font-size:13px;padding:3px 5px}.section-number{min-width:34px;height:34px}.result{font-size:30px}.panel>.row>button{padding:6px;font-size:12px}}
+@media print{body,body[data-theme]{background:white!important;color:black!important}.panel{border-color:#aaa}.panel>.row,.panel>h2{background:#eee!important}.panel h2,.panel h3{color:black!important}.result{color:black!important;background:white!important}}
+.app-menu .menu-brand{display:flex;flex-direction:column;gap:2px;margin:0 0 12px;color:#fff}.app-menu .menu-brand strong{font-size:17px}.app-menu .menu-brand small{font-size:12px;color:#c8e6f2}.app-menu .menu-theme label{display:block;color:#fff;font-size:14px}.app-menu .menu-theme select{display:block;width:100%;margin:7px 0 12px;height:32px}.app-menu .menu-actions{display:grid;gap:5px}.app-menu .menu-actions button{width:100%;text-align:left;margin:0;padding:10px 8px;font:14px Arial,sans-serif;background:#0055e9;border:1px solid #2791ff;color:#fff}.app-menu .menu-actions button.danger{background:#702b38;border-color:#b86b79}.app-menu .menu-version{margin-top:14px;padding-top:10px;border-top:1px solid #2a9fc7;font-size:12px;color:#c8e6f2}.menu-trigger{font-size:22px!important;background:transparent!important;border:0!important;padding:5px 9px!important;color:white!important}.app-menu{top:42px;left:0;width:260px;background:#092b45;color:white;border:1px solid #2a9fc7;border-radius:9px;padding:12px}
+.results-section{border:0;box-shadow:none;background:transparent;padding-left:0;padding-right:0}
+
+/* Piilota numerokenttien ylös/alas-nuolet osioissa 1 ja 2. */
+#parents input[type=number],#children input[type=number]{appearance:textfield;-moz-appearance:textfield}
+#parents input[type=number]::-webkit-inner-spin-button,#parents input[type=number]::-webkit-outer-spin-button,#children input[type=number]::-webkit-inner-spin-button,#children input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+
+/* Yksiköt numerokentän ulkopuolella oikealla */
+
+#parents label:has(>input[type=number])::after,#children label:has(>input[type=number])::after{content:'€/kk';font-size:12px;color:var(--muted);pointer-events:none;white-space:nowrap;text-align:left}
+#parents label>input[type=number],#children label>input[type=number]{padding-right:10px}
+#parents label:has(>input[data-field=tax])::after{content:'%'}
+#children label:has(>input[data-field=nightsA])::after,#children label:has(>input[data-field=nightsB])::after{content:'yötä'}
+
+/* v0.517: yhteinen ulkoasujärjestelmä kaikille kolmelle osiolle */
+:root{--card-radius:6px;--card-space:10px;--card-padding:10px 12px;--control-height:35px;--card-outline:var(--line)}
+.panel>.row,.panel>h2{min-height:49px}
+.panel>.row h2,.panel>h2{line-height:1.25}
+.parent-card,.child-card,.child-result{margin:var(--card-space) 0;border:1px solid var(--card-outline);border-radius:var(--card-radius);background:var(--panel);overflow:hidden;box-shadow:none}
+.parent-card>summary,.child-card>summary,.child-result>summary{display:block;position:relative;list-style:none;min-height:39px;padding:10px 12px 10px 33px;background:var(--head);color:var(--text);font-size:15px;font-weight:700;line-height:19px;text-align:left;cursor:pointer;overflow-wrap:anywhere}
+.parent-card>summary::-webkit-details-marker,.child-card>summary::-webkit-details-marker,.child-result>summary::-webkit-details-marker{display:none}
+.parent-card>summary::before,.child-card>summary::before,.child-result>summary::before{content:'▶';position:absolute;left:12px;top:11px;font-size:12px;line-height:18px;color:var(--accent)}
+.parent-card[open]>summary::before,.child-card[open]>summary::before,.child-result[open]>summary::before{content:'▼'}
+.parent-card[open]>summary,.child-card[open]>summary,.child-result[open]>summary{border-bottom:1px solid var(--card-outline)}
+ .child-result>div{padding:10px 12px!important}
+.fields input,.fields select{height:var(--control-height);min-height:var(--control-height);border-radius:4px}
+.tile{border:1px solid var(--card-outline);border-radius:var(--card-radius);background:var(--panel);padding:12px}
+.tile>.child-result:first-of-type{margin-top:12px}
+.results-section{border:0!important;box-shadow:none!important;background:transparent!important}
+@media(max-width:600px){
+.parent-card>summary,.child-card>summary,.child-result>summary{font-size:14px;min-height:39px}
+
+#parents label:has(>input[type=number])::after,#children label:has(>input[type=number])::after{font-size:11px}
+
+}
+@media print{.parent-card,.child-card,.child-result,.tile{border-color:#888!important}.parent-card>summary,.child-card>summary,.child-result>summary{color:#000!important;background:#eee!important}}
+
+/* v0.517: menojen hyväksyttävyyden opastus */
+.expense-guidance{font-size:12px;line-height:1.4;color:var(--muted);margin:5px 0 8px;padding:7px 9px;border-left:2px solid var(--border);background:var(--head)}
+#parents .fields>label:has(>input[data-field=nonDeductible]){opacity:.85}
+
+/* v0.517: perusnäkymä, lisäasetukset ja tulosten yhteenveto */
+.advanced-toggle{margin:8px 0 12px;padding:9px 12px;font-weight:600;font-size:13px}
+.quick-results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}
+.quick-results>div{border:1px solid var(--line);border-radius:10px;padding:12px;min-width:0}
+.quick-results small{display:block;font-size:12px;line-height:1.4;color:var(--muted)}
+.quick-results strong{display:block;font-size:21px;margin-top:7px;overflow-wrap:anywhere}
+@media(max-width:650px){.quick-results{grid-template-columns:1fr}.quick-results>div{padding:10px 12px}.quick-results strong{font-size:19px}}
+
+.field-help{font-size:13px;color:var(--muted);cursor:help}
+.agreement-input{display:flex;align-items:center;gap:8px}.agreement-input input{min-width:0;flex:1}.agreement-unit{font-size:14px;font-weight:700;white-space:nowrap;min-width:24px}
+/* v0.517: selkeämpi lapsikortti ja tulosyhteenveto */
+.child-age-summary,.child-agreed-summary{font-size:12px;font-weight:400;color:var(--muted)}
+
+
+
+
+#results>.quick-results{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}
+#results>.quick-results>div:first-child{border-color:var(--border);background:var(--head)}
+#results>.quick-results>div:first-child strong{font-size:clamp(24px,4vw,34px);color:var(--result)}
+#results>h3{margin-top:18px}
+@media(max-width:600px){#results>.quick-results{grid-template-columns:1fr}.child-age-summary,.child-agreed-summary{font-size:11px}}
+
+/* v0.517: vanhempikortin osiot, laskentakentät ennallaan */
+
+
+
+
+
+
+
+/* Yhteiset kortti- ja otsikkotyylit */
+
+
+@media(max-width:600px){.parent-card>summary,.child-card>summary{font-size:14px}.parent-section-heading,.field-group-heading{font-size:13px}}
+
+/* v0.517: kohdan 3 ulkoasu yhtenäinen vanhempi- ja lapsikorttien kanssa */
+.results-section #results{min-width:0;max-width:100%}
+.results-section #results>h3{font-size:14px;font-weight:700;color:var(--text);margin:18px 0 6px;padding:9px 0 7px;border-bottom:1px solid var(--border)}
+.results-section #results>details.child-result{
+ border:1px solid var(--card-outline);border-radius:var(--card-radius);
+ background:var(--panel);margin:var(--card-space) 0;min-width:0;overflow:hidden
+}
+.results-section #results>details.child-result>summary{
+ min-height:42px;padding:11px 12px 11px 33px;font-size:15px;
+ line-height:1.35;background:var(--head);color:var(--text);
+ overflow-wrap:anywhere;cursor:pointer
+}
+.results-section #results>details.child-result[open]>summary{border-bottom:1px solid var(--line)}
+.results-section #results>details.child-result>div,
+.results-section #results>details.child-result>p{margin-left:12px;margin-right:12px}
+.results-section #results .result-lines>span{
+ min-width:0;overflow-wrap:anywhere;line-height:1.4;
+ padding:6px 0;border-bottom:1px solid var(--line)
+}
+.results-section #results .tile,.results-section #results .quick-results>div{
+ border:1px solid var(--card-outline);border-radius:var(--card-radius);
+ background:var(--panel);min-width:0
+}
+.results-section #results .summary-grid{min-width:0;max-width:100%}
+@media(max-width:700px){
+ .results-section #results>details.child-result>summary{font-size:14px}
+ .results-section #results .result-lines>span{padding:8px 0}
+}
+
+/* v0.517: kohdan 3 ulkokehys sama kuin kohdissa 1 ja 2 */
+.panel.results-section{background:var(--panel)!important;border:1px solid var(--border)!important;border-radius:6px!important;box-shadow:none!important;padding:0 12px 12px!important;margin:6px 8px!important;overflow:hidden}
+.panel.results-section>h2{margin:0 -12px 10px;padding:5px;background:var(--head);min-height:49px}
+
+/* v0.517: tulosrivit samalla X-koordinaatistolla kuin syöttörivit */
+@media(min-width:701px){
+ #results .result-lines{display:grid;grid-template-columns:240px 200px 43px!important;column-gap:8px!important;row-gap:0!important;justify-content:start!important;align-items:stretch}
+ #results .result-lines>span{min-width:0;min-height:44px;display:flex;align-items:center;padding:4px 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+ #results .result-lines>span:nth-child(odd){grid-column:1;justify-content:flex-start;text-align:left}
+ #results .result-lines>span:nth-child(even){grid-column:2;justify-content:flex-end;text-align:right;width:200px;max-width:200px;font-variant-numeric:tabular-nums}
+ #results .result-lines>span.total{font-weight:700;color:var(--result);border-top:1px solid var(--border)}
+}
+@media(max-width:700px){
+ #results .result-lines{grid-template-columns:minmax(0,1fr) minmax(85px,auto)!important;gap:6px 10px!important}
+ #results .result-lines>span:nth-child(odd){text-align:left}
+ #results .result-lines>span:nth-child(even){text-align:right;justify-self:end}
+}
+
+/* Kenttäkorttien ainoa sijoittelumalli: myös sisäkkäiset lapsikentät.
+   Tulososion säännöt pidetään erillään. */
+:is(#parents .parent-card,#children .child-card) :is(.fields,.child-all-fields,.shared-fields){
+ display:block;min-width:0;width:100%;max-width:750px
+}
+:is(#parents .parent-card,#children .child-card) .fields label.field-row{
+ font-size:14px!important;line-height:1.35!important;color:var(--text)!important
+}
+:is(#parents .parent-card,#children .child-card) .fields label.field-row>.field-input:is(input,select){
+ padding:4px 8px!important;min-width:0!important
+}
+:is(#parents .parent-card,#children .child-card) .fields label.field-row>.agreement-input{
+ display:flex!important;align-items:center!important;gap:4px!important
+}
+:is(#parents .parent-card,#children .child-card) .fields label.field-row>.agreement-input input{
+ width:100%;min-width:0;height:35px;min-height:35px
+}
+:is(#parents .parent-card,#children .child-card) :is(.parent-section-heading,.field-group-heading){
+ font-size:14px;font-weight:700;color:var(--text);
+ margin:16px 0 4px;padding:9px 0 7px;border-bottom:1px solid var(--border)
+}
+/* v0.517: vanhempi- ja lapsikortin yksi yhteinen kenttärivisääntö */
+:is(#parents .parent-card,#children .child-card) .fields label.field-row{
+ --field-x:250px;--field-width:150px;--field-label-width:225px;
+ display:block!important;position:relative!important;
+ height:42px!important;min-height:42px!important;
+ margin:0!important;padding:0!important;
+ border-bottom:1px solid var(--line)!important;
+ box-sizing:border-box!important;overflow:visible
+}
+:is(#parents .parent-card,#children .child-card) .fields label.field-row>.field-label{
+ display:block;position:absolute;left:10px;top:10px;
+ width:var(--field-label-width);margin:0;
+ font-size:14px;line-height:20px;
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+:is(#parents .parent-card,#children .child-card) .fields label.field-row>.field-input{
+ display:block;position:absolute!important;
+ grid-column:auto!important;left:var(--field-x)!important;top:4px!important;
+ width:var(--field-width)!important;max-width:var(--field-width)!important;
+ height:35px!important;min-height:35px!important;
+ margin:0!important;box-sizing:border-box!important
+}
+ :is(#parents .parent-card,#children .child-card) .fields label.field-row:has(>.field-input[type=number])::after{
+ position:absolute;left:calc(var(--field-x) + var(--field-width) + 8px);
+ top:13px;right:auto;bottom:auto;grid-column:auto;
+ font-size:12px;line-height:16px
+}
+@media(max-width:700px){
+ :is(#parents .parent-card,#children .child-card) .fields label.field-row{
+  --field-x:48%;
+  --field-width:calc(52% - 43px);
+  --field-label-width:calc(var(--field-x) - 18px)
+ }
+ :is(#parents .parent-card,#children .child-card) .fields label.field-row:has(>.field-input[type=number])::after{font-size:11px}
+}
+@media(max-width:350px){
+ :is(#parents .parent-card,#children .child-card) .fields label.field-row>.field-label{font-size:12px}
+ :is(#parents .parent-card,#children .child-card) .fields label.field-row>.field-input{font-size:12px!important;padding:4px!important}
+}
+
+/* v0.517: lapsikohtaisen tuloksen selkeä kolmiportainen erittely */
+#results .child-payment-breakdown{padding:12px 8px;min-width:0}
+#results .child-payment-breakdown h4{font-size:14px;line-height:1.35;color:var(--text);margin:16px 0 6px;padding:0 0 6px;border-bottom:1px solid var(--border)}
+#results .child-payment-breakdown h4:first-child{margin-top:0}
+#results .child-payment-breakdown .result-lines{margin:0 0 8px}
+#results .child-payment-parties{margin-top:12px;font-weight:700}
+
+/* v0.517: prevent truncated labels and amounts on narrow screens */
+.panel,.tile,.parent-card,.child-card,.card-body,.fields,.fields>label,#results details{min-width:0;max-width:100%;overflow-wrap:anywhere}
+.fields input,.fields select,.fields textarea{width:100%;max-width:100%;box-sizing:border-box}
+.result-lines{grid-template-columns:minmax(0,1fr) minmax(0,max-content);min-width:0;max-width:100%}
+.result-lines>span{min-width:0;overflow-wrap:anywhere;white-space:normal}
+.result-lines>span:nth-child(even){text-align:right}
+#results .tile>div[style*="display:flex"],#results .child-result summary{min-width:0;flex-wrap:wrap}
+#results .tile>div[style*="display:flex"]>span,#results .child-result summary>*{min-width:0;overflow-wrap:anywhere}
+#results .tile>div[style*="display:flex"]>span:last-child{margin-left:auto;text-align:right}
+@media(max-width:420px){.result-lines{column-gap:8px;row-gap:7px}.result-lines>span{font-size:13px}.result-lines>span:nth-child(even){max-width:38vw}.panel,.tile{min-width:0}}
+
+
+body{font:14px Arial,sans-serif;line-height:1.35}main{max-width:980px;margin:auto}.panel{margin:12px 0}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,370px),1fr));gap:12px}.calc-card{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:14px;min-width:0}.calc-card h3{margin-top:0}.field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.field-grid label{min-width:0;overflow-wrap:anywhere}.field-grid input,.field-grid select{width:100%;min-width:0}.full{grid-column:1/-1}.section-title{grid-column:1/-1;margin:14px 0 0;padding-bottom:5px;border-bottom:1px solid var(--line);font-weight:bold}.actions-row{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.summary-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 16px}.summary-grid>*{min-width:0;overflow-wrap:anywhere}.summary-grid strong{text-align:right}.notice{padding:12px;border-left:3px solid #e6b55d;background:var(--head);margin:12px 0}.muted{font-size:12px}.hide{display:none!important}details>summary{cursor:pointer}.calc-card details{margin:10px 0}.calc-card details .field-grid{padding-top:10px}@media(max-width:480px){.field-grid{grid-template-columns:1fr}.cards{grid-template-columns:1fr}}
+</style></head><body data-theme="ocean"><div class="app"><header><strong>Elatusapulaskuri</strong><span class="version">v0.600</span></header><main><section class="panel"><h2>Alkutiedot</h2><div class="field-grid"><label>Asuuko lapsi vuorotellen vanhempiensa luona?<select id="shared"><option value="no">Ei</option><option value="yes">Kyllä</option></select></label><label>Yhteisten alaikäisten lasten lukumäärä<select id="count"></select></label><label>Vanhemman A luona asuvien omien alaikäisten lasten lukumäärä<input id="residentA" type="number" min="0" max="20" value="2"></label><label>Vanhemman B luona asuvien omien alaikäisten lasten lukumäärä<input id="residentB" type="number" min="0" max="20" value="3"></label><label>Vanhempi A uudessa avo- tai avioliitossa?<select id="partnerA"><option value="no">Ei</option><option value="yes">Kyllä</option></select></label><label>Vanhempi B uudessa avo- tai avioliitossa?<select id="partnerB"><option value="no">Ei</option><option value="yes">Kyllä</option></select></label></div></section><section class="panel"><h2>1. Vanhemmat</h2><div class="cards" id="parents"></div></section><section class="panel"><h2>2. Lapset</h2><div id="children"></div></section><section class="panel"><h2>3. Laskelman tulos</h2><div class="notice">Suuntaa antava arvio Lapin laskurin kenttien ja julkaistujen periaatteiden pohjalta. Ei virallisen Lapin laskurin tarkistettu laskentatoteutus. Tarkista lopullinen summa lastenvalvojalla.</div><div id="results"></div></section><p class="muted">Lähde: <a href="https://lapha.fi/fi/elatusapulaskuri" target="_blank" rel="noopener">Lapin hyvinvointialueen elatusapulaskuri</a>. Tiedot pysyvät vain avoimella sivulla, eikä niitä tallenneta.</p></main></div><script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id),n=x=>Math.max(0,Number(x)||0),eur=x=>Number(x||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR'}),esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const parentFields=[
+['Tulot (netto €/kk)','income','Ansiotulot','business','Elinkeinotoiminnan tulot','unemployment','Työttömyyspäiväraha','pension','Eläkkeet','social','Sosiaalietuudet','childIncrement','Lapsikorotusten osuus'],
+['Asumiskustannukset','rent','Vuokra, vastike ja asuntolainamenot','water','Vesi','electric','Sähkö','housingOther','Muut asumiskustannukset','housingAid','Asumistuki'],
+['Muut elinkustannukset','health','Erityiset terveydenhoitomenot','work','Työmatkakustannukset','student','Opintolainamenot','travel','Matkakulut lapsen tapaamisesta','otherSupport','Muu elatusvastuu (€ / kk)']
+];
+const childFields=[['Erityiset kustannukset','daycare','Päivähoitokulut','insurance','Vakuutusmaksut','health','Erityiset terveydenhoitokustannukset','other','Muut erityiset kustannukset'],['Elinkustannusten vähennykset','benefit','Lapsilisä','earned','Lapsen huomioitavat ansiotulot','capital','Lapsen pääomatulot']];
+const state={parents:[{name:'Vanhempi A'},{name:'Vanhempi B'}],children:[{name:'Lapsi 1',age:'3-6',nights:7}]};
+const basic={'0-2':362,'3-6':362,'7-12':422,'13-17':568};
+const livingSingle=726,livingPartner=611;
+const care={'0-2':[0,37,51,67],'3-6':[0,37,51,67],'7-12':[0,41,55,71.5],'13-17':[0,44.5,62.5,77.5]};
+function input(obj,key,label,opts={}){const id=opts.id||'';return '<label>'+esc(label)+(opts.select?'<select data-key="'+key+'" '+id+'>'+opts.select.map(x=>'<option value="'+esc(x[0])+'" '+(String(obj[key])===String(x[0])?'selected':'')+'>'+esc(x[1])+'</option>').join('')+'</select>':'<input type="'+(opts.text?'text':'number')+'" min="0" step="'+(opts.text?'any':'0.01')+'" data-key="'+key+'" value="'+esc(obj[key]??0)+'">')+'</label>'}
+function fieldset(obj,defs){return defs.map(arr=>'<div class="section-title">'+esc(arr[0])+'</div>'+arr.slice(1).reduce((out,x,i,a)=>i%2?out:out+input(obj,x,a[i+1]),'')).join('')}
+function renderParents(){ $('parents').innerHTML=state.parents.map((p,i)=>'<article class="calc-card" data-parent="'+i+'"><h3>Vanhempi '+(i?'B':'A')+'</h3><div class="field-grid">'+input(p,'name','Nimi',{text:true})+fieldset(p,parentFields)+'<details class="full"><summary>Muu elatusvastuu: erittely (valinnainen)</summary><div class="field-grid">'+input(p,'otherOwnChildren','Muut luona asuvat lapset, joista vastaat')+input(p,'otherChildCosts','Näistä laskettu elatusvastuu €/kk')+input(p,'otherElsewhere','Muualla asuvista maksettava elatusapu €/kk')+'</div></details></div></article>').join('')}
+function renderChildren(){ $('children').innerHTML='<div class="cards">'+state.children.map((c,i)=>'<article class="calc-card" data-child="'+i+'"><h3>Lapsi '+(i+1)+'</h3><div class="field-grid">'+input(c,'name','Lapsen nimi',{text:true})+input(c,'age','Lapsen ikäryhmä',{select:[['0-2','0–2 vuotta'],['3-6','3–6 vuotta'],['7-12','7–12 vuotta'],['13-17','13–17 vuotta']]})+input(c,'nights','Yöt vanhemman B luona / kk')+input(c,'generalA','Yleiset elinkustannukset, vanhempi A')+input(c,'generalB','Yleiset elinkustannukset, vanhempi B')+input(c,'housingA','Lapsen asumiskulut, vanhempi A')+input(c,'housingB','Lapsen asumiskulut, vanhempi B')+fieldset(c,childFields)+input(c,'benefitParent','Lapsilisän saaja',{select:[['A','Vanhempi A'],['B','Vanhempi B']]})+'</div></article>').join('')+'</div>'}
+function careDeduction(age,nights){const t=care[age]||care['3-6'];return nights<7?0:nights<10?t[1]:nights<13?t[2]:nights<16?t[3]:0}
+function parentCapacity(p,i){const income=['income','business','unemployment','pension','social'].reduce((a,k)=>a+n(p[k]),0);
+ const housing=['rent','water','electric','housingOther'].reduce((a,k)=>a+n(p[k]),0);
+ const sharedHousehold=$('partner'+(i?'B':'A')).value==='yes';
+ const housingNet=Math.max(0,housing*(sharedHousehold?.5:1)-n(p.housingAid));
+ const ownKids=n($('resident'+(i?'B':'A')).value);
+ const housingChildShare=housingNet*(ownKids?ownKids/(ownKids+1):0);
+ const housingParent=Math.max(0,housingNet-housingChildShare);
+ const living=sharedHousehold?livingPartner:livingSingle;
+ const other=n(p.otherSupport)+n(p.otherChildCosts)+n(p.otherElsewhere);
+ const expenses=living+housingParent+n(p.health)+n(p.work)+n(p.student)+Math.min(n(p.travel),147*state.children.length)+other;
+ return {income,expenses,capacity:Math.max(n(p.childIncrement),income-expenses,0),housingNet,housingChildShare};
+}
+function calculate(){
+ const shared=$('shared').value==='yes',p=state.parents.map(parentCapacity),sum=p[0].capacity+p[1].capacity;
+ const ratio=sum?p[0].capacity/sum:0;
+ const result=state.children.map(c=>{
+  const generalA=c.generalA==null?basic[c.age]:n(c.generalA),generalB=n(c.generalB);
+  const costA=generalA+n(c.housingA),costB=generalB+n(c.housingB);
+  const special=['daycare','insurance','health','other'].reduce((a,k)=>a+n(c[k]),0);
+  const reductions=n(c.benefit)+n(c.earned)+n(c.capital);
+  const need=Math.max(0,costA+costB+special-reductions);
+  const shareA=need*ratio,shareB=need*(1-ratio);
+  const deduction=shared?0:careDeduction(c.age,n(c.nights));
+  const payment=shared?Math.max(0,shareB-costB):Math.max(0,Math.min(shareB,p[1].capacity)-deduction);
+  return {name:c.name||'Lapsi',need,shareA,shareB,deduction,payment,costA,costB};
+ });
+ const rows=[['Vanhempi A: nettotulot',eur(p[0].income)],['Vanhempi A: hyväksytyt menot',eur(p[0].expenses)],['Vanhempi A: elatuskyky',eur(p[0].capacity)],['Vanhempi B: nettotulot',eur(p[1].income)],['Vanhempi B: hyväksytyt menot',eur(p[1].expenses)],['Vanhempi B: elatuskyky',eur(p[1].capacity)],['Elatuskyvyn jakosuhde A / B',(ratio*100).toFixed(1)+' % / '+((1-ratio)*100).toFixed(1)+' %']];
+ $('results').innerHTML='<div class="calc-card"><h3>Vanhempien elatuskyky</h3><div class="summary-grid">'+rows.map(x=>'<span>'+x[0]+'</span><strong>'+x[1]+'</strong>').join('')+'</div></div><div class="cards" style="margin-top:12px">'+result.map(x=>'<article class="calc-card"><h3>'+esc(x.name)+'</h3><div class="summary-grid">'+[['Elatuksen nettotarve',eur(x.need)],['Vanhempi A:n laskennallinen osuus',eur(x.shareA)],['Vanhempi B:n laskennallinen osuus',eur(x.shareB)],['Luonapitovähennys',eur(x.deduction)],['Arvioitu elatusapu B → A',eur(x.payment)]].map(y=>'<span>'+y[0]+'</span><strong>'+y[1]+'</strong>').join('')+'</div></article>').join('')+'</div><div class="calc-card" style="margin-top:12px"><div class="summary-grid"><strong>Elatusapu yhteensä / kk</strong><strong>'+eur(result.reduce((a,x)=>a+x.payment,0))+'</strong></div></div>';
+}
+function update(e){const field=e.target.dataset.key;if(!field)return;const card=e.target.closest('[data-parent],[data-child]');if(!card)return;const parent=card.dataset.parent!==undefined;const obj=parent?state.parents[+card.dataset.parent]:state.children[+card.dataset.child];obj[field]=e.target.type==='number'?n(e.target.value):e.target.value;calculate()}
+$('parents').addEventListener('input',update);$('parents').addEventListener('change',update);
+$('children').addEventListener('input',update);$('children').addEventListener('change',update);
+for(const id of ['shared','residentA','residentB','partnerA','partnerB'])$(id).addEventListener('change',calculate);
+for(let i=1;i<=7;i++)$('count').add(new Option(String(i),String(i)));
+$('count').value='1';$('count').addEventListener('change',()=>{const count=+$('count').value;while(state.children.length<count)state.children.push({name:'Lapsi '+(state.children.length+1),age:'3-6',nights:7});state.children.length=count;renderChildren();calculate()});
+renderParents();renderChildren();calculate();
+})();
+</script></body></html>
