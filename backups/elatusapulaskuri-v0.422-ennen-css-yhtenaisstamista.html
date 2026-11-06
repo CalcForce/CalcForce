@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="fi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Elatusapulaskuri 0.422</title>
+<style>
+:root{--bg:#061422;--panel:#0d2639;--head:#103f67;--line:#28617f;--text:#e9f8ff;--muted:#a5c6d7;--accent:#32d5ed;--field:#092033}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px Arial,sans-serif}.app{max-width:980px;margin:auto;padding-bottom:40px}
+header{display:flex;align-items:center;gap:12px;padding:14px;background:linear-gradient(100deg,#003475,#0052cd,#00245e)}header strong{font-size:21px}.menu-holder{position:relative}.menu-trigger{background:transparent;border:0;font-size:23px;padding:5px 9px}.app-menu{position:absolute;top:calc(100% + 9px);left:0;width:min(320px,calc(100vw - 32px));z-index:50;padding:14px;border:1px solid var(--line);border-radius:9px;background:var(--panel);box-shadow:0 12px 35px #0009;color:var(--text)}.app-menu[hidden]{display:none}.app-menu .actions{display:grid;grid-template-columns:1fr}.app-menu .actions button{width:100%;text-align:left}.app-menu label{margin:10px 0}.menu-brand{font-weight:bold;margin-bottom:12px}header small{display:block;color:#c9e7f8}.version{margin-left:auto;border:1px solid #7cb3e0;border-radius:20px;padding:5px 10px;font-weight:bold;font-size:12px}
+main{padding:8px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:15px;margin:9px 0}h2{font-size:19px;margin:0 0 12px}h3{font-size:16px;margin:14px 0 9px;border-bottom:1px solid var(--line);padding-bottom:6px}.muted{color:var(--muted);font-size:13px;line-height:1.5}
+button{border:1px solid #368df7;background:#0757cf;color:white;border-radius:6px;padding:9px 12px;cursor:pointer;font:inherit}button.secondary{background:#17384c;border-color:#56839a}button.danger{background:#702b38;border-color:#b86b79}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.parent-card,.child-card{border:1px solid var(--line);border-radius:8px;margin:10px 0;background:#0a2031;overflow:hidden}summary{cursor:pointer;padding:13px;background:var(--head);font-weight:bold}.card-body{padding:13px}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 16px}label{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--muted)}input,select{width:100%;min-width:0;background:var(--field);color:var(--text);border:1px solid #63899d;border-radius:5px;padding:9px;font:15px Arial}input:focus,select:focus{outline:2px solid var(--accent)}.row{display:flex;gap:8px;align-items:center;justify-content:space-between}.result{font-size:25px;font-weight:bold;color:#62f0dc}.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}.tile{padding:12px;border:1px solid var(--line);border-radius:8px}.child-result{margin:10px 0;padding:0;border:0;border-radius:8px;background:var(--panel);overflow:hidden}.child-result>summary{list-style:none;display:block;padding:9px 12px;background:var(--head);color:var(--text);font-size:15px;font-weight:bold;text-align:left;overflow-wrap:anywhere}.child-result>summary::-webkit-details-marker{display:none}.child-result>summary:before{content:'▶';font-size:13px;color:var(--text);margin-right:8px;display:inline-block}.child-result[open]>summary:before{content:'▼'}.child-result>summary .child-label{flex:1}.child-result>summary .child-amount{white-space:nowrap}.child-result .child-inner{padding:2px 0 12px 20px}.child-result h3{margin-top:0}.result-lines{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 16px;align-items:baseline}.result-lines span:nth-child(even){text-align:right;font-variant-numeric:tabular-nums}.result-lines .total{font-weight:bold;border-top:1px solid var(--line);padding-top:9px}.result-note{margin-top:10px}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:9px 5px;border-bottom:1px solid var(--line)}.scroll{overflow-x:auto}.warning{padding:12px;border-left:3px solid #e6b55d;background:#203144;font-size:13px}.empty{padding:14px;border:1px dashed var(--line);border-radius:7px;color:var(--muted)}
+body[data-theme=light]{--bg:#f4f8fc;--panel:#fff;--head:#e5f1fc;--line:#a7c5d9;--text:#15344b;--muted:#456477;--accent:#0757cf;--field:#fff}body[data-theme=forest]{--bg:#071b15;--panel:#123025;--head:#19503b;--line:#357e60;--text:#e4fff0;--muted:#add2bd;--accent:#61d9a0;--field:#0c251b}
+@media(max-width:600px){.fields{grid-template-columns:1fr}header strong{font-size:18px}.panel{padding:11px}table{font-size:13px}}
+@media print{body{background:#fff;color:#000}.actions,.no-print,button{display:none!important}.panel,.tile{border-color:#888;break-inside:avoid}input,select{color:#000;background:#fff}summary{color:#000;background:#eee}}
+
+/* v0.422: v0.292 visual language, modern unified calculator */
+:root{--bg:#000c17;--panel:#001827;--head:#002b44;--line:#17677c;--text:#00d9ef;--muted:#7cb8c7;--accent:#168aff;--field:#081722;--border:#00cde5;--inputtext:#fff;--result:#00e6d8}
+body{background:radial-gradient(ellipse at 60% 0%,#00345c 0%,#000c17 38%,#000710 100%);font:16px Arial,sans-serif}.app{max-width:900px}header{padding:13px 17px}header strong{font-size:24px}main{padding:0}.panel{margin:6px 8px;padding:0 12px 12px;border:1px solid var(--border);border-radius:6px;overflow:hidden}.panel>.row{background:var(--head);margin:0 -12px 10px;padding:5px;gap:8px}.panel>.row h2,.panel>h2{font-size:18px;color:var(--text)}.panel>.row h2{margin:0;display:flex;align-items:center;gap:11px}.panel>h2{background:var(--head);margin:0 -12px 10px;padding:5px;display:flex;align-items:center;gap:11px}.section-number{display:grid;place-items:center;min-width:39px;height:39px;border-radius:50%;background:linear-gradient(#067bff,#004ad8);border:1px solid #168aff;color:white;font-weight:bold}.panel>.row>button{font-size:14px}.parent-card,.child-card{background:var(--panel);border:1px solid var(--line);border-radius:5px;overflow:hidden}.child-card{border:0;margin:10px 0}.child-card>summary{border-bottom:0}.child-card[open]>summary{border-bottom:1px solid var(--line)}.parent-card summary,.child-card summary{padding:9px 12px;background:var(--head);color:var(--text)}.card-body{padding:10px 12px}.fields{display:block;max-width:750px}.fields>label{display:grid;grid-template-columns:minmax(135px,1.25fr) minmax(125px,1fr);align-items:center;column-gap:12px;min-height:38px;padding:3px 0;border-bottom:1px solid var(--line);font-size:14px;color:var(--text)}input,select{height:32px;padding:4px 10px;border-radius:3px;font:15px Arial;color:var(--inputtext);text-align:right}select{text-align:right}button{border-radius:4px;background:#0055e9;border-color:#2791ff;font:14px Arial}.app-menu{background:#092b45;color:white;border-color:#2a9fc7;width:260px}.app-menu label{color:white}.muted{font-size:12px}.warning{background:var(--head);color:var(--text);margin:8px 0;font-size:12px}.result{font-size:36px;color:var(--result);background:#063a2b;border:1px solid #008963;border-radius:5px;text-align:center;padding:10px;margin:8px 0}.tile{background:var(--panel);border-radius:5px}.child-result{background:var(--panel);border-color:var(--border);border-radius:6px}.child-result h3{color:var(--text)}.result-lines .total{color:var(--result)}
+body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;--text:#075a85;--muted:#536f80;--accent:#168aff;--field:#fff;--border:#70a7c4;--inputtext:#142c40;--result:#147950;background:#f3f7fb}body[data-theme=light] .result{background:#e8f8ee}body[data-theme=forest]{--bg:#08120f;--panel:#10271f;--head:#163a2d;--line:#275b48;--text:#9de6c0;--muted:#a1cdbb;--accent:#4ab48d;--field:#091a15;--border:#3baf87;--inputtext:#fff;--result:#9de6c0;background:linear-gradient(140deg,#0c241e,#08120f)}body[data-theme=forest] header{background:linear-gradient(90deg,#125a44,#167c5a)}body[data-theme=forest] .section-number{background:#187c5b;border-color:#4ab48d}
+@media(max-width:600px){header strong{font-size:19px}.panel>.row h2,.panel>h2{font-size:15px}.fields>label{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:6px;font-size:12px}.fields input,.fields select{font-size:13px;padding:3px 5px}.section-number{min-width:34px;height:34px}.result{font-size:30px}.panel>.row>button{padding:6px;font-size:12px}}
+@media print{body,body[data-theme]{background:white!important;color:black!important}.panel{border-color:#aaa}.panel>.row,.panel>h2{background:#eee!important}.panel h2,.panel h3{color:black!important}.result{color:black!important;background:white!important}}
+.app-menu .menu-brand{display:flex;flex-direction:column;gap:2px;margin:0 0 12px;color:#fff}.app-menu .menu-brand strong{font-size:17px}.app-menu .menu-brand small{font-size:12px;color:#c8e6f2}.app-menu .menu-theme label{display:block;color:#fff;font-size:14px}.app-menu .menu-theme select{display:block;width:100%;margin:7px 0 12px;height:32px}.app-menu .menu-actions{display:grid;gap:5px}.app-menu .menu-actions button{width:100%;text-align:left;margin:0;padding:10px 8px;font:14px Arial,sans-serif;background:#0055e9;border:1px solid #2791ff;color:#fff}.app-menu .menu-actions button.danger{background:#702b38;border-color:#b86b79}.app-menu .menu-version{margin-top:14px;padding-top:10px;border-top:1px solid #2a9fc7;font-size:12px;color:#c8e6f2}.menu-trigger{font-size:22px!important;background:transparent!important;border:0!important;padding:5px 9px!important;color:white!important}.app-menu{top:42px;left:0;width:260px;background:#092b45;color:white;border:1px solid #2a9fc7;border-radius:9px;padding:12px}
+.results-section{border:0;box-shadow:none;background:transparent;padding-left:0;padding-right:0}
+
+/* Piilota numerokenttien ylös/alas-nuolet osioissa 1 ja 2. */
+#parents input[type=number],#children input[type=number]{appearance:textfield;-moz-appearance:textfield}
+#parents input[type=number]::-webkit-inner-spin-button,#parents input[type=number]::-webkit-outer-spin-button,#children input[type=number]::-webkit-inner-spin-button,#children input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+
+/* Yksiköt numerokentän ulkopuolella oikealla */
+#parents label:has(>input[type=number]),#children label:has(>input[type=number]){display:grid;grid-template-columns:minmax(135px,1.25fr) minmax(90px,1fr) 42px;align-items:center;column-gap:8px}
+#parents label:has(>input[type=number])::after,#children label:has(>input[type=number])::after{content:'€/kk';position:static;transform:none;font-size:12px;color:var(--muted);pointer-events:none;white-space:nowrap;text-align:left}
+#parents label>input[type=number],#children label>input[type=number]{padding-right:10px}
+#parents label:has(>input[data-field=tax])::after{content:'%'}
+#children label:has(>input[data-field=nightsA])::after,#children label:has(>input[data-field=nightsB])::after{content:'yötä'}
+
+/* v0.422: yhteinen ulkoasujärjestelmä kaikille kolmelle osiolle */
+:root{--card-radius:6px;--card-space:10px;--card-padding:10px 12px;--control-height:35px;--card-outline:var(--line)}
+.panel>.row,.panel>h2{min-height:49px}
+.panel>.row h2,.panel>h2{line-height:1.25}
+.parent-card,.child-card,.child-result{margin:var(--card-space) 0;border:1px solid var(--card-outline);border-radius:var(--card-radius);background:var(--panel);overflow:hidden;box-shadow:none}
+.parent-card>summary,.child-card>summary,.child-result>summary{display:block;position:relative;list-style:none;min-height:39px;padding:10px 12px 10px 33px;background:var(--head);color:var(--text);font-size:15px;font-weight:700;line-height:19px;text-align:left;cursor:pointer;overflow-wrap:anywhere}
+.parent-card>summary::-webkit-details-marker,.child-card>summary::-webkit-details-marker,.child-result>summary::-webkit-details-marker{display:none}
+.parent-card>summary::before,.child-card>summary::before,.child-result>summary::before{content:'▶';position:absolute;left:12px;top:11px;font-size:12px;line-height:18px;color:var(--accent)}
+.parent-card[open]>summary::before,.child-card[open]>summary::before,.child-result[open]>summary::before{content:'▼'}
+.parent-card[open]>summary,.child-card[open]>summary,.child-result[open]>summary{border-bottom:1px solid var(--card-outline)}
+.parent-card .card-body,.child-card .card-body,.child-result>div{padding:10px 12px!important}
+.fields input,.fields select{height:var(--control-height);min-height:var(--control-height);border-radius:4px}
+.fields>label{min-height:42px}
+.tile{border:1px solid var(--card-outline);border-radius:var(--card-radius);background:var(--panel);padding:12px}
+.tile>.child-result:first-of-type{margin-top:12px}
+.result-lines{gap:8px 12px}
+.result-lines .total{padding-top:8px}
+.results-section{border:0!important;box-shadow:none!important;background:transparent!important}
+@media(max-width:600px){
+.parent-card>summary,.child-card>summary,.child-result>summary{font-size:14px;min-height:39px}
+#parents label:has(>input[type=number]),#children label:has(>input[type=number]){grid-template-columns:minmax(0,1.1fr) minmax(72px,1fr) 36px;column-gap:5px}
+#parents label:has(>input[type=number])::after,#children label:has(>input[type=number])::after{font-size:11px}
+.fields>label{min-height:40px}
+}
+@media print{.parent-card,.child-card,.child-result,.tile{border-color:#888!important}.parent-card>summary,.child-card>summary,.child-result>summary{color:#000!important;background:#eee!important}}
+
+/* v0.422: yhtenäinen sisäinen kenttäasettelu */
+:root{--label-col:minmax(0,1.25fr);--value-col:minmax(105px,1fr);--unit-col:43px;--row-gap:8px;--field-row-height:42px}
+#parents .fields,#children .fields{display:block;max-width:750px}
+#parents .fields>label,#children .fields>label{display:grid;grid-template-columns:var(--label-col) var(--value-col) var(--unit-col);column-gap:var(--row-gap);align-items:center;min-height:var(--field-row-height);padding:4px 0;margin:0;border-bottom:1px solid var(--line);font-size:14px;line-height:1.25}
+#parents .fields>label>input,#parents .fields>label>select,#children .fields>label>input,#children .fields>label>select{grid-column:2;height:35px;min-height:35px;width:100%;font:15px Arial,sans-serif;text-align:right}
+#parents .fields>label:has(>input[type=number]),#children .fields>label:has(>input[type=number]){grid-template-columns:var(--label-col) var(--value-col) var(--unit-col);column-gap:var(--row-gap)}
+#parents .fields>label:has(>input[type=number])::after,#children .fields>label:has(>input[type=number])::after{grid-column:3;justify-self:start;font-size:12px}
+#parents .fields>label:has(>input[data-field=housingSharePct])::after,#parents .fields>label:has(>input[data-field=tax])::after{content:'%'}
+.field-group-heading{font-size:14px;font-weight:bold;color:var(--text);margin:14px 0 3px;padding:7px 0 5px;border-bottom:1px solid var(--border)}
+.field-group-heading:first-child{margin-top:4px}
+.result-lines{grid-template-columns:minmax(0,1fr) minmax(95px,auto);gap:8px 12px;align-items:baseline}
+.result-lines span:nth-child(even){justify-self:end;text-align:right;font-variant-numeric:tabular-nums}
+.child-result .child-inner{padding:10px 12px!important}
+@media(max-width:600px){:root{--label-col:minmax(0,1.2fr);--value-col:minmax(75px,1fr);--unit-col:36px;--row-gap:5px;--field-row-height:40px}#parents .fields>label,#children .fields>label{font-size:12px}#parents .fields>label>input,#parents .fields>label>select,#children .fields>label>input,#children .fields>label>select{font-size:13px;padding:3px 5px}.field-group-heading{font-size:13px}}
+
+/* v0.422: menojen hyväksyttävyyden opastus */
+.expense-guidance{font-size:12px;line-height:1.4;color:var(--muted);margin:5px 0 8px;padding:7px 9px;border-left:2px solid var(--border);background:var(--head)}
+#parents .fields>label:has(>input[data-field=nonDeductible]){opacity:.85}
+
+/* v0.422: perusnäkymä, lisäasetukset ja tulosten yhteenveto */
+.parent-card:not(.advanced-open) .advanced-field{display:none!important}
+.advanced-toggle{margin:8px 0 12px;padding:9px 12px;font-weight:600;font-size:13px}
+.quick-results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}
+.quick-results>div{border:1px solid var(--line);border-radius:10px;padding:12px;min-width:0}
+.quick-results small{display:block;font-size:12px;line-height:1.4;color:var(--muted)}
+.quick-results strong{display:block;font-size:21px;margin-top:7px;overflow-wrap:anywhere}
+@media(max-width:650px){.quick-results{grid-template-columns:1fr}.quick-results>div{padding:10px 12px}.quick-results strong{font-size:19px}}
+
+.parent-card:not(.advanced-open) .advanced-field.context-relevant{display:block!important}
+.field-help{font-size:13px;color:var(--muted);cursor:help}
+.agreement-input{display:flex;align-items:center;gap:8px}.agreement-input input{min-width:0;flex:1}.agreement-unit{font-size:14px;font-weight:700;white-space:nowrap;min-width:24px}
+/* v0.422: selkeämpi lapsikortti ja tulosyhteenveto */
+.child-age-summary,.child-agreed-summary{font-size:12px;font-weight:400;color:var(--muted)}
+
+
+
+
+#results>.quick-results{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}
+#results>.quick-results>div:first-child{border-color:var(--border);background:var(--head)}
+#results>.quick-results>div:first-child strong{font-size:clamp(24px,4vw,34px);color:var(--result)}
+#results>h3{margin-top:18px}
+@media(max-width:600px){#results>.quick-results{grid-template-columns:1fr}.child-age-summary,.child-agreed-summary{font-size:11px}}
+
+/* v0.422: vanhempikortin osiot, laskentakentät ennallaan */
+.parent-section-heading{font-weight:700;color:var(--text);padding:12px 0 7px;border-bottom:1px solid var(--border)}
+
+
+
+
+
+.parent-card .advanced-toggle{margin:4px 0 10px}
+
+/* v0.422: vanhempi- ja lapsikorttien yhtenäinen ulkoasu */
+.parent-card,.child-card{border:1px solid var(--card-outline);border-radius:var(--card-radius);background:var(--panel);margin:var(--card-space) 0}
+.parent-card>summary,.child-card>summary{min-height:42px;padding:11px 12px 11px 33px;font-size:15px;line-height:19px}
+.parent-card .card-body,.child-card .card-body{padding:12px!important}
+.parent-card .fields,.child-card .fields{display:block;max-width:750px}
+.parent-card .fields>label,.child-card .fields>label{min-height:42px}
+
+.parent-subsection>summary,
+.parent-section-heading,.field-group-heading{font-size:14px;font-weight:700;color:var(--text);margin:12px 0 5px;padding:8px 0 6px;border-bottom:1px solid var(--border)}
+@media(max-width:600px){.parent-card>summary,.child-card>summary{font-size:14px}.parent-section-heading,.field-group-heading{font-size:13px}}
+
+/* v0.422: vanhempikortin kaikki kentät näkyvät heti kortin avautuessa */
+.parent-card .advanced-field,.parent-card:not(.advanced-open) .advanced-field{display:grid!important}
+.parent-card .fields{display:block;max-width:750px}
+.parent-card .fields>label{display:grid;grid-template-columns:minmax(135px,1.25fr) minmax(125px,1fr);align-items:center;gap:10px;min-height:42px;padding:5px 0;border-bottom:1px solid var(--line)}
+.parent-card .parent-section-heading{margin:16px 0 4px;padding:9px 0 7px;font-size:14px;font-weight:700;color:var(--text);border-bottom:1px solid var(--border)}
+@media(max-width:600px){.parent-card .fields>label{grid-template-columns:1fr;gap:5px;padding:8px 0}}
+
+/* v0.422: kaikki lapsikortin käytettävissä olevat kentät näkyvät avattaessa */
+.child-card .advanced-field,.child-card:not(.advanced-open) .advanced-field{display:grid!important}
+.child-card .child-all-fields{display:block}
+.child-card .child-all-fields>label{display:grid;grid-template-columns:minmax(135px,1.25fr) minmax(125px,1fr);align-items:center;gap:10px;min-height:42px;padding:5px 0;border-bottom:1px solid var(--line);font-size:14px;color:var(--text)}
+.child-card .child-all-fields>.field-group-heading{margin:16px 0 5px}
+@media(max-width:600px){.child-card .child-all-fields>label{grid-template-columns:1fr;gap:5px;padding:8px 0}}
+
+/* v0.422: vanhempikortin selkeä asettelu ilman päällekkäisyyksiä */
+.parent-card .fields{display:block;max-width:100%;min-width:0}
+.parent-card .fields>label{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px 14px;align-items:center;min-width:0;min-height:44px;line-height:1.35;overflow-wrap:anywhere}
+.parent-card .fields>label>input,.parent-card .fields>label>select{width:100%;min-width:0;max-width:100%;box-sizing:border-box}
+.parent-card .parent-section-heading{clear:both;margin:18px 0 6px}
+@media(max-width:700px){.parent-card .fields>label{grid-template-columns:minmax(0,1fr);gap:6px;padding:9px 0}.parent-card .fields>label>input,.parent-card .fields>label>select{text-align:left}}
+
+/* v0.422: kohdan 3 ulkoasu yhtenäinen vanhempi- ja lapsikorttien kanssa */
+.results-section #results{min-width:0;max-width:100%}
+.results-section #results>h3{font-size:14px;font-weight:700;color:var(--text);margin:18px 0 6px;padding:9px 0 7px;border-bottom:1px solid var(--border)}
+.results-section #results>details.child-result{
+ border:1px solid var(--card-outline);border-radius:var(--card-radius);
+ background:var(--panel);margin:var(--card-space) 0;min-width:0;overflow:hidden
+}
+.results-section #results>details.child-result>summary{
+ min-height:42px;padding:11px 12px 11px 33px;font-size:15px;
+ line-height:1.35;background:var(--head);color:var(--text);
+ overflow-wrap:anywhere;cursor:pointer
+}
+.results-section #results>details.child-result[open]>summary{border-bottom:1px solid var(--line)}
+.results-section #results>details.child-result>div,
+.results-section #results>details.child-result>p{margin-left:12px;margin-right:12px}
+.results-section #results .result-lines{
+ display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+ align-items:baseline;gap:8px 14px;min-width:0
+}
+.results-section #results .result-lines>span{
+ min-width:0;overflow-wrap:anywhere;line-height:1.4;
+ padding:6px 0;border-bottom:1px solid var(--line)
+}
+.results-section #results .result-lines>span:nth-child(even){text-align:right;justify-self:stretch}
+.results-section #results .tile,.results-section #results .quick-results>div{
+ border:1px solid var(--card-outline);border-radius:var(--card-radius);
+ background:var(--panel);min-width:0
+}
+.results-section #results .summary-grid{min-width:0;max-width:100%}
+@media(max-width:700px){
+ .results-section #results>details.child-result>summary{font-size:14px}
+ .results-section #results .result-lines{grid-template-columns:minmax(0,1fr) minmax(85px,auto);gap:6px 10px;font-size:13px}
+ .results-section #results .result-lines>span{padding:8px 0}
+}
+
+/* v0.422: kohdan 3 ulkokehys sama kuin kohdissa 1 ja 2 */
+.panel.results-section{background:var(--panel)!important;border:1px solid var(--border)!important;border-radius:6px!important;box-shadow:none!important;padding:0 12px 12px!important;margin:6px 8px!important;overflow:hidden}
+.panel.results-section>h2{margin:0 -12px 10px;padding:5px;background:var(--head);min-height:49px}
+
+/* v0.422: tulosrivit samalla X-koordinaatistolla kuin syöttörivit */
+@media(min-width:701px){
+ #results .result-lines{display:grid;grid-template-columns:240px 200px 43px!important;column-gap:8px!important;row-gap:0!important;justify-content:start!important;align-items:stretch}
+ #results .result-lines>span{min-width:0;min-height:44px;display:flex;align-items:center;padding:4px 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+ #results .result-lines>span:nth-child(odd){grid-column:1;justify-content:flex-start;text-align:left}
+ #results .result-lines>span:nth-child(even){grid-column:2;justify-content:flex-end;text-align:right;width:200px;max-width:200px;font-variant-numeric:tabular-nums}
+ #results .result-lines>span.total{font-weight:700;color:var(--result);border-top:1px solid var(--border)}
+}
+@media(max-width:700px){
+ #results .result-lines{grid-template-columns:minmax(0,1fr) minmax(85px,auto)!important;gap:6px 10px!important}
+ #results .result-lines>span:nth-child(odd){text-align:left}
+ #results .result-lines>span:nth-child(even){text-align:right;justify-self:end}
+}
+
+/* v0.422: kaikki lapsikortin kenttäryhmät täsmälleen vanhempikortin riveiksi */
+@media(min-width:701px){
+ #children .child-card .fields>label,
+ #children .child-card .child-all-fields>label,
+ #children .child-card .shared-fields>label,
+ #children .child-card .custom-share-field{
+  display:grid!important;grid-template-columns:240px 200px 43px!important;
+  column-gap:8px!important;row-gap:0!important;justify-content:start!important;
+  align-items:center!important;min-height:44px!important;padding:4px 0!important;
+  border-bottom:1px solid var(--line);font-size:14px;line-height:1.35;
+  max-width:100%;box-sizing:border-box
+ }
+ #children .child-card .fields>label>input,
+ #children .child-card .fields>label>select,
+ #children .child-card .child-all-fields>label>input,
+ #children .child-card .child-all-fields>label>select,
+ #children .child-card .shared-fields>label>input,
+ #children .child-card .shared-fields>label>select,
+ #children .child-card .custom-share-field>input,
+ #children .child-card .custom-share-field>select,
+ #children .child-card .agreement-input{
+  grid-column:2!important;width:200px!important;max-width:200px!important;
+  min-width:0!important;box-sizing:border-box
+ }
+ #children .child-card .fields>label>input,
+ #children .child-card .fields>label>select,
+ #children .child-card .child-all-fields>label>input,
+ #children .child-card .child-all-fields>label>select,
+ #children .child-card .shared-fields>label>input,
+ #children .child-card .shared-fields>label>select{height:35px!important;min-height:35px!important}
+ #children .child-card .agreement-input input{width:100%!important;min-width:0!important;height:35px!important}
+ #children .child-card .child-all-fields,
+ #children .child-card .shared-fields{width:100%;max-width:750px}
+}
+@media(max-width:700px){
+ #children .child-card .fields>label,
+ #children .child-card .child-all-fields>label,
+ #children .child-card .shared-fields>label,
+ #children .child-card .custom-share-field{
+  display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+  gap:6px!important;padding:9px 0!important;min-height:44px;
+  border-bottom:1px solid var(--line)
+ }
+ #children .child-card .agreement-input{max-width:100%;min-width:0}
+ #children .child-card .agreement-input input{min-width:0;flex:1}
+}
+
+/* v0.422: yksi yhteinen kenttärakenne ja tyylisääntö kaikille vanhempi- ja lapsikortin kenttäryhmille */
+#parents .parent-card .fields,
+#children .child-card .fields,
+#children .child-card .child-all-fields,
+#children .child-card .shared-fields{display:block;min-width:0;max-width:750px;width:100%}
+#parents .parent-card .fields label:has(>input),
+#parents .parent-card .fields label:has(>select),
+#children .child-card .fields label:has(>input),
+#children .child-card .fields label:has(>select),
+#children .child-card .fields label:has(>.agreement-input){
+ display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+ align-items:center!important;column-gap:14px!important;row-gap:6px!important;
+ min-height:44px!important;padding:7px 0!important;
+ border-bottom:1px solid var(--line)!important;
+ font-size:14px!important;line-height:1.35!important;color:var(--text)!important;
+ min-width:0;box-sizing:border-box;overflow-wrap:anywhere
+}
+#parents .parent-card .fields label>input,
+#parents .parent-card .fields label>select,
+#children .child-card .fields label>input,
+#children .child-card .fields label>select,
+#children .child-card .fields label>.agreement-input{
+ grid-column:2!important;min-width:0!important;max-width:100%!important;
+ width:100%!important;box-sizing:border-box
+}
+#parents .parent-card .fields label>input,
+#parents .parent-card .fields label>select,
+#children .child-card .fields label>input,
+#children .child-card .fields label>select{height:35px!important;min-height:35px!important}
+#children .child-card .agreement-input input{height:35px!important;min-height:35px!important;min-width:0!important}
+#parents .parent-card .parent-section-heading,
+#children .child-card .field-group-heading{
+ font-size:14px!important;font-weight:700!important;color:var(--text)!important;
+ margin:16px 0 4px!important;padding:9px 0 7px!important;
+ border-bottom:1px solid var(--border)!important
+}
+@media(min-width:701px){
+ #parents .parent-card .fields label:has(>input),
+ #parents .parent-card .fields label:has(>select),
+ #children .child-card .fields label:has(>input),
+ #children .child-card .fields label:has(>select),
+ #children .child-card .fields label:has(>.agreement-input){
+  grid-template-columns:240px 200px 43px!important;
+  column-gap:8px!important;justify-content:start!important;padding:4px 0!important
+ }
+ #parents .parent-card .fields label>input,
+ #parents .parent-card .fields label>select,
+ #children .child-card .fields label>input,
+ #children .child-card .fields label>select,
+ #children .child-card .fields label>.agreement-input{
+  width:200px!important;max-width:200px!important
+ }
+}
+@media(max-width:700px){
+ #parents .parent-card .fields label:has(>input),
+ #parents .parent-card .fields label:has(>select),
+ #children .child-card .fields label:has(>input),
+ #children .child-card .fields label:has(>select),
+ #children .child-card .fields label:has(>.agreement-input){
+  grid-template-columns:minmax(0,1fr)!important;gap:6px!important;padding:9px 0!important
+ }
+ #parents .parent-card .fields label>input,
+ #parents .parent-card .fields label>select,
+ #children .child-card .fields label>input,
+ #children .child-card .fields label>select,
+ #children .child-card .fields label>.agreement-input{grid-column:1!important}
+}
+</style></head><body data-theme="ocean"><div class="app"><header><div class="menu-holder"><button id="menuTrigger" class="menu-trigger" type="button" aria-label="Avaa valikko" aria-expanded="false" aria-controls="appMenu">☰</button><div id="appMenu" class="app-menu" hidden><div class="menu-brand"><strong>Elatusapulaskuri</strong><small>CalcForce</small></div><div class="menu-theme"><label for="theme">Teema</label><select id="theme"><option value="ocean">Sininen</option><option value="light">Vaalea</option><option value="forest">Vihreä</option></select></div><div class="menu-actions"><button id="print" type="button">▣ PDF-raportti (tulosta / tallenna PDF)</button><button id="save" type="button">▣ Tallenna laskelma tiedostoon</button><button id="load" type="button">▣ Avaa tallennettu laskelma</button><button id="clear" type="button" class="danger">▣ Tyhjennä laskuri</button></div><input id="file" type="file" accept=".json,application/json" hidden><div class="menu-version">CalcForce · Versio 0.422</div></div></div><div><strong>CalcForce</strong><small>Elatusapulaskuri</small></div><span class="version">v0.422</span></header><main>
+<div class="warning">Suuntaa antava laskuri. Tulokset eivät ole virallinen elatusapupäätös. Elatuskyky, muiden lasten vastuu ja asumisjärjestelyt on arvioitava tapauskohtaisesti.</div>
+<section class="panel"><div class="row"><h2><span class="section-number">1</span>Vanhempien tiedot</h2></div><p class="muted">Avaa vanhempikortti nähdäksesi kaikki tulot ja menot.</p><div id="parents"></div></section>
+<section class="panel"><div class="row"><h2><span class="section-number">2</span>Lasten tiedot</h2><button id="addChild">+ Lisää lapsi</button></div><p class="muted">Avaa lapsikortti nähdäksesi valitun laskentatavan tiedot.</p><div id="children"></div></section>
+<section class="panel results-section"><h2><span class="section-number">3</span>Laskentatulokset</h2><div id="results">Lisää vähintään kaksi vanhempaa ja yksi lapsi.</div></section>
+
+</main></div>
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
+// Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
+// Muotoilu tehdään kentästä poistuttaessa, jotta kirjoittaminen ei keskeydy.
+const fixed2=v=>Number.isFinite(Number(v))?String(Math.round(Math.max(0,Number(v)))):'0';
+const formatNumericInputs=()=>document.querySelectorAll('#parents input[type="number"],#children input[type="number"]').forEach(el=>{if(el.dataset.field!=='nightsA'&&el.dataset.field!=='nightsB')el.value=fixed2(el.value)});
+const parentFields=[
+['gross','Bruttotulot sisältäen luontoisedut','number'],['taxMode','Veroprosentin laskentatapa','select',['auto','manual'],['Automaattinen arvio','Oma veroprosentti']],['tax','Arvioitu veroprosentti (%) – muokattavissa','number'],['taxKind','Tulolaji','select',['employee','sole','company'],['Palkansaaja','Yksityinen elinkeinonharjoittaja','Osakeyhtiö']],['yel','Itse maksettava YEL (vain toiminimi)','number'],
+['autoBenefit','Autoetu, verotusarvo','number'],['homeBenefit','Asuntoetu, verotusarvo','number'],['homeBenefitMethod','Asuntoedun huomiointi elatuskyvyssä','select',['housing','manual','tax'],['Asumismenojen kautta (oletus)','Erikseen arvioitu taloudellinen hyöty','Verotusarvo alustavana arviona']],['homeBenefitValue','Asuntoedun arvioitu taloudellinen hyöty €/kk','number'],['capital','Pääomatulot verojen jälkeen','number'],['otherIncome','Muut rahatulot','number'],['benefitAddition','Luontoisetujen erikseen arvioitu vaikutus elatuskykyyn','number'],
+['housingSharePct','Vanhemman osuus yhteisistä asumismenoista (%)','number'],['housingMode','Asumisen muoto','select',['rent','benefit'],['Itse maksetut asumismenot','Asuntoetu ja itse maksetut kulut']],['housing','Asumismenot / vuokra','number'],['rentPaid','Asuntoedussa itse maksetut asumiskulut','number'],['housingAid','Asumistuki','number'],['livingSituation','Vanhemman perhemuoto','select',['single','partner'],['Yksin asuva / yksinhuoltaja','Parisuhteessa asuva']],['livingMode','Yleisten elinkustannusten laskentatapa','select',['auto','manual'],['Automaattinen (2026)','Oma arvo']],['living','Yleiset elinkustannukset €/kk','number'],
+['work','Välttämättömät työmatkakulut','number'],['health','Erityiset terveyskulut','number'],['travel','Hyväksyttävät tapaamismatkakulut','number'],['studentLoan','Opintolainan hyväksyttävät korot ja lyhennykset','number'],['otherCost','Muut erikseen perustellut hyväksyttävät kulut','number'],['nonDeductible','Muut henkilökohtaiset menot (ei vähennetä)','number'],['otherChildren','Muiden lasten elatusvastuun muu vähennys, ei jo laskurissa olevista lapsista','number']];
+const defaults=()=>({includeIncome:true,...Object.fromEntries(parentFields.map(([k,t,kind])=>[k,k==='housingSharePct'?50:kind==='select'?(k==='homeBenefitMethod'?'housing':k==='taxKind'?'employee':k==='taxMode'||k==='livingMode'?'auto':k==='livingSituation'?'single':'rent'):0]))});
+// Suuntaa antava efektiivisen tuloveron arvio. Ei Verohallinnon verokorttilaskenta.
+function estimatedTax(gross){const annual=num(gross)*12;if(!annual)return 0;const brackets=[[18000,.05],[30000,.15],[50000,.25],[80000,.34],[Infinity,.40]];let rest=annual,prev=0,tax=0;for(const [limit,rate] of brackets){const part=Math.min(rest,limit-prev);if(part>0){tax+=part*rate;rest-=part}prev=limit;if(rest<=0)break}return Math.round(tax/annual*1000)/10}
+// v0.422: valmiiksi luodut henkilöt, ei selaintallennusta.
+const initialParents=[
+{id:'parent-tero',name:'Tero',...defaults(),gross:3333,taxKind:'company',autoBenefit:971,homeBenefit:1134,housingMode:'benefit'},
+{id:'parent-enni',name:'Enni',...defaults(),gross:2000,housing:900,housingAid:500}
+];
+const initialChild=(id,name,age,a,b,extra={})=>({id,name,age,basic:({'0-2':362,'3-6':362,'0-6':362,'7-12':422,'13-17':568})[age],basicMode:'auto',resident:'',benefit:0,benefitMode:'auto',under3:false,singleSupplement:false,benefitRecipient:'',nightsA:0,nightsB:0,careDeduction:0,supportMode:'payment',sharedResponsibilityMode:'half',sharedResponsibilityPct:50,agreementMode:'income',agreementType:'percent',agreementValue:50,housingCostMode:'auto',housingScope:'auto',housingCost:0,includeImputedHousing:'yes',sharedPaymentMode:'calculate',special:0,other:0,a,b,...extra});
+const initialChildren=[
+initialChild('child-venla','Venla','0-2','parent-tero','parent-enni',{resident:'parent-enni',nightsA:7,nightsB:23,benefitRecipient:'parent-enni',under3:true,singleSupplement:true}),
+initialChild('child-eetu','Eetu','3-6','parent-tero','parent-enni',{resident:'parent-enni',nightsA:7,nightsB:23,benefitRecipient:'parent-enni',singleSupplement:true}),
+initialChild('child-arttu','Arttu','13-17','parent-tero','',{supportMode:'capacity',agreementMode:'agreed',agreementType:'percent',agreementValue:50,resident:'parent-tero',nightsA:16,nightsB:14,benefitRecipient:'',singleSupplement:true,livingArrangement:'shared',sharedPaymentMode:'zero'}),
+initialChild('child-vilho','Vilho','13-17','parent-tero','',{supportMode:'capacity',agreementMode:'agreed',agreementType:'percent',agreementValue:50,resident:'parent-tero',nightsA:16,nightsB:14,benefitRecipient:'',singleSupplement:true,livingArrangement:'shared',sharedPaymentMode:'zero'}),
+initialChild('child-alma','Alma','7-12','parent-tero','',{supportMode:'capacity',agreementMode:'agreed',agreementType:'percent',agreementValue:50,resident:'parent-tero',nightsA:16,nightsB:14,benefitRecipient:'',singleSupplement:true,livingArrangement:'shared',sharedPaymentMode:'zero'})
+];
+let state={version:'0.422',parents:initialParents,children:initialChildren},sequence=0;
+const id=prefix=>prefix+'-'+Date.now().toString(36)+'-'+(++sequence);
+const parentGroup=k=>({gross:'Tulot',housingSharePct:'Asuminen',work:'Erikseen selvitettävät menot',nonDeductible:'Menot, joita ei yleensä vähennetä'})[k]||'';
+const field=(k,label,kind,opts,labels,value)=>(parentGroup(k)?'<div class="field-group-heading">'+parentGroup(k)+'</div>':'')+(k==='nonDeductible'?'<p class="expense-guidance">Esimerkiksi ruoka, vaatteet, puhelin, harrastukset, kulutusluotot ja säästäminen sisältyvät yleiskuluihin tai eivät yleensä oikeuta erilliseen vähennykseen. Tähän merkitty summa ei vaikuta elatuskykyyn.</p>':k==='work'?'<p class="expense-guidance">Vain perusteltavat ja ohjeen mukaan hyväksyttävät menot. Säilytä selvitykset ja kuitit. Tavalliset elinkustannukset sisältyvät jo yleiskuluihin.</p>':'')+'<label>'+esc(label)+(kind==='select'?'<select data-field="'+k+'">'+opts.map((v,i)=>'<option value="'+v+'" '+(v===value?'selected':'')+'>'+esc(labels[i])+'</option>').join('')+'</select>':'<input data-field="'+k+'" type="number" min="0" step="1" value="'+esc(fixed2(value))+'">')+'</label>';
+const estimatedLiving=p=>p.livingSituation==='partner'?611:726;
+const expandedAdvanced=new Set();
+let firstParentRender=true,firstChildRender=true;
+const parentAdvanced=new Set(['taxMode','tax','yel','homeBenefitMethod','homeBenefitValue','capital','otherIncome','benefitAddition','housingSharePct','rentPaid','livingMode','living','work','health','travel','studentLoan','otherCost','nonDeductible','otherChildren']);
+const childAdvanced=new Set(['basicMode','basic','benefitMode','housingShareMethod','sharedHousingMethod','housingCostMode','housingCost','includeImputedHousing','sharedPaymentMode','sharedPaidA','sharedPaidB','sharedHousingA','sharedHousingB','sharedBenefitMode','sharedBenefitA','sharedBenefitB','careDeduction','careMode','special','other']);
+function decorateAdvanced(kind){const root=$(kind==='parent'?'parents':'children');for(const card of root.querySelectorAll(kind==='parent'?'[data-parent]':'[data-child]')){const id=card.dataset[kind];card.classList.toggle('advanced-open',expandedAdvanced.has(id));const fields=kind==='parent'?parentAdvanced:childAdvanced;for(const label of card.querySelectorAll('label')){const input=label.querySelector('[data-field]');if(input&&fields.has(input.dataset.field))label.classList.add('advanced-field');if(input){const k=input.dataset.field,record=kind==='parent'?state.parents.find(p=>p.id===id):state.children.find(c=>c.id===id);const relevant=kind==='parent'?(k==='homeBenefitMethod'&&record?.housingMode==='benefit'||k==='homeBenefitValue'&&record?.housingMode==='benefit'&&record?.homeBenefitMethod==='manual'||k==='rentPaid'&&record?.housingMode==='benefit'||k==='housingSharePct'&&record?.livingSituation==='partner'||k==='tax'&&record?.taxMode==='manual'||k==='living'&&record?.livingMode==='manual'):(k==='housingCost'&&record?.housingCostMode==='manual'||k==='housingScope'||k==='housingCostMode'&&record?.housingScope!=='none');if(relevant)label.classList.add('context-relevant');const tips={gross:'Bruttotulot sisältävät myös verotettavat luontoisedut.',housingScope:'Pääasiallisessa asumisessa oletus on vain asuinvanhemman asumiskulut. Vuoroasumisessa molempien.',benefitRecipient:'Lapsilisä vähennetään lapsen tarpeesta vain kerran.',livingArrangement:'Vuoroasumisessa lapsen kustannukset jaetaan molempien kotien välillä.',housingCostMode:'Oma summa korvaa automaattisen osuuden.',autoBenefit:'Autoetu ei ole rahapalkkaa.'};if(tips[k]){label.title=tips[k];const hint=document.createElement('span');hint.className='field-help';hint.title=tips[k];hint.textContent=' ⓘ';label.insertBefore(hint,input)}}}const body=card.querySelector('.card-body');if(body&&kind!=='child'){const btn=document.createElement('button');btn.type='button';btn.className='advanced-toggle';btn.dataset.action='toggle-advanced';btn.textContent=expandedAdvanced.has(id)?'Piilota lisäasetukset':'Näytä lisäasetukset';body.insertBefore(btn,body.querySelector('.fields'));}}}
+function groupParentFields(){
+const groups=[
+ ['Tulot',['gross','taxKind','autoBenefit','homeBenefit','taxMode','tax','yel','homeBenefitMethod','homeBenefitValue','capital','otherIncome','benefitAddition']],
+ ['Asuminen ja elinkustannukset',['housingSharePct','housingMode','housing','rentPaid','housingAid','livingSituation','livingMode','living']],
+ ['Muut menot ja vähennykset',['work','health','travel','studentLoan','otherCost','nonDeductible','otherChildren']]
+];
+for(const card of document.querySelectorAll('#parents [data-parent]')){
+ const fields=card.querySelector('.fields');if(!fields)continue;
+ const nodes=[...fields.children],used=new Set();
+ // Poista kenttägeneraattorin vanhat väliotsikot ja ohjetekstit: ryhmittely lisää otsikot vain kerran.
+ for(const n of nodes){if(n.classList?.contains('field-group-heading')||n.classList?.contains('expense-guidance')){n.remove();used.add(n)}}
+ for(const [title,keys] of groups){
+  const matched=nodes.filter(n=>keys.includes(n.querySelector?.('[data-field]')?.dataset.field));
+  if(!matched.length)continue;
+  const heading=document.createElement('div');heading.className='parent-section-heading';heading.textContent=title;
+  fields.append(heading,...matched);matched.forEach(n=>used.add(n));
+ }
+ for(const n of nodes)if(!used.has(n)&&n.isConnected&&n.matches('label'))fields.insertBefore(n,fields.firstChild);
+}
+}
+function renderParents(){
+const open=new Set([...document.querySelectorAll('#parents > details[open]')].map(x=>x.dataset.parent));
+firstParentRender=false;
+$('parents').innerHTML=state.parents.length?state.parents.map((p,i)=>
+ '<details class="parent-card" data-parent="'+esc(p.id)+'" '+(open.has(p.id)?'open':'')+'><summary>'+esc(p.name||'Vanhempi '+(i+1))+'</summary><div class="card-body"><div class="fields"><label>Vanhemman nimi<input data-field="name" type="text" maxlength="80" value="'+esc(p.name)+'"></label>'
+ +parentFields.filter(f=>(f[0]!=='yel'||p.taxKind==='sole')&&(f[0]!=='homeBenefitValue'||(p.housingMode==='benefit'&&p.homeBenefitMethod==='manual'))&&(f[0]!=='homeBenefitMethod'||p.housingMode==='benefit')).map(f=>field(f[0],f[1],f[2],f[3],f[4],(f[0]==='tax'&&p.taxMode!=='manual'?estimatedTax(p.gross):f[0]==='living'&&p.livingMode!=='manual'?estimatedLiving(p):p[f[0]]))).join('')
+ +'</div></div></details>').join(''):'<div class="empty">Ei vanhempia.</div>';
+groupParentFields();
+}
+const ageCosts={'0-2':362,'3-6':362,'0-6':362,'7-12':422,'13-17':568};
+// Lapsilisän 2026 porrastus on saajakohtainen; manuaalinen summa ohittaa automatiikan.
+const benefitSteps=[94.88,104.84,133.79,173.24,192.69];
+function baseBenefitFor(c,children=state.children){
+if(c.benefitMode==='manual')return num(c.benefit);
+if(!c.benefitRecipient)return 0;
+const siblings=children.filter(x=>x.benefitRecipient===c.benefitRecipient);
+const index=siblings.findIndex(x=>x.id===c.id);
+return index<0?0:benefitSteps[Math.min(index,4)];
+}
+const underThreeBenefit=c=>c.benefitRecipient&&c.age==='0-2'?26:0;
+const singleParentBenefit=c=>c.benefitRecipient&&state.parents.find(p=>p.id===c.benefitRecipient)?.livingSituation==='single'?73.30:0;
+function benefitFor(c,children=state.children){return baseBenefitFor(c,children)+underThreeBenefit(c)+singleParentBenefit(c)}
+
+function renderChildren(){const opened=new Set([...document.querySelectorAll('#children details[open]')].map(x=>x.dataset.child));firstChildRender=false;const opts=state.parents.map(p=>'<option value="'+esc(p.id)+'">'+esc(p.name||'Nimetön vanhempi')+'</option>').join('');$('children').innerHTML=state.children.length?state.children.map((c,i)=>'<details class="parent-card child-card" data-child="'+esc(c.id)+'" '+(opened.has(c.id)?'open':'')+'><summary>'+esc(c.name||'Lapsi '+(i+1))+' <span class="child-age-summary">· '+esc(({'0-2':'0–2 v','3-6':'3–6 v','7-12':'7–12 v','13-17':'13–17 v'})[c.age]||'')+'</span>'+(c.agreementMode==='agreed'&&c.agreementType!=='amount'?'<span class="child-agreed-summary"> · '+esc(String(c.agreementValue??50))+' % / '+esc(String(100-num(c.agreementValue??50)))+' %</span>':'')+'</summary><div class="card-body"><div class="fields"><label>Lapsen nimi<input data-field="name" type="text" maxlength="80" value="'+esc(c.name)+'"></label>'+ '<label>Ikäryhmä<select data-field="age">'+[['0-2','0–2 vuotta'],['3-6','3–6 vuotta'],['7-12','7–12 vuotta'],['13-17','13–17 vuotta']].map(([v,l])=>'<option value="'+v+'" '+(c.age===v?'selected':'')+'>'+l+'</option>').join('')+'</select></label><label>Laskentatapa<select data-field="agreementMode"><option value="income" '+(c.agreementMode!=='agreed'?'selected':'')+'>Elatuskyvyn perusteella</option><option value="agreed" '+(c.agreementMode==='agreed'?'selected':'')+'>Sovittu osuus</option></select></label>'+(c.agreementMode==='agreed'?'<label>Sopimuksen muoto<select data-field="agreementType"><option value="percent" '+(c.agreementType!=='amount'?'selected':'')+'>Prosenttiosuus</option><option value="amount" '+(c.agreementType==='amount'?'selected':'')+'>Euromäärä</option></select></label><label>Osuudesta vastaava vanhempi<select data-field="a"><option value="">Valitse vanhempi</option>'+opts.replace('value="'+esc(c.a)+'"','value="'+esc(c.a)+'" selected')+'</select></label>'+(c.agreementType==='amount'||state.parents.length!==2?'<label>Toinen vanhempi (valinnainen)<select data-field="b"><option value="">Ei valittu</option>'+opts.replace('value="'+esc(c.b)+'"','value="'+esc(c.b)+'" selected')+'</select></label>':'')+'<label>Vanhemman 1 sovittu osuus<span class="agreement-input"><input data-field="agreementValue" type="number" min="0" '+(c.agreementType==='amount'?'':'max="100"')+' step="0.01" value="'+esc(c.agreementValue??50)+'"><span class="agreement-unit">'+(c.agreementType==='amount'?'€/kk':'%')+'</span></span></label><p class="muted" style="font-size:12px">Osuus koskee juridista vanhempaa 1. Toisen vanhemman prosenttiosuus on loppuosa. Sovittu vastuu ei automaattisesti ole maksettavaa elatusapua.</p>':'')+''+(c.agreementMode==='agreed'&&c.agreementType!=='amount'?'':'<div class="field-group-heading">Menot</div><label>Ikäryhmän yleiskulut €/kk<input data-field="basic" type="number" min="0" step="1" value="'+esc(c.basic)+'"></label><div class="field-group-heading">Tulot</div><label>Lapsilisä €/kk<input data-field="benefit" type="number" min="0" step="1" value="'+esc(fixed2(baseBenefitFor(c)))+'"></label><label>Lapsilisän saaja<select data-field="benefitRecipient"><option value="">Valitse saaja</option>'+state.parents.map(p=>'<option value="'+esc(p.id)+'" '+(c.benefitRecipient===p.id?'selected':'')+'>'+esc(p.name||'Nimetön vanhempi')+'</option>').join('')+'</select></label><div class="child-all-fields"><div class="field-group-heading">Lisätiedot ja laskenta-asetukset</div><label>Juridinen vanhempi 1<select data-field="a"><option value="">Valitse vanhempi</option>'+opts.replace('value="'+esc(c.a)+'"','value="'+esc(c.a)+'" selected')+'</select></label><label>Juridinen vanhempi 2<select data-field="b"><option value="">Valitse vanhempi</option>'+opts.replace('value="'+esc(c.b)+'"','value="'+esc(c.b)+'" selected')+'</select></label><label>Elatusavun laskennan kohde<select data-field="supportMode"><option value="payment" '+((c.supportMode||'payment')==='payment'?'selected':'')+'>Lasketaan elatusapu</option><option value="capacity" '+(c.supportMode==='capacity'?'selected':'')+'>Huomioidaan elatusvastuussa, ei maksua</option><option value="exclude" '+(c.supportMode==='exclude'?'selected':'')+'>Ei huomioida laskelmassa</option></select></label><label>Yleiskulujen laskentatapa<select data-field="basicMode"><option value="auto" '+(c.basicMode!=='manual'?'selected':'')+'>Ikäryhmän oletusarvo</option><option value="manual" '+(c.basicMode==='manual'?'selected':'')+'>Oma arvo</option></select></label><label>Lapsilisän laskentatapa<select data-field="benefitMode"><option value="auto" '+(c.benefitMode!=='manual'?'selected':'')+'>Automaattinen (2026)</option><option value="manual" '+(c.benefitMode==='manual'?'selected':'')+'>Oma summa</option></select></label><label>Alle 3-vuotiaan korotus €/kk<input type="number" readonly value="'+fixed2(underThreeBenefit(c))+'"></label><label>Yksinhuoltajakorotus €/kk<input type="number" readonly value="'+fixed2(singleParentBenefit(c))+'"></label><label>Asumismuoto<select data-field="livingArrangement"><option value="primary" '+((c.livingArrangement||'primary')==='primary'?'selected':'')+'>Pääasiallinen asuminen</option><option value="shared" '+(c.livingArrangement==='shared'?'selected':'')+'>Vuoroasuminen</option></select></label><label>Lapsen pääasiallinen asuinvanhempi<select data-field="resident"><option value="">Ei määritelty / vuoroasuminen</option>'+state.parents.filter(p=>p.id===c.a||p.id===c.b).map(p=>'<option value="'+esc(p.id)+'" '+(c.resident===p.id?'selected':'')+'>'+esc(p.name||'Nimetön vanhempi')+'</option>').join('')+'</select></label><label>Yöpymiset vanhemmalla 1 / kk<input data-field="nightsA" type="number" min="0" max="31" step="1" value="'+esc(c.nightsA??0)+'"></label><label>Yöpymiset vanhemmalla 2 / kk<input data-field="nightsB" type="number" min="0" max="31" step="1" value="'+esc(c.nightsB??0)+'"></label><div class="shared-fields" style="'+(c.livingArrangement==='shared'?'':'display:none')+'"><label>Vuoroasumisen elatusvastuun jako<select data-field="sharedResponsibilityMode"><option value="half" '+((c.sharedResponsibilityMode||'half')==='half'?'selected':'')+'>50/50 vanhempien sopimuksella (oletus)</option><option value="capacity" '+(c.sharedResponsibilityMode==='capacity'?'selected':'')+'>Elatuskykyjen suhteessa</option><option value="custom" '+(c.sharedResponsibilityMode==='custom'?'selected':'')+'>Oma prosenttijako</option></select></label><label class="custom-share-field" style="'+(c.sharedResponsibilityMode==='custom'?'':'display:none')+'">Vanhemman 1 osuus (%)<input data-field="sharedResponsibilityPct" type="number" min="0" max="100" step="1" value="'+esc(c.sharedResponsibilityPct??50)+'"></label><p class="muted" style="font-size:12px">Sovittu jako koskee elatusvastuuta, ei automaattisesti maksua. Vanhemman 2 osuus on loppuosa 100 prosentista.</p><label>Elatusavun laskentatapa<select data-field="sharedPaymentMode"><option value="calculate" '+((c.sharedPaymentMode||'calculate')==='calculate'?'selected':'')+'>Normaali laskenta</option><option value="zero" '+(c.sharedPaymentMode==='zero'?'selected':'')+'>Ei elatusapua (0 €/kk)</option></select></label><div class="shared-calculation-fields" style="'+(c.sharedPaymentMode==='zero'?'display:none':'')+'"><p class="muted">Vuoroasuminen: ilmoita lapselle kohdistuvat asumiskulut sekä muut suoraan maksetut kulut kummassakin kodissa. Päivittäiset kulut jaetaan yöpymisten suhteessa. Älä sisällytä samaa menoa kahteen kenttään.</p><label>Lapsen asumiskulut vanhemmalla 1 €/kk<input data-field="sharedHousingA" type="number" min="0" step="1" value="'+esc(fixed2(c.sharedHousingA??0))+'"></label><label>Lapsen asumiskulut vanhemmalla 2 €/kk<input data-field="sharedHousingB" type="number" min="0" step="1" value="'+esc(fixed2(c.sharedHousingB??0))+'"></label><label>Muut suoraan maksetut kulut vanhemmalla 1 €/kk<input data-field="sharedPaidA" type="number" min="0" step="1" value="'+esc(fixed2(c.sharedPaidA??0))+'"></label><label>Muut suoraan maksetut kulut vanhemmalla 2 €/kk<input data-field="sharedPaidB" type="number" min="0" step="1" value="'+esc(fixed2(c.sharedPaidB??0))+'"></label><label>Lapsilisän kohdentaminen<select data-field="sharedBenefitMode"><option value="auto" '+(c.sharedBenefitMode!=='manual'?'selected':'')+'>Automaattinen: lapsilisän saajalle</option><option value="manual" '+(c.sharedBenefitMode==='manual'?'selected':'')+'>Omat käyttöosuudet</option></select></label><label>Vanhemman 1 lapsilisästä lapsen menoihin käyttämä osuus €/kk<input data-field="sharedBenefitA" type="number" min="0" step="1" value="'+esc(fixed2(c.sharedBenefitA??0))+'"></label><label>Vanhemman 2 lapsilisästä lapsen menoihin käyttämä osuus €/kk<input data-field="sharedBenefitB" type="number" min="0" step="1" value="'+esc(fixed2(c.sharedBenefitB??0))+'"></label></div></div><label>Luonapitovähennyksen laskentatapa<select data-field="careMode"><option value="auto" '+((c.careMode||'auto')==='auto'?'selected':'')+'>Automaattinen (2026)</option><option value="manual" '+(c.careMode==='manual'?'selected':'')+'>Oma vähennys</option></select></label><label>Oma luonapitovähennys €/kk (manuaalinen)<input data-field="careDeduction" type="number" min="0" step="1" value="'+esc(fixed2(c.careDeduction??0))+'"></label><label class="shared-housing-method" style="'+(c.livingArrangement==='shared'?'':'display:none')+'">Vuoroasumisen asumiskulujen jako<select data-field="sharedHousingMethod"><option value="actual" '+(c.sharedHousingMethod!=='nights'?'selected':'')+'>Molempien kotien todelliset kulut</option><option value="nights" '+(c.sharedHousingMethod==='nights'?'selected':'')+'>Yöpymisten suhteessa</option></select></label><label>Lapsen asumiskulujen huomiointi molemmissa kodeissa<select data-field="housingShareMethod"><option value="actual" '+(c.housingShareMethod!=='nights'?'selected':'')+'>Molempien kotien asumiskuluosuudet (oletus)</option><option value="nights" '+(c.housingShareMethod==='nights'?'selected':'')+'>Yöpymisten suhteessa (arvio)</option></select></label><label>Lapsen asumiskulujen huomiointi<select data-field="housingScope"><option value="auto" '+((c.housingScope||'auto')==='auto'?'selected':'')+'>'+(c.livingArrangement==='shared'?'Molempien vanhempien asumiskulut (oletus)':'Vain asuinvanhemman asumiskulut (oletus)')+'</option><option value="primary" '+(c.housingScope==='primary'?'selected':'')+'>Vain asuinvanhemman asumiskulut</option><option value="both" '+(c.housingScope==='both'?'selected':'')+'>Molempien vanhempien asumiskulut</option><option value="none" '+(c.housingScope==='none'?'selected':'')+'>Ei huomioida lapsen asumiskuluja</option></select></label><label>Asumiskulujen laskentatapa<select data-field="housingCostMode"><option value="auto" '+(c.housingCostMode!=='manual'?'selected':'')+'>Automaattinen jako</option><option value="manual" '+(c.housingCostMode==='manual'?'selected':'')+'>Oma summa</option></select></label><label>Huomioi asuntoedun laskennallinen asumiskulu elatusavussa<select data-field="includeImputedHousing"><option value="yes" '+(c.includeImputedHousing!=='no'?'selected':'')+'>Kyllä (oletus)</option><option value="no" '+(c.includeImputedHousing==='no'?'selected':'')+'>Ei</option></select></label><label>Lapsen laskennallinen asumiskulu asuntoedusta €/kk<input type="number" readonly value="'+fixed2(imputedBenefitHousing(c)) +'"></label><label>Lapsen asumiskulut €/kk<input data-field="housingCost" type="number" min="0" step="1" value="'+fixed2(c.housingCostMode==='manual'?c.housingCost:housingAllocations().get(c.id)?.total||0)+'"></label></div><label>Erityiskulut €/kk<input data-field="special" type="number" min="0" step="1" value="'+esc(fixed2(c.special))+'"></label><label>Muut hyväksyttävät kulut €/kk<input data-field="other" type="number" min="0" step="1" value="'+esc(fixed2(c.other))+'"></label>')+'</div><div class="actions"><button class="danger" data-action="remove-child">Poista lapsi</button></div></div></details>').join(''):'<div class="empty">Ei lapsia.</div>';decorateAdvanced('child')}
+function housingScope(c){return c.housingScope&&c.housingScope!=='auto'?c.housingScope:(c.livingArrangement==='shared'?'both':'primary')}
+function housingEligible(c,p){if(c.a!==p.id&&c.b!==p.id||housingScope(c)==='none')return false;if(num(c.a===p.id?c.nightsA:c.nightsB)<=0)return false;return housingScope(c)==='both'||c.resident===p.id}
+function housingWeight(c,p){if(c.housingShareMethod!=='nights'&&!(c.livingArrangement==='shared'&&c.sharedHousingMethod==='nights'))return 1;const own=num(c.a===p.id?c.nightsA:c.nightsB),both=num(c.nightsA)+num(c.nightsB);return both>0?Math.min(1,own/both):0}
+function omHousingChildRate(count){return count<=1?0.23:count===2?0.19:count===3?0.16:count===4?0.14:0.12}
+function ownHousingNet(p){const paid=num(p.housingMode==='benefit'?p.rentPaid:p.housing);const ratio=p.livingSituation==='partner'?Math.min(100,num(p.housingSharePct??50))/100:1;return Math.max(0,paid*ratio-num(p.housingAid))}
+function imputedBenefitHousing(c,parents=state.parents,children=state.children){
+ let total=0;
+ for(const p of parents){
+  if((c.a!==p.id&&c.b!==p.id)||p.housingMode!=='benefit'||!housingEligible(c,p))continue;
+  const residents=children.filter(x=>(x.a===p.id||x.b===p.id)&&housingEligible(x,p));
+  if(!residents.some(x=>x.id===c.id))continue;
+  const value=Math.max(0,num(p.homeBenefit))*omHousingChildRate(residents.length);
+  let weight=1;
+  if(c.housingShareMethod==='nights'||(c.livingArrangement==='shared'&&c.sharedHousingMethod==='nights')){
+   const own=c.a===p.id?num(c.nightsA):num(c.nightsB);
+   const both=num(c.nightsA)+num(c.nightsB);
+   weight=both>0?Math.max(0,Math.min(1,own/both)):0.5;
+  }
+  total+=value*weight;
+ }
+ return total;
+}
+function imputedHousingParts(c,parents=state.parents,children=state.children){
+ const parts={a:0,b:0,total:0};
+ if(c.includeImputedHousing==='no'||housingScope(c)==='none')return parts;
+ for(const p of parents){
+  if((c.a!==p.id&&c.b!==p.id)||p.housingMode!=='benefit')continue;
+  const residents=children.filter(x=>(x.a===p.id||x.b===p.id)&&housingEligible(x,p));
+  if(!residents.some(x=>x.id===c.id))continue;
+  const base=Math.max(0,num(p.homeBenefit))*omHousingChildRate(residents.length);
+  const own=c.a===p.id?num(c.nightsA):num(c.nightsB),both=num(c.nightsA)+num(c.nightsB);
+  const weight=housingWeight(c,p);
+  const amount=base*weight;
+  if(c.a===p.id)parts.a+=amount;else parts.b+=amount;
+  parts.total+=amount;
+ }
+ return parts;
+}
+function housingAllocations(parents=state.parents,children=state.children){
+ const result=new Map(children.map(c=>[c.id,{a:0,b:0,total:0}]));
+ for(const p of parents){
+  const residents=children.filter(c=>(c.a===p.id||c.b===p.id)&&housingEligible(c,p));
+  const net=ownHousingNet(p);
+  const portion=net*omHousingChildRate(residents.length);
+  for(const c of residents){
+   const x=result.get(c.id);if(!x)continue;
+   let weight=1;
+   if(c.housingShareMethod==='nights'||(c.livingArrangement==='shared'&&c.sharedHousingMethod==='nights')){
+    const own=c.a===p.id?num(c.nightsA):num(c.nightsB);
+    const both=num(c.nightsA)+num(c.nightsB);
+    weight=both>0?Math.max(0,Math.min(1,own/both)):0.5;
+   }
+   const amount=portion*weight;
+   if(c.a===p.id)x.a+=amount;else x.b+=amount;
+   x.total+=amount;
+  }
+ }
+ for(const c of children){
+  const x=result.get(c.id);if(!x)continue;
+  if(c.housingCostMode==='manual'){
+   const amount=Math.max(0,num(c.housingCost));
+   const eligibleA=housingEligible(c,parents.find(p=>p.id===c.a)||{id:c.a}),eligibleB=housingEligible(c,parents.find(p=>p.id===c.b)||{id:c.b});
+   const ratio=!eligibleA&&!eligibleB?0:!eligibleA?0:!eligibleB?1:x.total>0?x.a/x.total:num(c.nightsA)/(num(c.nightsA)+num(c.nightsB));
+   x.a=eligibleA?amount*ratio:0;x.b=eligibleB?amount*(1-ratio):0;x.total=x.a+x.b;
+  }
+ }
+ return result;
+}
+function parentHousingShare(p,parents=state.parents,children=state.children){
+ const net=ownHousingNet(p);
+ const residents=children.filter(c=>(c.a===p.id||c.b===p.id)&&housingEligible(c,p));
+ const allocations=housingAllocations(parents,children);
+ const childShare=residents.reduce((sum,c)=>sum+(c.a===p.id?allocations.get(c.id)?.a||0:allocations.get(c.id)?.b||0),0);
+ return Math.max(0,net-Math.min(net,childShare));
+}
+function capacity(p){const gross=num(p.gross),auto=num(p.autoBenefit),home=num(p.homeBenefit),rate=Math.min(100,num(p.taxMode==='manual'?p.tax:estimatedTax(gross))),employee=p.taxKind==='employee',yel=p.taxKind==='sole'?num(p.yel):0;
+const deductions=gross*rate/100+(employee?gross*.0819:0)+yel;
+const cash=Math.max(0,gross-auto-home-deductions)+num(p.capital)+num(p.otherIncome);
+const housing=parentHousingShare(p);
+const homeValue=p.housingMode==='benefit'?(p.homeBenefitMethod==='manual'?Math.max(0,num(p.homeBenefitValue)):p.homeBenefitMethod==='tax'?Math.max(0,num(p.homeBenefit)):0):0;
+const costs=(p.livingMode==='manual'?num(p.living):estimatedLiving(p)) +num(p.work)+num(p.health)+num(p.travel)+num(p.studentLoan)+num(p.otherCost)+num(p.otherChildren);
+const rawCapacity=cash+num(p.benefitAddition)+homeValue-housing-costs;
+return {cash,housing,costs,benefitAddition:num(p.benefitAddition),homeValue,rawCapacity,capacity:Math.max(0,rawCapacity)}}
+const careRates2026={'0-2':[0,37,51,67],'3-6':[0,37,51,67],'0-6':[0,37,51,67],'7-12':[0,41,55,71.5],'13-17':[0,44.5,62.5,77.5]};
+function automaticCareDeduction(age,nights){const n=num(nights),rates=careRates2026[age]||careRates2026['0-6'];return n<7?0:n<10?rates[1]:n<13?rates[2]:n<16?rates[3]:0}
+function allocate(parents,children){
+children=children.filter(c=>c.supportMode!=='exclude');
+const shares=new Map(parents.map(p=>[p.id,0])),rows=[],warnings=[],housingMap=housingAllocations(parents,children);
+for(const c of children){
+if(c.agreementMode==='agreed'){
+ const a=parents.find(p=>p.id===c.a),autoSecond=c.agreementType!=='amount'&&parents.length===2?parents.find(p=>p.id!==c.a):null,b=autoSecond||parents.find(p=>p.id===c.b);
+ if(!a){warnings.push('Lapselta '+(c.name||'nimetön')+' puuttuu vastuuvanhempi.');continue}
+ if((c.b||autoSecond)&&(!b||b.id===a.id)){warnings.push('Lapselle '+(c.name||'nimetön')+' on valittava eri toinen vanhempi.');continue}
+ const benefit=benefitFor(c,children);
+ const basic=num(c.basic),special=num(c.special),other=num(c.other);
+ const need=Math.max(0,basic+special+other-benefit);
+ const ratio=c.agreementType==='amount'?0:Math.min(1,Math.max(0,num(c.agreementValue??50)/100));
+ const aa=c.agreementType==='amount'?Math.max(0,num(c.agreementValue)):need*ratio;
+ const bb=b?Math.max(0,need-aa):0;
+ shares.set(a.id,(shares.get(a.id)||0)+aa);
+ if(b)shares.set(b.id,(shares.get(b.id)||0)+bb);
+ rows.push({supportMode:'capacity',sharedResponsibilityMode:'parentAgreement',sharedResponsibilityPct:ratio*100,childId:c.id,name:c.name||'Lapsi',totalCosts:basic+special+other,childHousing:0,imputedHousing:0,housingA:0,housingB:0,childHousingA:0,childHousingB:0,need,a:a.id,b:b?.id||'',aa,bb,benefit,benefitRecipient:'',resident:'',nightsA:0,nightsB:0,careDeduction:0,careMode:'auto',age:c.age,livingArrangement:'primary',sharedPaymentMode:'zero',sharedPaidA:0,sharedPaidB:0,sharedHousingA:0,sharedHousingB:0,sharedBenefitA:0,sharedBenefitB:0,basic,special,other});
+ continue;
+}
+
+const a=parents.find(p=>p.id===c.a),b=parents.find(p=>p.id===c.b);
+if(!a||!b||a.id===b.id){warnings.push('Lapselta '+(c.name||'nimetön')+' puuttuu kaksi eri juridista vanhempaa.');continue}
+const agreementParents=[a,b].filter(p=>p.parentMode==='agreement');
+if(agreementParents.length>1){warnings.push('Lapselle '+(c.name||'nimetön')+' on valittu kaksi sopimusperusteista vanhempaa. Valitse vain toinen sopimusperusteiseksi.');continue}
+const agreedParent=agreementParents[0]||null;
+const childAgreement=c.agreementMode==='agreed'||(!c.agreementMode&&!!agreedParent);
+const modeForChild=childAgreement?'parentAgreement':c.livingArrangement==='shared'?(c.sharedResponsibilityMode||'half'):'capacity';
+if(modeForChild==='capacity'&&(a.includeIncome===false||b.includeIncome===false)){
+warnings.push('Lapsen '+(c.name||'nimetön')+' elatusapua ei voida laskea elatuskykyjen suhteessa, koska vanhemman tulot on jätetty pois. Ota molempien tulot huomioon tai valitse vuoroasumiselle sovittu prosenttijako.');continue;
+}
+const benefit=benefitFor(c,children);
+const childHousing=housingMap.get(c.id)||{a:0,b:0,total:0};
+const imputed=imputedHousingParts(c,parents,children);
+const combinedHousing={a:childHousing.a+imputed.a,b:childHousing.b+imputed.b,total:childHousing.total+imputed.total};
+if(c.housingCostMode==='manual'){const available=[a,b].reduce((sum,p)=>sum+ownHousingNet(p),0);if(childHousing.total>available+.01)warnings.push('Lapsen '+(c.name||'nimetön')+' käsin syötetyt asumiskulut ylittävät vanhempien nettomääräiset asumismenot. Tarkista kulujen päällekkäisyys.');}
+const need=Math.max(0,num(c.basic)+num(c.special)+num(c.other)+combinedHousing.total-benefit);
+const ca=capacity(a).capacity,cb=capacity(b).capacity,total=ca+cb;
+const mode=modeForChild;const ratio=childAgreement&&c.agreementMode==='agreed'?(c.agreementType==='amount'?Math.min(need,Math.max(0,num(c.agreementValue)))/Math.max(need,0.000001):Math.max(0,Math.min(100,num(c.agreementValue??50)))/100):agreedParent?(agreedParent.id===a.id?1:0)*(agreedParent.agreementType==='amount'?Math.min(need,Math.max(0,num(agreedParent.agreementValue)))/Math.max(need,0.000001):Math.max(0,Math.min(100,num(agreedParent.agreementValue??50)))/100)+(agreedParent.id===b.id?1:0)*(1-(agreedParent.agreementType==='amount'?Math.min(need,Math.max(0,num(agreedParent.agreementValue)))/Math.max(need,0.000001):Math.max(0,Math.min(100,num(agreedParent.agreementValue??50)))/100)):mode==='half'?0.5:mode==='custom'?Math.max(0,Math.min(100,num(c.sharedResponsibilityPct??50)))/100:total?ca/total:0;
+const aa=need*ratio,bb=mode==='capacity'&&!total?0:need*(1-ratio);
+shares.set(a.id,shares.get(a.id)+aa);shares.set(b.id,shares.get(b.id)+bb);
+rows.push({supportMode:c.supportMode||'payment',sharedResponsibilityMode:mode,sharedResponsibilityPct:ratio*100,childId:c.id,name:c.name||'Lapsi',totalCosts:num(c.basic)+num(c.special)+num(c.other)+combinedHousing.total,childHousing:childHousing.total,imputedHousing:imputed.total,housingA:combinedHousing.a,housingB:combinedHousing.b,childHousingA:combinedHousing.a,childHousingB:combinedHousing.b,need,a:a.id,b:b.id,aa,bb,benefit,benefitRecipient:c.benefitRecipient||'',resident:c.resident||'',nightsA:num(c.nightsA),nightsB:num(c.nightsB),careDeduction:num(c.careDeduction),careMode:c.careMode||'auto',age:c.age,livingArrangement:c.livingArrangement||'primary',sharedPaymentMode:c.sharedPaymentMode||'calculate',sharedPaidA:num(c.sharedPaidA),sharedPaidB:num(c.sharedPaidB),sharedHousingA:num(c.sharedHousingA),sharedHousingB:num(c.sharedHousingB),sharedBenefitA:num(c.sharedBenefitA),sharedBenefitB:num(c.sharedBenefitB),basic:num(c.basic),special:num(c.special),other:num(c.other)});
+if(num(c.nightsA)+num(c.nightsB)>31)warnings.push('Lapsen '+(c.name||'nimetön')+' yöpymisten summa ylittää 31 yötä kuukaudessa.');
+if(c.benefitRecipient&&!parents.some(p=>p.id===c.benefitRecipient))warnings.push('Lapsen '+(c.name||'nimetön')+' lapsilisän saaja ei ole valittu vanhempi.');
+if(c.livingArrangement!=='shared'&&num(c.nightsA)>=10&&num(c.nightsB)>=10)warnings.push('Lapsen '+(c.name||'nimetön')+' asuminen jakautuu molemmille vanhemmille: tarkista vuoroasumisen kustannusjako.');
+if(c.resident&&c.resident!==a.id&&c.resident!==b.id)warnings.push('Lapsen '+(c.name||'nimetön')+' asuinvanhempi ei ole juridinen vanhempi.');
+}
+const limits=new Map(parents.map(p=>{const variable=rows.filter(x=>(x.a===p.id||x.b===p.id)&&x.sharedResponsibilityMode!=='parentAgreement'&&!(x.livingArrangement==='shared'&&x.sharedResponsibilityMode!=='capacity')).reduce((sum,x)=>sum+(x.a===p.id?x.aa:x.bb),0);const fixed=rows.filter(x=>(x.a===p.id||x.b===p.id)&&(x.sharedResponsibilityMode==='parentAgreement'||(x.livingArrangement==='shared'&&x.sharedResponsibilityMode!=='capacity'))).reduce((sum,x)=>sum+(x.a===p.id?x.aa:x.bb),0);return [p.id,variable>0?Math.min(1,Math.max(0,capacity(p).capacity-fixed)/variable):1]}));
+return {rows:rows.map(x=>{
+const uncappedA=x.aa,uncappedB=x.bb;
+const fixedAgreement=x.sharedResponsibilityMode==='parentAgreement'||x.livingArrangement==='shared'&&x.sharedResponsibilityMode!=='capacity';
+const aa=fixedAgreement?uncappedA:uncappedA*limits.get(x.a),bb=fixedAgreement?uncappedB:uncappedB*limits.get(x.b);
+if(x.sharedResponsibilityMode==='parentAgreement'&&!x.b)return {...x,aa,bb:0,uncappedA,uncappedB:0,uncovered:Math.max(0,x.need-aa),shared:false,payer:'',receiver:'',payerShare:0,deduction:0,payment:0,zeroPaymentAgreement:true};
+if(x.livingArrangement==='shared'){
+if(x.supportMode==='capacity'||x.sharedPaymentMode==='zero')return {...x,aa,bb,uncappedA,uncappedB,uncovered:Math.max(0,x.need-aa-bb),shared:true,payer:'',receiver:'',payerShare:0,deduction:0,payment:0,zeroPaymentAgreement:true};
+const nights=x.nightsA+x.nightsB,ratioA=nights>0?x.nightsA/nights:0.5;
+const dailyA=x.basic*ratioA,dailyB=x.basic*(1-ratioA);
+const housingA=Math.max(0,x.childHousingA),housingB=Math.max(0,x.childHousingB);
+const extraA=Math.max(0,x.sharedPaidA),extraB=Math.max(0,x.sharedPaidB);
+const manualBenefit=x.sharedBenefitMode==='manual';const benefitA=manualBenefit?Math.max(0,x.sharedBenefitA):(x.benefitRecipient===x.a?x.benefit:0),benefitB=manualBenefit?Math.max(0,x.sharedBenefitB):(x.benefitRecipient===x.b?x.benefit:0);
+const allocatedBenefit=Math.min(x.benefit,benefitA+benefitB);
+const grossCosts=x.totalCosts;
+const netNeed=Math.max(0,grossCosts-x.benefit);
+const directA=dailyA+housingA+extraA,directB=dailyB+housingB+extraB;
+const paidA=directA-benefitA,paidB=directB-benefitB;
+const remainder=x.special+x.other-extraA-extraB;
+const capacityA=capacity(parents.find(p=>p.id===x.a)).capacity,capacityB=capacity(parents.find(p=>p.id===x.b)).capacity;
+const shareTotal=capacityA+capacityB;
+const agreedRatio=x.sharedResponsibilityMode==='parentAgreement'?x.sharedResponsibilityPct/100:x.sharedResponsibilityMode==='half'?0.5:x.sharedResponsibilityMode==='custom'?x.sharedResponsibilityPct/100:shareTotal?capacityA/shareTotal:0;
+const targetA=netNeed*agreedRatio,targetB=x.sharedResponsibilityMode==='capacity'&&!shareTotal?0:netNeed*(1-agreedRatio);
+const netA=targetA-paidA,netB=targetB-paidB;
+const payer=netA>0&&netB<0?x.a:netB>0&&netA<0?x.b:'';
+const receiver=payer===x.a?x.b:payer===x.b?x.a:'';
+const payment=payer?Math.min(Math.max(0,payer===x.a?netA:netB),Math.max(0,receiver===x.a?-netA:-netB)):null;
+if(nights<=0)warnings.push('Lapsen '+x.name+' vuoroasumisen yöpymisiä ei ole ilmoitettu. Päivittäiset kulut on jaettu tasan.');
+if(x.nightsA<10||x.nightsB<10)warnings.push('Lapsen '+x.name+' vuoroasumisen yöpymiset ovat epätasaiset. Tarkista asumismuoto.');
+if(extraA+extraB>x.special+x.other+.01)warnings.push('Lapsen '+x.name+' muut suorat kulut ylittävät ilmoitetut erityis- ja muut kulut.');
+if(benefitA+benefitB>x.benefit+.01)warnings.push('Lapsen '+x.name+' lapsilisän käyttöosuudet ylittävät lapsilisän.');
+if(x.benefit>0&&!x.benefitRecipient)warnings.push('Lapsen '+x.name+' lapsilisän saajaa ei ole valittu.');
+if(allocatedBenefit<x.benefit-.01)warnings.push('Lapsen '+x.name+' lapsilisää ei ole kohdennettu kokonaan. Tasoitusmaksua ei näytetä ennen kohdentamista.');
+if(capacityA+capacityB<netNeed-.01)warnings.push('Lapsen '+x.name+' vanhempien elatuskyky ei kata nettotarvetta; vuoroasumisen tasoitusmaksu on vain suuntaa antava.');
+if(Math.abs(remainder)>0.01)warnings.push('Lapsen '+x.name+' erityis- ja muiden kulujen maksajaa ei ole kohdennettu kokonaan.');
+const valid=allocatedBenefit>=x.benefit-.01&&benefitA+benefitB<=x.benefit+.01&&extraA+extraB<=x.special+x.other+.01&&Math.abs(remainder)<.01&&nights>0&&nights<=31&&x.nightsA>=10&&x.nightsB>=10&&(!x.benefit||!!x.benefitRecipient);
+return {...x,uncappedA,uncappedB,aa,bb,need:netNeed,totalCosts:grossCosts,uncovered:Math.max(0,netNeed-capacityA-capacityB),payer,receiver,payerShare:payer===x.a?targetA:targetB,deduction:0,payment:valid?payment:null,shared:true,directA,directB,paidA,paidB,dailyA,dailyB,housingA,housingB,benefitA,benefitB};
+}
+const payer=x.resident===x.a?x.b:x.resident===x.b?x.a:'';
+const payerShare=payer===x.a?aa:payer===x.b?bb:0;
+const nights=payer===x.a?x.nightsA:payer===x.b?x.nightsB:0;
+const autoAllowed=!!payer&&nights<16&&!(x.nightsA>=15&&x.nightsB>=15);
+const baseDeduction=x.careMode==='manual'?x.careDeduction:autoAllowed?automaticCareDeduction(x.age,nights):0;
+const coverage=x.need>0?Math.min(1,(aa+bb)/x.need):0;
+const deduction=payer?Math.min(payerShare,Math.max(0,baseDeduction)*(x.careMode==='manual'?1:coverage)):0;
+if(payer&&x.careMode==='auto'&&!autoAllowed)warnings.push('Lapsen '+x.name+' luonapitovähennystä ei lasketa automaattisesti, koska asuminen on vuoroasumisen kaltaista tai öitä on vähintään 16/kk.');
+return {...x,aa,bb,uncovered:Math.max(0,x.need-aa-bb),payer:x.supportMode==='capacity'?'':payer,payerShare,deduction,payment:x.supportMode==='capacity'?0:payer?Math.max(0,payerShare-deduction):null,zeroPaymentAgreement:x.supportMode==='capacity'};
+}),warnings}
+}
+function calculate(){
+const openedResults=new Set([...document.querySelectorAll('#results details[open]')].map(x=>x.dataset.result).filter(Boolean));
+if(!state.parents.length||!state.children.length){$('results').innerHTML='<div class="empty">Lisää vanhemmat ja lapset, jotta laskenta käynnistyy.</div>';return}
+const {rows,warnings}=allocate(state.parents,state.children),name=id=>state.parents.find(p=>p.id===id)?.name||'Nimetön vanhempi';
+const line=(label,value,cls='')=>'<span class="'+cls+'">'+esc(label)+'</span><span class="'+cls+'">'+(typeof value==='number'?money(value):esc(value))+'</span>';
+const renderChildResult=(x)=>{
+const otherCosts=x.basic+x.special+x.other;
+const housing=x.childHousing+x.imputedHousing;
+const detailsId='child-'+x.childId;
+return '<details class="child-result" data-result="'+esc(detailsId)+'" '+(openedResults.has(detailsId)?'open':'')+'><summary style="cursor:pointer;font-weight:bold">'+esc(x.name)+' · nettotarve '+money(x.need)+'</summary><div style="padding:12px 4px"><div style="font-size:12px;font-weight:700;color:var(--muted);margin:4px 0 8px">MENOT</div><div class="result-lines">'+line('Ikäryhmän yleiskulut',x.basic)+line('Muut kulut',x.special+x.other)+line('Lapsen asumiskulut',housing)+line('Menot yhteensä',x.totalCosts,'total')+'</div><div style="font-size:12px;font-weight:700;color:var(--muted);margin:16px 0 8px">TULOT</div><div class="result-lines">'+line('Lapsilisä ja muut lapselle kohdistetut etuudet',x.benefit)+'</div><div style="margin-top:14px;border:2px solid #299b65;border-radius:10px;padding:12px"><div style="font-weight:700;color:#299b65">Lapsen nettotarve</div><div style="font-size:24px;font-weight:700;margin-top:4px">'+money(x.need)+'</div><div class="muted" style="font-size:12px">Menot '+money(x.totalCosts)+' − etuudet '+money(x.benefit)+'</div></div><details data-result="housing-'+esc(x.childId)+'" '+(openedResults.has('housing-'+x.childId)?'open':'')+' style="margin-top:12px"><summary style="cursor:pointer;font-size:13px">Näytä asumiskulujen erittely</summary><div class="result-lines" style="margin-top:8px">'+line('Lapselle kohdistetut asumiskulut',x.childHousing)+line('Asuntoedusta laskettu lapsen asumisosuus',x.imputedHousing)+line('Asumiskulut yhteensä',housing,'total')+'</div><p class="muted" style="font-size:12px">Asumiskulut sisältyvät jo lapsen kokonaismenoihin. Niitä ei lisätä toistamiseen.</p></details></div></details>';
+
+};
+const agreementRows=rows.filter(x=>x.sharedResponsibilityMode==='parentAgreement'||x.livingArrangement==='shared'&&x.sharedResponsibilityMode!=='capacity');
+const capacityRows=rows.filter(x=>!agreementRows.includes(x));
+const agreementParents=[...new Set(agreementRows.flatMap(x=>[x.a,x.b]))];
+const paymentRows=capacityRows.filter(x=>x.supportMode!=='capacity');
+const paymentGroups=new Map();
+for(const x of paymentRows){const payer=x.payer||'',receiver=x.receiver||'',key=payer+'|'+receiver;if(!paymentGroups.has(key))paymentGroups.set(key,{payer,receiver,rows:[]});paymentGroups.get(key).rows.push(x)}
+const paymentSummary=paymentRows.length?'<h3>Elatusavun maksut</h3>'+Array.from(paymentGroups.values()).map(g=>'<div class="tile" style="text-align:left;margin:10px 0"><div class="muted" style="font-size:12px">'+(g.payer?'Maksaja: '+esc(name(g.payer)):'Maksajaa ei määritetty')+' · '+(g.receiver?'Saaja: '+esc(name(g.receiver)):'Saajaa ei määritetty')+'</div><div style="font-size:25px;font-weight:700;margin:8px 0">'+money(g.rows.reduce((n,x)=>n+(x.payment||0),0))+' / kk</div><div class="result-lines">'+g.rows.map(x=>line(x.name,x.payment==null?'Ei määritetty':x.payment)).join('')+'</div></div>').join(''):'<p class="muted">Ei tuloperusteisia elatusapumaksuja valituilla lapsilla.</p>';
+const childPaymentDetails=paymentRows.map(x=>{const ca=state.parents.find(p=>p.id===x.a),cb=state.parents.find(p=>p.id===x.b);return '<details class="child-result" data-result="payment-'+esc(x.childId)+'" '+(openedResults.has('payment-'+x.childId)?'open':'')+'><summary>'+esc(x.name)+' · '+(x.payment==null?'Maksu ei määritetty':money(x.payment)+'/kk')+'</summary><div class="result-lines" style="padding:12px 4px">'+line('Yleiskulut',x.basic)+line('Asumiskulut',x.childHousing+x.imputedHousing)+line('Muut menot',x.special+x.other)+line('Menot yhteensä',x.totalCosts)+line('Lapsilisä ja etuudet',-x.benefit)+line('Lapsen nettotarve',x.need,'total')+line(name(x.a)+' · laskennallinen vastuu',x.aa)+line(name(x.b)+' · laskennallinen vastuu',x.bb)+line('Luonapitovähennys',-num(x.deduction))+line('Maksettava elatusapu',x.payment==null?'Ei määritetty':x.payment,'total')+'</div><p class="muted" style="font-size:12px">Elatuskyvyt: '+esc(name(x.a))+' '+money(capacity(ca).capacity)+', '+esc(name(x.b))+' '+money(capacity(cb).capacity)+'. Elatusvastuun suhteet perustuvat laskurin tulotietoihin ja hyväksyttäviin menoihin. Laskelma on arvio, ei vahvistettu maksuvelvollisuus.</p></details>'}).join('');
+const agreementSummary=agreementRows.length?'<details class="child-result" data-result="other-responsibilities" '+(openedResults.has('other-responsibilities')?'open':'')+'><summary>Muut lapset ja sovitut elatusvastuut ('+agreementRows.length+')</summary><p class="muted">Sovittu kulujen jako ei automaattisesti tarkoita toiselle vanhemmalle maksettavaa elatusapua.</p><div class="result-lines">'+agreementRows.map(x=>line(x.name+' · '+name(x.a)+' / '+name(x.b),money(x.aa)+' / '+money(x.bb))).join('')+'</div><p class="muted">Näitä vastuita ei saa vähentää elatuskyvystä uudelleen, jos samat kulut sisältyvät jo muihin vähennyksiin. Tarkista vastuiden kohdentuminen ennen laskelman käyttämistä.</p></details>':'';
+const capacityTotal=paymentRows.reduce((sum,x)=>sum+(x.payment||0),0);
+const headline='<div class="quick-results"><div><small>Arvioitu maksettava elatusapu yhteensä</small><strong>'+money(capacityTotal)+'/kk</strong></div><div><small>Elatusapulaskelmassa mukana</small><strong>'+paymentRows.length+'</strong></div></div><p class="muted" style="font-size:12px">Tämä on laskennallinen arvio. Todellinen maksuvelvollisuus, eräpäivä ja voimassaolo määräytyvät vahvistetusta sopimuksesta tai päätöksestä.</p>';
+$('results').innerHTML=headline+paymentSummary+'<h3>Lapsikohtaiset elatusapulaskelmat</h3>'+childPaymentDetails+agreementSummary+(state.parents.some(p=>p.parentMode!=='agreement')?'<details class="child-result" data-result="calculation-basis" '+(openedResults.has('calculation-basis')?'open':'')+'><summary>Laskentaperusteet: vanhempien tulot, menot ja elatuskyky</summary><div class="summary-grid">'+state.parents.filter(p=>p.parentMode!=='agreement').map(p=>{
+const c=capacity(p),receivedBenefits=state.children.filter(x=>x.benefitRecipient===p.id).map(x=>({name:x.name||'Lapsi',amount:benefitFor(x,state.children)})),benefits=receivedBenefits.reduce((sum,x)=>sum+x.amount,0);
+const gross=num(p.gross),auto=num(p.autoBenefit),home=num(p.homeBenefit),rate=Math.min(100,num(p.taxMode==='manual'?p.tax:estimatedTax(gross)));
+const tax=gross*rate/100,employee=p.taxKind==='employee'?gross*.0819:0,yel=p.taxKind==='sole'?num(p.yel):0;
+const living=p.livingMode==='manual'?num(p.living):estimatedLiving(p);
+const item=(label,value)=>'<span>'+esc(label)+'</span><span>'+money(value)+'</span>';
+const benefitLines=receivedBenefits.map(x=>item('Lapsilisä: '+x.name,x.amount)).join('');
+const childImputed=state.children.filter(ch=>ch.a===p.id||ch.b===p.id).reduce((sum,ch)=>sum+(ch.includeImputedHousing==='no'?0:(ch.a===p.id?imputedHousingParts(ch).a:imputedHousingParts(ch).b)),0);
+const ownChildren=state.children.filter(ch=>ch.a===p.id||ch.b===p.id);
+const ownRows=capacityRows.filter(x=>x.a===p.id||x.b===p.id);
+const totalChildCosts=ownRows.reduce((sum,x)=>sum+x.totalCosts,0);
+const totalChildBenefits=ownRows.reduce((sum,x)=>sum+x.benefit,0);
+const totalChildNeeds=ownRows.reduce((sum,x)=>sum+x.need,0);
+const totalResponsibility=ownRows.reduce((sum,x)=>sum+(x.a===p.id?x.aa:x.bb),0);
+const uncappedResponsibility=ownRows.reduce((sum,x)=>sum+(x.a===p.id?x.uncappedA:x.uncappedB),0);
+const unallocatedNeeds=ownRows.reduce((sum,x)=>sum+Math.max(0,x.need-x.aa-x.bb),0);
+const childNeedsSummary=ownChildren.filter(ch=>capacityRows.some(x=>x.childId===ch.id)).map(ch=>{
+const x=rows.find(row=>row.childId===ch.id);
+const other=state.parents.find(q=>q.id===(ch.a===p.id?ch.b:ch.a));
+const ownCapacity=c.capacity,otherCapacity=other?capacity(other).capacity:0;
+const ratio=ownCapacity+otherCapacity>0?100*ownCapacity/(ownCapacity+otherCapacity):0;
+const share=x?(x.a===p.id?x.uncappedA:x.uncappedB):0;
+const limited=x?(x.a===p.id?x.aa:x.bb):0;
+return '<div style="padding:12px 0;border-bottom:1px solid var(--line);text-align:left"><div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline"><strong>'+esc(ch.name||'Lapsi')+'</strong><span class="muted" style="font-size:13px">Nettotarve '+money(x?x.need:0)+'</span></div><div style="display:flex;justify-content:space-between;gap:8px;align-items:center;margin-top:5px"><span>'+esc(p.name||'Vanhemman')+' osuus '+ratio.toFixed(1)+' %</span><strong style="font-size:18px;color:#299b65;white-space:nowrap">'+money(share)+'</strong></div><details data-result="share-'+esc(p.id)+'-'+esc(ch.id)+'" '+(openedResults.has('share-'+p.id+'-'+ch.id)?'open':'')+' style="margin-top:6px"><summary style="cursor:pointer;font-size:12px" class="muted">Näytä laskentaperusteet</summary><div class="result-lines" style="margin-top:8px">'+item('Lapsen nettotarve',x?x.need:0)+item(esc(p.name||'Vanhemman')+' elatuskyky',ownCapacity)+item(esc(other?.name||'Toisen vanhemman')+' elatuskyky',otherCapacity)+item('Oma prosenttiosuus',ratio,' %')+item('Osuus ennen rajoitusta',share)+item('Elatuskyvyn rajoittama osuus',limited)+'</div><p class="muted" style="font-size:12px">Osuus = nettotarve × oma elatuskyky / molempien elatuskyky yhteensä.</p></details></div>';
+}).join('');
+const childNeedsCard='<div style="margin-top:16px;text-align:left"><strong>Lasten nettotarpeet</strong>'+ownChildren.map(ch=>{const x=rows.find(row=>row.childId===ch.id);return x?renderChildResult(x):'<div>'+esc(ch.name||'Lapsi')+' · Ei laskelmaa</div>';}).join('')+'<div style="display:flex;justify-content:space-between;gap:8px;padding-top:12px;font-weight:700"><span>Nettotarpeet yhteensä</span><span>'+money(totalChildNeeds)+'</span></div></div>';
+const childSummary=ownChildren.filter(ch=>capacityRows.some(x=>x.childId===ch.id)).map(ch=>{
+const x=rows.find(row=>row.childId===ch.id);
+const other=state.parents.find(q=>q.id===(ch.a===p.id?ch.b:ch.a));
+const share=x?(x.a===p.id?x.aa:x.bb):0;
+return '<div style="display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);text-align:left"><span><strong>'+esc(ch.name||'Lapsi')+'</strong><span class="muted" style="display:block;font-size:12px">Toinen vanhempi: '+esc(other?.name||'Ei määritetty')+'</span></span><strong style="white-space:nowrap">'+money(share)+'</strong></div>';
+}).join('');
+const responsibilitySummary='<div style="margin-top:14px;text-align:left"><strong>Elatusvastuun laskentaperiaate</strong><p class="muted" style="font-size:13px">Pääasiallisessa asumisessa elatuskykyjen suhde; vuoroasumisessa lapselle valittu 50/50, elatuskykyjen suhde tai oma prosenttijako. Sopimusperusteinen jako ei ole sama asia kuin oikeudellinen elatuskykyarvio.</p><div class="result-lines">'+item('Oma elatuskyky',c.capacity)+item('Laskennallinen elatusvastuu',uncappedResponsibility)+item('Elatuskyvyn ylittävä osuus',Math.max(0,uncappedResponsibility-c.capacity))+item('Elatuskykyä jäljellä',Math.max(0,c.capacity-totalResponsibility))+'</div></div>';
+const needDetails='';
+return '<div class="tile"><strong>'+esc(p.name||'Nimetön vanhempi')+'</strong>'+childNeedsCard+'<div style="margin-top:12px;border:2px solid #299b65;border-radius:10px;padding:12px;text-align:left"><div style="font-weight:700;color:#299b65;font-size:14px">Elatuskyky</div><div style="font-size:24px;font-weight:700;margin-top:5px">'+money(c.capacity)+'</div><div class="muted" style="font-size:12px;margin-top:4px">Elatusavun jakolaskennassa käytettävä elatuskyky €/kk</div></div><div style="margin-top:16px;text-align:left"><strong>Tuloperusteisten lasten elatusvastuu</strong><p class="muted" style="font-size:12px;margin:6px 0 8px">Lapsikohtainen osuus vanhempien elatuskykyjen suhteessa. Ei suoraan maksettava elatusapu.</p>'+childSummary+'<div style="display:flex;justify-content:space-between;gap:8px;padding-top:10px;font-weight:700"><span>Yhteensä</span><span>'+money(totalResponsibility)+'</span></div></div><details data-result="parent-more-'+esc(p.id)+'" '+(openedResults.has('parent-more-'+p.id)?'open':'')+' style="margin-top:12px;text-align:left"><summary style="cursor:pointer;font-weight:bold">Näytä laskentaperusteet</summary>'+responsibilitySummary+'<details data-result="capacity-'+esc(p.id)+'" '+(openedResults.has('capacity-'+p.id)?'open':'')+' style="margin-top:12px;text-align:left"><summary style="cursor:pointer;font-weight:bold">Tulot ja vähennettävät menot</summary><div class="result-lines" style="margin-top:10px">'+
+item('Verotettava bruttopalkka',gross)+item('Autoetu (ei rahapalkkaa)',-auto)+item('Asuntoetu (ei rahapalkkaa)',-home)+item('Arvioidut verot ('+rate.toFixed(1)+' %)',-tax)+item('Palkansaajan maksut',-employee)+item('YEL',-yel)+item('Pääomatulot',num(p.capital))+item('Muut tulot',num(p.otherIncome))+
+item('Käytettävissä olevat rahatulot',c.cash)+benefitLines+item('Tilille tulevat tulot lapsilisineen',c.cash+benefits)+item('Elatuskyvyn tulopohja ilman lapsilisiä',c.cash)+item('Muu elatuskykyyn lisättävä tulo',c.benefitAddition)+item('Asuntoedun erikseen huomioitu hyöty',c.homeValue)+item('Omat asumismenot',-c.housing)+item('Omat yleiset elinkustannukset',-living)+item('Työmenot',-num(p.work))+item('Terveydenhoitomenot',-num(p.health))+item('Matkakulut',-num(p.travel))+item('Opintolainan hyväksyttävät menot',-num(p.studentLoan))+item('Muut menot',-num(p.otherCost))+item('Muiden lasten elatusvastuu',-num(p.otherChildren))+
+item('Lapsille kohdistettu laskennallinen asuntoetu (sisältyy lasten kuluihin, ei vähennetä tässä)',childImputed)+item('Lapsilisät yhteensä (ei lisätä elatuskykyyn)',benefits)+
+'<span class="total">Laskennallinen elatuskyky</span><span class="total">'+money(c.rawCapacity)+'</span><span class="total">Elatusavun jakolaskennassa käytettävä elatuskyky</span><span class="total">'+money(c.capacity)+'</span></div><p class="muted">Negatiivinen laskennallinen elatuskyky kertoo menojen ylittävän tulot. Elatusavun jakolaskennassa käytetään vähintään 0 euroa. Asuntoedun laskennallinen lapsiosuus ei ole vanhemman rahameno.</p></details>'+needDetails+'</details></div>'
+}).join('')+'</div></details>':'')+(warnings.length?'<div class="warning">'+warnings.map(x=>'<p>'+esc(x)+'</p>').join('')+'</div>':'')+
+'<p class="muted">Kattamaton tarve on lapsen nettotarpeen ja vanhemmille kohdistettujen vastuuosuuksien erotus. Elatusapu on suuntaa antava vain, kun asuinvanhempi on määritelty. Luonapitovähennys lasketaan vuoden 2026 ikäryhmä- ja yöpymistaulukosta tai käyttäjän omasta arvosta. Vuoroasumisessa ei tehdä luonapitovähennystä, vaan arvioidaan vanhempien elatusvastuun ja ilmoitettujen suorien kulujen tasapainottamista. Vuoroasumisen laskenta on suuntaa antava ja edellyttää kaikkien kulujen oikeaa kohdentamista. Lapsilisä vähennetään lapsen tarpeesta kerran eikä sitä lisätä vanhemman elatuskykyyn uudelleen. Tämä ei ole virallinen elatusapupäätös.</p>'
+}
+function update(e){const el=e.target,key=el.dataset.field;if(!key)return;const p=el.closest('[data-parent]'),c=el.closest('[data-child]');const obj=p?state.parents.find(x=>x.id===p.dataset.parent):c?state.children.find(x=>x.id===c.dataset.child):null;if(!obj)return;obj[key]=key==='includeIncome'?el.checked:el.value;if(p&&['homeBenefitMethod','housingMode','parentMode','agreementType'].includes(key)){if(key==='parentMode'){obj.includeIncome=el.value!=='agreement';if(el.value==='agreement'){obj.agreementType=obj.agreementType||'percent';obj.agreementValue=obj.agreementValue??50}}renderParents();renderChildren()}if(p&&['homeBenefit','housingMode','housing','housingAid','rentPaid'].includes(key))renderChildren();if(p&&key==='tax')obj.taxMode='manual';if(p&&key==='living')obj.livingMode='manual';if(p&&(key==='livingSituation'||key==='livingMode')&&obj.livingMode!=='manual'){obj.living=estimatedLiving(obj);const inp=p.querySelector('[data-field="living"]');if(inp)inp.value=fixed2(obj.living)}if(p&&key==='taxMode'&&el.value==='auto')obj.tax=estimatedTax(obj.gross);if(p&&key==='gross'&&obj.taxMode!=='manual'){obj.tax=estimatedTax(obj.gross);const taxInput=p.querySelector('[data-field="tax"]');if(taxInput)taxInput.value=fixed2(obj.tax)}if(p&&key==='taxMode'){const taxInput=p.querySelector('[data-field="tax"]');if(taxInput)taxInput.value=obj.tax}if(c&&key==='benefit')obj.benefitMode='manual';if(c&&key==='benefitMode'&&el.value==='auto')obj.benefit=baseBenefitFor(obj);if(c&&['sharedHousingMethod','includeImputedHousing','sharedResponsibilityMode','agreementMode','agreementType'].includes(key))renderChildren();if(c&&key==='housingCost')obj.housingCostMode='manual';if(c&&key==='basic')obj.basicMode='manual';if(c&&key==='basicMode'&&el.value==='auto')obj.basic=ageCosts[obj.age]??362;if(c&&key==='age'&&obj.basicMode!=='manual')obj.basic=ageCosts[el.value]??362;if(c&&(key==='benefitMode'||key==='benefitRecipient'||key==='age'||key==='housingCostMode')){renderChildren()}if(c&&(key==='age'||key==='basicMode')){const basic=c.querySelector('[data-field="basic"]');if(basic)basic.value=fixed2(obj.basic)}if(key==='name'){const summary=el.closest('details')?.querySelector('summary');if(summary)summary.textContent=el.value||'Nimetön';if(p)renderChildren()}if(c&&['sharedPaymentMode','sharedBenefitMode'].includes(key))renderChildren();if(c&&(key==='resident'||key==='supportMode'))renderChildren();if(c&&key==='livingArrangement'){if(el.value==='shared'){obj.sharedPaymentMode='zero';if(!obj.sharedResponsibilityMode)obj.sharedResponsibilityMode='half'}const shared=c.querySelector('.shared-fields');if(shared)shared.style.display=el.value==='shared'?'':'none';renderChildren()}if(c&&(key==='a'||key==='b')){if(obj.a===obj.b&&obj.a){obj.b='';}if(obj.resident!==obj.a&&obj.resident!==obj.b)obj.resident='';renderChildren()}if(p&&['housing','housingAid','housingMode','rentPaid'].includes(key))renderChildren();if(p&&['livingSituation','housingSharePct'].includes(key))renderChildren();if(p&&(key==='taxKind'||key==='taxMode'||key==='livingMode'||key==='livingSituation')){const pid=p.dataset.parent;const opened=[...document.querySelectorAll('#parents details[open]')].map(d=>d.dataset.parent);renderParents();for(const d of document.querySelectorAll('#parents details'))d.open=opened.includes(d.dataset.parent);const card=[...document.querySelectorAll('#parents [data-parent]')].find(d=>d.dataset.parent===pid);if(card)card.open=true}calculate()}
+function toggleAdvanced(e,kind){const b=e.target.closest('[data-action="toggle-advanced"]');if(!b)return;const card=b.closest(kind==='parent'?'[data-parent]':'[data-child]');if(!card)return;const id=card.dataset[kind];if(expandedAdvanced.has(id))expandedAdvanced.delete(id);else expandedAdvanced.add(id);card.classList.toggle('advanced-open',expandedAdvanced.has(id));b.textContent=expandedAdvanced.has(id)?'Piilota lisäasetukset':'Näytä lisäasetukset'}
+$('parents').addEventListener('click',e=>toggleAdvanced(e,'parent'));
+$('children').addEventListener('click',e=>toggleAdvanced(e,'child'));
+$('parents').addEventListener('change',update);$('parents').addEventListener('input',e=>{if(e.target.dataset.field==='name'){const p=state.parents.find(x=>x.id===e.target.closest('[data-parent]')?.dataset.parent);if(p){p.name=e.target.value;e.target.closest('details').querySelector('summary').textContent=p.name||'Nimetön';calculate()}}else update(e)});
+document.addEventListener('focusout',e=>{const el=e.target;if(el.matches('#parents input[type="number"],#children input[type="number"]')&&!['nightsA','nightsB'].includes(el.dataset.field))el.value=fixed2(el.value)});
+$('children').addEventListener('input',update);$('children').addEventListener('change',update);
+$('addChild').onclick=()=>{state.children.push({id:id('child'),name:'',age:'0-2',basic:362,basicMode:'auto',housingCostMode:'auto',housingCost:0,resident:'',benefit:0,benefitMode:'auto',under3:false,singleSupplement:false,benefitRecipient:'',nightsA:0,nightsB:0,careDeduction:0,special:0,other:0,a:'',b:'',agreementMode:'income',agreementType:'percent',agreementValue:50});renderChildren();const last=$('children').querySelector('details:last-of-type');if(last)last.open=true;calculate()};
+$('parents').addEventListener('click',e=>{if(e.target.dataset.action!=='remove-parent')return;const pid=e.target.closest('[data-parent]').dataset.parent;if(state.children.some(c=>c.a===pid||c.b===pid)){alert('Vanhempi on valittu lapsen juridiseksi vanhemmaksi. Muuta lapsen vanhemmuustiedot ensin.');return}state.parents=state.parents.filter(p=>p.id!==pid);renderParents();renderChildren();calculate()});
+$('children').addEventListener('click',e=>{if(e.target.dataset.action!=='remove-child')return;state.children=state.children.filter(c=>c.id!==e.target.closest('[data-child]').dataset.child);renderChildren();calculate()});
+$('menuTrigger').onclick=()=>{const menu=$('appMenu');menu.hidden=!menu.hidden;$('menuTrigger').setAttribute('aria-expanded',String(!menu.hidden))};document.addEventListener('click',e=>{if(!e.target.closest('.menu-holder')){$('appMenu').hidden=true;$('menuTrigger').setAttribute('aria-expanded','false')}});$('appMenu').addEventListener('click',e=>{if(e.target.closest('button')&&e.target.id!=='menuTrigger'){$('appMenu').hidden=true;$('menuTrigger').setAttribute('aria-expanded','false')}});
+$('save').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='elatusapulaskuri-v0.422.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+$('load').onclick=()=>$('file').click();$('file').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const parsed=JSON.parse(await f.text());if(!Array.isArray(parsed.parents)||!Array.isArray(parsed.children))throw Error('Virheellinen tiedostomuoto');if(parsed.parents.length>100||parsed.children.length>300)throw Error('Liikaa tietueita');const ids=new Set();for(const p of parsed.parents){if(!p||typeof p.id!=='string'||ids.has(p.id))throw Error('Virheellinen vanhemman tunniste');ids.add(p.id)}state={version:'0.422',parents:parsed.parents.map(p=>({...defaults(),taxMode:p.taxMode||(p.tax!==undefined?'manual':'auto'),livingMode:p.livingMode||(p.living!==undefined?'manual':'auto'),...p})),children:parsed.children.map(c=>({...c,age:c.age==='0-6'?(c.under3?'0-2':'3-6'):c.age,benefitMode:c.benefitMode||(c.benefit?'manual':'auto')}))};renderParents();renderChildren();calculate()}catch(err){alert('Tiedoston avaaminen epäonnistui: '+err.message)}e.target.value=''};
+$('clear').onclick=()=>{if(!confirm('Tyhjennetäänkö kaikki laskurin tiedot?'))return;state={version:'0.422',parents:[],children:[]};renderParents();renderChildren();calculate()};
+$('print').onclick=()=>window.print();$('theme').onchange=e=>document.body.dataset.theme=e.target.value;
+renderParents();renderChildren();formatNumericInputs();calculate();
+})();
+</script></body></html>
