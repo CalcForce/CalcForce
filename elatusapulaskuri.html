@@ -204,7 +204,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.545';
+const APP_VERSION='0.546';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
@@ -712,6 +712,32 @@ function runRegressionTests(){
   const c=child(),before=JSON.stringify(c);computeSupportModel(parents,[c]);return JSON.stringify(c)===before;
  });
  test('Prosenttiosuudet summautuvat sataan',()=>near(responsibilityRatio('half',50,100,300)+0.5,1));
+ test('Molemmat vanhemmat nollatuloilla',()=>{
+  const result=computeSupportModel([parent('test-a',0),parent('test-b',0)],[child()]);
+  return result.rows.length===1&&near(result.rows[0].aa,0)&&near(result.rows[0].bb,0);
+ });
+ test('Suuret tulot ja suhteellinen elatusvastuu',()=>{
+  const ratio=responsibilityRatio('income',50,100000,50000);
+  return near(ratio,2/3)&&near(responsibilityRatio('income',50,0,0),0);
+ });
+ test('Useita lapsia samalla vanhempiparilla',()=>{
+  const result=computeSupportModel(parents,[child({id:'child-1'}),child({id:'child-2'})]);
+  return result.rows.length===2&&new Set(result.rows.map(x=>x.id)).size===2;
+ });
+ test('Lapset eri vanhempipareilla',()=>{
+  const all=[...parents,parent('test-c',2500)];
+  const result=computeSupportModel(all,[child({id:'child-1'}),child({id:'child-2',b:'test-c',resident:'test-c'})]);
+  return result.rows.length===2&&result.rows[0].b==='test-b'&&result.rows[1].b==='test-c';
+ });
+ test('Vuoroasuminen 15 yötä kummallakin',()=>{
+  const result=computeSupportModel(parents,[child({nightsA:15,nightsB:15,livingArrangement:'shared'})]);
+  return result.rows.length===1&&result.rows[0].shared===true&&near(result.rows[0].deduction||0,0);
+ });
+ test('Lapsen omat tulot vähentävät tarvetta',()=>{
+  const base=revisedChildDeductions(child());
+  const withIncome=revisedChildDeductions(child({studyIncome:120,childCapital:80}));
+  return near(withIncome-base,200)&&near(childNetNeed(100,200),0);
+ });
  const passed=checks.filter(x=>x.ok).length;
  const box=document.createElement('section');box.className='panel';box.id='regression-tests';
  box.innerHTML='<h2>Automaattiset laskentatestit: '+passed+' / '+checks.length+'</h2>'+
