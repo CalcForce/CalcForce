@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="fi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Elatusapulaskuri 0.515</title>
+<title>Elatusapulaskuri 0.516</title>
 <style>
 :root{--bg:#061422;--panel:#0d2639;--head:#103f67;--line:#28617f;--text:#e9f8ff;--muted:#a5c6d7;--accent:#32d5ed;--field:#092033}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px Arial,sans-serif}.app{max-width:980px;margin:auto;padding-bottom:40px}
@@ -12,7 +12,7 @@ body[data-theme=light]{--bg:#f4f8fc;--panel:#fff;--head:#e5f1fc;--line:#a7c5d9;-
 @media(max-width:600px){.fields{grid-template-columns:1fr}header strong{font-size:18px}.panel{padding:11px}table{font-size:13px}}
 @media print{body{background:#fff;color:#000}.actions,.no-print,button{display:none!important}.panel,.tile{border-color:#888;break-inside:avoid}input,select{color:#000;background:#fff}summary{color:#000;background:#eee}}
 
-/* v0.515: v0.292 visual language, modern unified calculator */
+/* v0.516: v0.292 visual language, modern unified calculator */
 :root{--bg:#000c17;--panel:#001827;--head:#002b44;--line:#17677c;--text:#00d9ef;--muted:#7cb8c7;--accent:#168aff;--field:#081722;--border:#00cde5;--inputtext:#fff;--result:#00e6d8}
 body{background:radial-gradient(ellipse at 60% 0%,#00345c 0%,#000c17 38%,#000710 100%);font:16px Arial,sans-serif}.app{max-width:900px}header{padding:13px 17px}header strong{font-size:24px}main{padding:0}.panel{margin:6px 8px;padding:0 12px 12px;border:1px solid var(--border);border-radius:6px;overflow:hidden}.panel>.row{background:var(--head);margin:0 -12px 10px;padding:5px;gap:8px}.panel>.row h2,.panel>h2{font-size:18px;color:var(--text)}.panel>.row h2{margin:0;display:flex;align-items:center;gap:11px}.panel>h2{background:var(--head);margin:0 -12px 10px;padding:5px;display:flex;align-items:center;gap:11px}.section-number{display:grid;place-items:center;min-width:39px;height:39px;border-radius:50%;background:linear-gradient(#067bff,#004ad8);border:1px solid #168aff;color:white;font-weight:bold}.panel>.row>button{font-size:14px}.parent-card,.child-card{background:var(--panel);border:1px solid var(--line);border-radius:5px;overflow:hidden}.child-card>summary{border-bottom:0}.child-card[open]>summary{border-bottom:1px solid var(--line)}.parent-card summary,.child-card summary{padding:9px 12px;background:var(--head);color:var(--text)}.card-body{padding:10px 12px}input,select{height:32px;padding:4px 10px;border-radius:3px;font:15px Arial;color:var(--inputtext);text-align:right}select{text-align:right}button{border-radius:4px;background:#0055e9;border-color:#2791ff;font:14px Arial}.app-menu{background:#092b45;color:white;border-color:#2a9fc7;width:260px}.app-menu label{color:white}.muted{font-size:12px}.warning{background:var(--head);color:var(--text);margin:8px 0;font-size:12px}.result{font-size:36px;color:var(--result);background:#063a2b;border:1px solid #008963;border-radius:5px;text-align:center;padding:10px;margin:8px 0}.tile{background:var(--panel);border-radius:5px}.child-result{background:var(--panel);border-color:var(--border);border-radius:6px}.child-result h3{color:var(--text)}.result-lines .total{color:var(--result)}
 body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;--text:#075a85;--muted:#536f80;--accent:#168aff;--field:#fff;--border:#70a7c4;--inputtext:#142c40;--result:#147950;background:#f3f7fb}body[data-theme=light] .result{background:#e8f8ee}body[data-theme=forest]{--bg:#08120f;--panel:#10271f;--head:#163a2d;--line:#275b48;--text:#9de6c0;--muted:#a1cdbb;--accent:#4ab48d;--field:#091a15;--border:#3baf87;--inputtext:#fff;--result:#9de6c0;background:linear-gradient(140deg,#0c241e,#08120f)}body[data-theme=forest] header{background:linear-gradient(90deg,#125a44,#167c5a)}body[data-theme=forest] .section-number{background:#187c5b;border-color:#4ab48d}
@@ -32,7 +32,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 #parents label:has(>input[data-field=tax])::after{content:'%'}
 #children label:has(>input[data-field=nightsA])::after,#children label:has(>input[data-field=nightsB])::after{content:'yötä'}
 
-/* v0.515: yhteinen ulkoasujärjestelmä kaikille kolmelle osiolle */
+/* v0.516: yhteinen ulkoasujärjestelmä kaikille kolmelle osiolle */
 :root{--card-radius:6px;--card-space:10px;--card-padding:10px 12px;--control-height:35px;--card-outline:var(--line)}
 .panel>.row,.panel>h2{min-height:49px}
 .panel>.row h2,.panel>h2{line-height:1.25}
@@ -55,11 +55,11 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 }
 @media print{.parent-card,.child-card,.child-result,.tile{border-color:#888!important}.parent-card>summary,.child-card>summary,.child-result>summary{color:#000!important;background:#eee!important}}
 
-/* v0.515: menojen hyväksyttävyyden opastus */
+/* v0.516: menojen hyväksyttävyyden opastus */
 .expense-guidance{font-size:12px;line-height:1.4;color:var(--muted);margin:5px 0 8px;padding:7px 9px;border-left:2px solid var(--border);background:var(--head)}
 #parents .fields>label:has(>input[data-field=nonDeductible]){opacity:.85}
 
-/* v0.515: perusnäkymä, lisäasetukset ja tulosten yhteenveto */
+/* v0.516: perusnäkymä, lisäasetukset ja tulosten yhteenveto */
 .advanced-toggle{margin:8px 0 12px;padding:9px 12px;font-weight:600;font-size:13px}
 .quick-results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}
 .quick-results>div{border:1px solid var(--line);border-radius:10px;padding:12px;min-width:0}
@@ -69,7 +69,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 
 .field-help{font-size:13px;color:var(--muted);cursor:help}
 .agreement-input{display:flex;align-items:center;gap:8px}.agreement-input input{min-width:0;flex:1}.agreement-unit{font-size:14px;font-weight:700;white-space:nowrap;min-width:24px}
-/* v0.515: selkeämpi lapsikortti ja tulosyhteenveto */
+/* v0.516: selkeämpi lapsikortti ja tulosyhteenveto */
 .child-age-summary,.child-agreed-summary{font-size:12px;font-weight:400;color:var(--muted)}
 
 
@@ -81,7 +81,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 #results>h3{margin-top:18px}
 @media(max-width:600px){#results>.quick-results{grid-template-columns:1fr}.child-age-summary,.child-agreed-summary{font-size:11px}}
 
-/* v0.515: vanhempikortin osiot, laskentakentät ennallaan */
+/* v0.516: vanhempikortin osiot, laskentakentät ennallaan */
 
 
 
@@ -94,7 +94,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 
 @media(max-width:600px){.parent-card>summary,.child-card>summary{font-size:14px}.parent-section-heading,.field-group-heading{font-size:13px}}
 
-/* v0.515: kohdan 3 ulkoasu yhtenäinen vanhempi- ja lapsikorttien kanssa */
+/* v0.516: kohdan 3 ulkoasu yhtenäinen vanhempi- ja lapsikorttien kanssa */
 .results-section #results{min-width:0;max-width:100%}
 .results-section #results>h3{font-size:14px;font-weight:700;color:var(--text);margin:18px 0 6px;padding:9px 0 7px;border-bottom:1px solid var(--border)}
 .results-section #results>details.child-result{
@@ -123,11 +123,11 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
  .results-section #results .result-lines>span{padding:8px 0}
 }
 
-/* v0.515: kohdan 3 ulkokehys sama kuin kohdissa 1 ja 2 */
+/* v0.516: kohdan 3 ulkokehys sama kuin kohdissa 1 ja 2 */
 .panel.results-section{background:var(--panel)!important;border:1px solid var(--border)!important;border-radius:6px!important;box-shadow:none!important;padding:0 12px 12px!important;margin:6px 8px!important;overflow:hidden}
 .panel.results-section>h2{margin:0 -12px 10px;padding:5px;background:var(--head);min-height:49px}
 
-/* v0.515: tulosrivit samalla X-koordinaatistolla kuin syöttörivit */
+/* v0.516: tulosrivit samalla X-koordinaatistolla kuin syöttörivit */
 @media(min-width:701px){
  #results .result-lines{display:grid;grid-template-columns:240px 200px 43px!important;column-gap:8px!important;row-gap:0!important;justify-content:start!important;align-items:stretch}
  #results .result-lines>span{min-width:0;min-height:44px;display:flex;align-items:center;padding:4px 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
@@ -162,7 +162,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
  font-size:14px;font-weight:700;color:var(--text);
  margin:16px 0 4px;padding:9px 0 7px;border-bottom:1px solid var(--border)
 }
-/* v0.515: vanhempi- ja lapsikortin yksi yhteinen kenttärivisääntö */
+/* v0.516: vanhempi- ja lapsikortin yksi yhteinen kenttärivisääntö */
 :is(#parents .parent-card,#children .child-card) .fields label.field-row{
  --field-x:250px;--field-width:150px;--field-label-width:225px;
  display:block!important;position:relative!important;
@@ -202,14 +202,14 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
  :is(#parents .parent-card,#children .child-card) .fields label.field-row>.field-input{font-size:12px!important;padding:4px!important}
 }
 
-/* v0.515: lapsikohtaisen tuloksen selkeä kolmiportainen erittely */
+/* v0.516: lapsikohtaisen tuloksen selkeä kolmiportainen erittely */
 #results .child-payment-breakdown{padding:12px 8px;min-width:0}
 #results .child-payment-breakdown h4{font-size:14px;line-height:1.35;color:var(--text);margin:16px 0 6px;padding:0 0 6px;border-bottom:1px solid var(--border)}
 #results .child-payment-breakdown h4:first-child{margin-top:0}
 #results .child-payment-breakdown .result-lines{margin:0 0 8px}
 #results .child-payment-parties{margin-top:12px;font-weight:700}
 
-/* v0.515: prevent truncated labels and amounts on narrow screens */
+/* v0.516: prevent truncated labels and amounts on narrow screens */
 .panel,.tile,.parent-card,.child-card,.card-body,.fields,.fields>label,#results details{min-width:0;max-width:100%;overflow-wrap:anywhere}
 .fields input,.fields select,.fields textarea{width:100%;max-width:100%;box-sizing:border-box}
 .result-lines{grid-template-columns:minmax(0,1fr) minmax(0,max-content);min-width:0;max-width:100%}
@@ -219,7 +219,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 #results .tile>div[style*="display:flex"]>span,#results .child-result summary>*{min-width:0;overflow-wrap:anywhere}
 #results .tile>div[style*="display:flex"]>span:last-child{margin-left:auto;text-align:right}
 @media(max-width:420px){.result-lines{column-gap:8px;row-gap:7px}.result-lines>span{font-size:13px}.result-lines>span:nth-child(even){max-width:38vw}.panel,.tile{min-width:0}}
-</style></head><body data-theme="ocean"><div class="app"><header><div class="menu-holder"><button id="menuTrigger" class="menu-trigger" type="button" aria-label="Avaa valikko" aria-expanded="false" aria-controls="appMenu">☰</button><div id="appMenu" class="app-menu" hidden><div class="menu-brand"><strong>Elatusapulaskuri</strong><small>CalcForce</small></div><div class="menu-theme"><label for="theme">Teema</label><select id="theme"><option value="ocean">Sininen</option><option value="light">Vaalea</option><option value="forest">Vihreä</option></select></div><div class="menu-actions"><button id="print" type="button">▣ PDF-raportti (tulosta / tallenna PDF)</button><button id="save" type="button">▣ Tallenna laskelma tiedostoon</button><button id="load" type="button">▣ Avaa tallennettu laskelma</button><button id="clear" type="button" class="danger">▣ Tyhjennä laskuri</button></div><input id="file" type="file" accept=".json,application/json" hidden><div class="menu-version">CalcForce · Versio 0.515</div></div></div><div><strong>CalcForce</strong><small>Elatusapulaskuri</small></div><span class="version">v0.515</span></header><main>
+</style></head><body data-theme="ocean"><div class="app"><header><div class="menu-holder"><button id="menuTrigger" class="menu-trigger" type="button" aria-label="Avaa valikko" aria-expanded="false" aria-controls="appMenu">☰</button><div id="appMenu" class="app-menu" hidden><div class="menu-brand"><strong>Elatusapulaskuri</strong><small>CalcForce</small></div><div class="menu-theme"><label for="theme">Teema</label><select id="theme"><option value="ocean">Sininen</option><option value="light">Vaalea</option><option value="forest">Vihreä</option></select></div><div class="menu-actions"><button id="print" type="button">▣ PDF-raportti (tulosta / tallenna PDF)</button><button id="save" type="button">▣ Tallenna laskelma tiedostoon</button><button id="load" type="button">▣ Avaa tallennettu laskelma</button><button id="clear" type="button" class="danger">▣ Tyhjennä laskuri</button></div><input id="file" type="file" accept=".json,application/json" hidden><div class="menu-version">CalcForce · Versio 0.516</div></div></div><div><strong>CalcForce</strong><small>Elatusapulaskuri</small></div><span class="version">v0.516</span></header><main>
 <div class="warning">Suuntaa antava laskuri. Tulokset eivät ole virallinen elatusapupäätös. Elatuskyky, muiden lasten vastuu ja asumisjärjestelyt on arvioitava tapauskohtaisesti.</div>
 <section class="panel"><div class="row"><h2><span class="section-number">1</span>Vanhempien tiedot</h2></div><p class="muted">Avaa vanhempikortti nähdäksesi kaikki tulot ja menot.</p><div id="parents"></div></section>
 <section class="panel"><div class="row"><h2><span class="section-number">2</span>Lasten tiedot</h2><button id="addChild">+ Lisää lapsi</button></div><p class="muted">Avaa lapsikortti nähdäksesi valitun laskentatavan tiedot.</p><div id="children"></div></section>
@@ -241,7 +241,7 @@ const parentFields=[
 const defaults=()=>({includeIncome:true,...Object.fromEntries(parentFields.map(([k,t,kind])=>[k,k==='housingSharePct'?50:kind==='select'?(k==='homeBenefitMethod'?'housing':k==='taxKind'?'employee':k==='taxMode'||k==='livingMode'?'auto':k==='livingSituation'?'single':'rent'):0]))});
 // Suuntaa antava efektiivisen tuloveron arvio. Ei Verohallinnon verokorttilaskenta.
 function estimatedTax(gross){const annual=num(gross)*12;if(!annual)return 0;const brackets=[[18000,.05],[30000,.15],[50000,.25],[80000,.34],[Infinity,.40]];let rest=annual,prev=0,tax=0;for(const [limit,rate] of brackets){const part=Math.min(rest,limit-prev);if(part>0){tax+=part*rate;rest-=part}prev=limit;if(rest<=0)break}return Math.round(tax/annual*1000)/10}
-// v0.515: valmiiksi luodut henkilöt, ei selaintallennusta.
+// v0.516: valmiiksi luodut henkilöt, ei selaintallennusta.
 const initialParents=[
 {id:'parent-tero',name:'Tero',...defaults(),gross:3333,taxKind:'company',autoBenefit:971,homeBenefit:1134,housingMode:'benefit'},
 {id:'parent-enni',name:'Enni',...defaults(),gross:2000,housing:900,housingAid:500},
@@ -255,7 +255,7 @@ initialChild('child-arttu','Arttu','13-17','parent-tero','parent-other-children'
 initialChild('child-vilho','Vilho','13-17','parent-tero','parent-other-children',{supportMode:'capacity',agreementMode:'agreed',agreementType:'percent',agreementValue:50,resident:'parent-tero',nightsA:16,nightsB:14,benefitRecipient:'',singleSupplement:true,livingArrangement:'shared',sharedPaymentMode:'zero'}),
 initialChild('child-alma','Alma','7-12','parent-tero','parent-other-children',{supportMode:'capacity',agreementMode:'agreed',agreementType:'percent',agreementValue:50,resident:'parent-tero',nightsA:16,nightsB:14,benefitRecipient:'',singleSupplement:true,livingArrangement:'shared',sharedPaymentMode:'zero'})
 ];
-let state={version:'0.515',parents:initialParents,children:initialChildren},sequence=0;
+let state={version:'0.516',parents:initialParents,children:initialChildren},sequence=0;
 const id=prefix=>prefix+'-'+Date.now().toString(36)+'-'+(++sequence);
 const parentGroup=k=>({gross:'Tulot',housingSharePct:'Asuminen',work:'Erikseen selvitettävät menot',nonDeductible:'Menot, joita ei yleensä vähennetä'})[k]||'';
 const field=(k,label,kind,opts,labels,value)=>(parentGroup(k)?'<div class="field-group-heading">'+parentGroup(k)+'</div>':'')+(k==='nonDeductible'?'<p class="expense-guidance">Esimerkiksi ruoka, vaatteet, puhelin, harrastukset, kulutusluotot ja säästäminen sisältyvät yleiskuluihin tai eivät yleensä oikeuta erilliseen vähennykseen. Tähän merkitty summa ei vaikuta elatuskykyyn.</p>':k==='work'?'<p class="expense-guidance">Vain perusteltavat ja ohjeen mukaan hyväksyttävät menot. Säilytä selvitykset ja kuitit. Tavalliset elinkustannukset sisältyvät jo yleiskuluihin.</p>':'')+'<label>'+esc(label)+(kind==='select'?'<select data-field="'+k+'">'+opts.map((v,i)=>'<option value="'+v+'" '+(v===value?'selected':'')+'>'+esc(labels[i])+'</option>').join('')+'</select>':'<input data-field="'+k+'" type="number" min="0" step="1" value="'+esc(fixed2(value))+'">')+'</label>';
@@ -507,7 +507,7 @@ const careRates2026={'0-2':[0,37,51,67],'3-6':[0,37,51,67],'0-6':[0,37,51,67],'7
 function automaticCareDeduction(age,nights){const n=num(nights),rates=careRates2026[age]||careRates2026['0-6'];return n<7?0:n<10?rates[1]:n<13?rates[2]:n<16?rates[3]:0}
 
 // Laskennan välivaiheet erillisinä, puhtaina funktioina.
-// Kaavat säilytetty ennallaan v0.515-rakenneuudistuksessa.
+// Kaavat säilytetty ennallaan v0.516-rakenneuudistuksessa.
 function childNetNeed(totalCosts,benefit){return Math.max(0,totalCosts-benefit)}
 function responsibilityRatio(mode,percent,capacityA,capacityB){
  const shareTotal=capacityA+capacityB;
@@ -612,10 +612,16 @@ if(payer&&x.careMode==='auto'&&!autoAllowed)warnings.push('Lapsen '+x.name+' luo
 return {...x,aa,bb,uncovered:Math.max(0,x.need-aa-bb),payer:x.supportMode==='capacity'?'':payer,payerShare,deduction,payment:x.supportMode==='capacity'?0:payer?Math.max(0,payerShare-deduction):null,zeroPaymentAgreement:x.supportMode==='capacity'};
 }),warnings}
 }
+// Laskennan ja käyttöliittymän rajapinta: tulos tuotetaan ilman DOM-käsittelyä.
+// Syötteet annetaan eksplisiittisesti; calculate() huolehtii vain esittämisestä.
+function computeSupportModel(parents,children){
+ const result=allocate(parents,children);
+ return {rows:result.rows,warnings:result.warnings};
+}
 function calculate(){
 const openedResults=new Set([...document.querySelectorAll('#results details[open]')].map(x=>x.dataset.result).filter(Boolean));
 if(!state.parents.length||!state.children.length){$('results').innerHTML='<div class="empty">Lisää vanhemmat ja lapset, jotta laskenta käynnistyy.</div>';return}
-const {rows,warnings}=allocate(state.parents,state.children),name=id=>state.parents.find(p=>p.id===id)?.name||'Nimetön vanhempi';
+const {rows,warnings}=computeSupportModel(state.parents,state.children),name=id=>state.parents.find(p=>p.id===id)?.name||'Nimetön vanhempi';
 const line=(label,value,cls='')=>'<span class="'+cls+'">'+esc(label)+'</span><span class="'+cls+'">'+(typeof value==='number'?money(value):esc(value))+'</span>';
 const renderChildResult=(x)=>{
 const otherCosts=x.basic+x.special+x.other;
@@ -756,9 +762,9 @@ $('addChild').onclick=()=>{state.children.push({id:id('child'),name:'',age:'0-2'
 $('parents').addEventListener('click',e=>{if(e.target.dataset.action!=='remove-parent')return;const pid=e.target.closest('[data-parent]').dataset.parent;if(state.children.some(c=>c.a===pid||c.b===pid)){alert('Vanhempi on valittu lapsen juridiseksi vanhemmaksi. Muuta lapsen vanhemmuustiedot ensin.');return}state.parents=state.parents.filter(p=>p.id!==pid);renderParents();renderChildren();calculate()});
 $('children').addEventListener('click',e=>{if(e.target.dataset.action!=='remove-child')return;state.children=state.children.filter(c=>c.id!==e.target.closest('[data-child]').dataset.child);renderChildren();calculate()});
 $('menuTrigger').onclick=()=>{const menu=$('appMenu');menu.hidden=!menu.hidden;$('menuTrigger').setAttribute('aria-expanded',String(!menu.hidden))};document.addEventListener('click',e=>{if(!e.target.closest('.menu-holder')){$('appMenu').hidden=true;$('menuTrigger').setAttribute('aria-expanded','false')}});$('appMenu').addEventListener('click',e=>{if(e.target.closest('button')&&e.target.id!=='menuTrigger'){$('appMenu').hidden=true;$('menuTrigger').setAttribute('aria-expanded','false')}});
-$('save').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='elatusapulaskuri-v0.515.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
-$('load').onclick=()=>$('file').click();$('file').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const parsed=JSON.parse(await f.text());if(!Array.isArray(parsed.parents)||!Array.isArray(parsed.children))throw Error('Virheellinen tiedostomuoto');if(parsed.parents.length>100||parsed.children.length>300)throw Error('Liikaa tietueita');const ids=new Set();for(const p of parsed.parents){if(!p||typeof p.id!=='string'||ids.has(p.id))throw Error('Virheellinen vanhemman tunniste');ids.add(p.id)}for(const c of parsed.children){if(!c||typeof c.id!=='string'||!c.id.trim()||ids.has(c.id))throw Error('Virheellinen tai päällekkäinen lapsen tunniste');ids.add(c.id)}state={version:'0.515',parents:parsed.parents.map(p=>({...defaults(),taxMode:p.taxMode||(p.tax!==undefined?'manual':'auto'),livingMode:p.livingMode||(p.living!==undefined?'manual':'auto'),...p})),children:parsed.children.map(c=>({...c,age:c.age==='0-6'?(c.under3?'0-2':'3-6'):c.age,benefitMode:c.benefitMode||(c.benefit?'manual':'auto')}))};renderParents();renderChildren();calculate()}catch(err){alert('Tiedoston avaaminen epäonnistui: '+err.message)}e.target.value=''};
-$('clear').onclick=()=>{if(!confirm('Tyhjennetäänkö kaikki laskurin tiedot?'))return;state={version:'0.515',parents:[],children:[]};renderParents();renderChildren();calculate()};
+$('save').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='elatusapulaskuri-v0.516.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+$('load').onclick=()=>$('file').click();$('file').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const parsed=JSON.parse(await f.text());if(!Array.isArray(parsed.parents)||!Array.isArray(parsed.children))throw Error('Virheellinen tiedostomuoto');if(parsed.parents.length>100||parsed.children.length>300)throw Error('Liikaa tietueita');const ids=new Set();for(const p of parsed.parents){if(!p||typeof p.id!=='string'||ids.has(p.id))throw Error('Virheellinen vanhemman tunniste');ids.add(p.id)}for(const c of parsed.children){if(!c||typeof c.id!=='string'||!c.id.trim()||ids.has(c.id))throw Error('Virheellinen tai päällekkäinen lapsen tunniste');ids.add(c.id)}state={version:'0.516',parents:parsed.parents.map(p=>({...defaults(),taxMode:p.taxMode||(p.tax!==undefined?'manual':'auto'),livingMode:p.livingMode||(p.living!==undefined?'manual':'auto'),...p})),children:parsed.children.map(c=>({...c,age:c.age==='0-6'?(c.under3?'0-2':'3-6'):c.age,benefitMode:c.benefitMode||(c.benefit?'manual':'auto')}))};renderParents();renderChildren();calculate()}catch(err){alert('Tiedoston avaaminen epäonnistui: '+err.message)}e.target.value=''};
+$('clear').onclick=()=>{if(!confirm('Tyhjennetäänkö kaikki laskurin tiedot?'))return;state={version:'0.516',parents:[],children:[]};renderParents();renderChildren();calculate()};
 $('print').onclick=()=>window.print();$('theme').onchange=e=>document.body.dataset.theme=e.target.value;
 renderParents();renderChildren();formatNumericInputs();calculate();
 })();
