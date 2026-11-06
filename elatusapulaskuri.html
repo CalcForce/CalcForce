@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="fi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Elatusapulaskuri 0.523</title>
+<title>Elatusapulaskuri 0.524</title>
 <style>
 :root{--bg:#061422;--panel:#0d2639;--head:#103f67;--line:#28617f;--text:#e9f8ff;--muted:#a5c6d7;--accent:#32d5ed;--field:#092033}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px Arial,sans-serif}.app{max-width:980px;margin:auto;padding-bottom:40px}
@@ -265,7 +265,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 #parents .revised-total{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 0;margin:8px 0;border-top:1px solid var(--border);overflow-wrap:anywhere}
 @media(max-width:420px){#parents .revised-parent .field-input{flex-basis:120px;max-width:43%}}
 
-/* v0.523: requested child needs form */
+/* v0.524: requested child needs form */
 #children .revised-child .fields{display:block;max-width:750px}
 #children .revised-child .fields>.field-row{display:flex!important;align-items:center;gap:12px;margin:5px 0;min-width:0}
 #children .revised-child .field-label{flex:1 1 55%;min-width:0;white-space:normal;overflow-wrap:anywhere}
@@ -273,7 +273,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 #children .revised-child .parent-section-heading{margin:17px 0 8px;font-weight:700}
 #children .revised-child .revised-total{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 0;margin-top:10px;border-top:1px solid var(--border)}
 
-/* v0.523: info icons follow label units */
+/* v0.524: info icons follow label units */
 :is(#parents .revised-parent,#children .revised-child) .field-label{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
 :is(#parents .revised-parent,#children .revised-child) .label-unit{white-space:nowrap}
 :is(#parents .revised-parent,#children .revised-child) .field-help{display:inline-flex;align-items:center;justify-content:center;width:23px;height:23px;flex:0 0 23px;border:1px solid var(--border);border-radius:50%;font-size:14px;line-height:1;cursor:help}
@@ -443,7 +443,10 @@ function renderRevisedChildren(){
  const row=(k,label,value)=>'<label class="field-row"><span class="field-label">'+esc(label)+'</span><input class="field-input" data-field="'+k+'" type="number" min="0" step="0.01" value="'+esc(fixed2(value))+'"></label>';
  return '<details class="parent-card child-card revised-child" data-child="'+esc(c.id)+'" '+(opened.has(c.id)?'open':'')+'><summary>'+esc(c.name||'Lapsi')+'</summary><div class="card-body"><div class="fields">'+
  '<label class="field-row"><span class="field-label">Lapsen nimi</span><input class="field-input" data-field="name" type="text" maxlength="80" value="'+esc(c.name)+'"></label>'+
- age+row('visitingNights','Kuinka monta yötä lapsi on keskimäärin tapaavan vanhemman luona kuukaudessa?',c.visitingNights)+
+ age+
+ '<label class="field-row"><span class="field-label">'+labelWithInfo('Laskentatapa')+'</span><select class="field-input" data-field="agreementMode"><option value="income" '+(c.agreementMode!=='agreed'?'selected':'')+'>Elatuskyvyn perusteella</option><option value="agreed" '+(c.agreementMode==='agreed'?'selected':'')+'>Sovittu prosenttiosuus</option></select></label>'+
+ (c.agreementMode==='agreed'?row('agreementValue','Sovittu prosenttiosuus (%)',c.agreementValue??50):'')+
+ row('visitingNights','Kuinka monta yötä lapsi on keskimäärin tapaavan vanhemman luona kuukaudessa?',c.visitingNights)+
  '<div class="parent-section-heading">Lapsen elatuksen tarve</div><div class="parent-section-heading">Yleiset elinkustannukset</div>'+row('basic','Yleiset elinkustannukset',c.basic)+
  '<div class="parent-section-heading">Erityiset kustannukset</div>'+row('housingCost','Lapsen osuus asumiskustannuksista',c.housingCost)+
  revisedChildCosts.map(([k,label])=>row(k,label,c[k])).join('')+
