@@ -204,7 +204,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.551';
+const APP_VERSION='0.552';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
@@ -769,6 +769,45 @@ function runRegressionTests(){
  test('Yöpymisten kokonaislukuraja',()=>{
   const el={type:'number',value:'31',dataset:{field:'nightsA'}};
   return validateNumericInput(el)===false&&el.value==='30';
+ });
+ test('UI: kenttäpäivitys ja uudelleenpiirto',()=>{
+  const previousState=state,oldRender=renderChildren,oldCalc=calculate;
+  let count=0;
+  try{
+   const c=child({id:'ui-test'});
+   state={version:APP_VERSION,parents:[],children:[c]};
+   renderChildren=()=>{count++};calculate=()=>{};
+   const card={dataset:{child:'ui-test'},querySelector:()=>null};
+   const el={type:'text',value:'shared',dataset:{field:'livingArrangement'},closest:q=>q==='[data-child]'?card:null};
+   update({type:'change',target:el});
+   return count===1&&c.livingArrangement==='shared'&&c.sharedPaymentMode==='zero';
+  }finally{state=previousState;renderChildren=oldRender;calculate=oldCalc}
+ });
+ test('UI: asumiskulun muutos ei piirrä korttia uudelleen',()=>{
+  const previousState=state,oldRender=renderChildren,oldCalc=calculate;
+  let count=0;
+  try{
+   const c=child({id:'ui-test'});
+   state={version:APP_VERSION,parents:[],children:[c]};
+   renderChildren=()=>{count++};calculate=()=>{};
+   const card={dataset:{child:'ui-test'},querySelector:()=>null};
+   const el={type:'text',value:'120',dataset:{field:'housingCost'},closest:q=>q==='[data-child]'?card:null};
+   update({type:'change',target:el});
+   return count===0&&c.housingCost==='120'&&c.housingCostMode==='manual';
+  }finally{state=previousState;renderChildren=oldRender;calculate=oldCalc}
+ });
+ test('UI: vanhemman asumiskulu päivittää lapsikortin kerran',()=>{
+  const previousState=state,oldRender=renderChildren,oldCalc=calculate;
+  let count=0;
+  try{
+   const p=parent('ui-parent',2000);
+   state={version:APP_VERSION,parents:[p],children:[]};
+   renderChildren=()=>{count++};calculate=()=>{};
+   const card={dataset:{parent:'ui-parent'},querySelector:()=>null};
+   const el={type:'text',value:'750',dataset:{field:'housing'},closest:q=>q==='[data-parent]'?card:null};
+   update({type:'change',target:el});
+   return count===1&&p.housing==='750';
+  }finally{state=previousState;renderChildren=oldRender;calculate=oldCalc}
  });
  const passed=checks.filter(x=>x.ok).length;
  const box=document.createElement('section');box.className='panel';box.id='regression-tests';
