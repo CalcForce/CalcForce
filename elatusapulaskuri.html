@@ -164,7 +164,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 
 :where(.app,.panel,.tile,.parent-card,.child-card,.card-body,.fields,.result-lines,#results,details,summary){min-width:0;max-width:100%}
 :where(.panel,.tile,.parent-card,.child-card,.card-body,.fields,label,summary,button,.hint,.info,.note,.muted,#results p,#results span,#results h3,#results h4){overflow-wrap:anywhere;white-space:normal}
-:where(.fields,.result-lines){min-width:0}
+:where(.fields,.result-lines),
 :where(.fields>*,.result-lines>*,.panel>*,.tile>*,summary>*){min-width:0}
 :where(button,.btn){white-space:normal;height:auto;min-height:37px;overflow-wrap:anywhere}
 :where(input,select,textarea){min-width:0;max-width:100%;box-sizing:border-box}
@@ -177,7 +177,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 #children .child-card .child-all-fields>.field-group-heading:first-child{font-weight:700}
 #children .child-card .child-all-fields label:has(>input[readonly]){display:none!important}
 #children .child-card .child-all-fields label:has(>select[data-field="basicMode"]),
-#children .child-card .child-all-fields label:has(>select[data-field="benefitMode"]){display:none!important}
+#children .child-card .child-all-fields label:has(>select[data-field="benefitMode"]),
 #children .child-card .child-all-fields label:has(>input[data-field="careDeduction"]){display:none!important}
 #children .child-card:has(select[data-field="careMode"] option[value="manual"]:checked) .child-all-fields label:has(>input[data-field="careDeduction"]){display:flex!important}
 #children .child-card .child-all-fields label:has(>select[data-field="sharedHousingMethod"]),
@@ -226,7 +226,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.540';
+const APP_VERSION='0.541';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
