@@ -204,7 +204,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.548';
+const APP_VERSION='0.549';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
@@ -292,7 +292,11 @@ function revisedIncome(p){return revisedIncomeFields.reduce((sum,[k])=>sum+num(p
 function revisedExpense(p){return revisedExpenseFields.reduce((sum,[k])=>sum+(k==='housingAid'?-1:1)*num(k==='living'&&p.livingMode!=='manual'?estimatedLiving(p):p[k]),0)}
 function labelWithInfo(label){let base=String(label),unit='';for(const u of ['€/kk','€ / kk','€','%'])if(base.trimEnd().endsWith(u)){base=base.trimEnd().slice(0,-u.length).trimEnd();unit=u;break}return '<span class="label-text">'+esc(base)+'</span>'+(unit?'<span class="label-unit">'+esc(unit)+'</span>':'')+'<span class="field-help" title="'+esc(label)+'" aria-label="Lisätietoja: '+esc(label)+'" tabindex="0">ⓘ</span>'}
 function revisedField(k,label,value){return '<label class="field-row"><span class="field-label">'+esc(label)+'</span><input class="field-input" data-field="'+k+'" type="number" min="0" step="0.01" value="'+esc(fixed2(value))+'"></label>'}
-function renderCurrentParents(){
+
+function renderParents(){
+ // Molemmat tietomuodot käsitellään saman korttipiirtäjän kautta.
+ if(state.parents.some(x=>x.revisedParent)){
+
 const opened=new Set([...document.querySelectorAll('#parents>details[open]')].map(x=>x.dataset.parent));
 const expanded=new Set([...document.querySelectorAll('#parents .revised-parent .parent-extra[open]')].map(x=>x.closest('[data-parent]')?.dataset.parent+'|'+x.dataset.section));
 $('parents').innerHTML=state.parents.filter(p=>p.id!=='parent-other-children').map(p=>{
@@ -307,12 +311,9 @@ revisedIncomeFields.filter(([k])=>['earningsNet','businessNet','socialNet'].incl
 revisedExpenseFields.filter(([k])=>['living','housing','housingAid'].includes(k)).map(([k,label])=>revisedField(k,label,k==='living'&&p.livingMode!=='manual'?estimatedLiving(p):p[k])).join('')+'<details class="parent-extra" data-section="expenses" '+(expanded.has(p.id+'|expenses')?'open':'')+'><summary>Muut hyväksyttävät menot</summary>'+revisedExpenseFields.filter(([k])=>!['living','housing','housingAid'].includes(k)).map(([k,label])=>revisedField(k,label,p[k])).join('')+'</details>'+
 '<div class="revised-total"><strong>MENOT YHTEENSÄ</strong><strong>'+money(expense)+'</strong></div>'+ '<div class="revised-total capacity-summary"><strong>ELATUSKYKY (ennen muita elatusvastuita)</strong><strong>'+money(Math.max(0,income-expense))+' / kk</strong></div>'+
 '</div></div></details>'}).join('');
-}
-// Yksi näkymän valintapiste. Vanha näkymä jää tuontitietojen yhteensopivuuden vuoksi.
-function renderParents(){
- return state.parents.some(p=>p.revisedParent)?renderCurrentParents():renderLegacyParents();
-}
-function renderLegacyParents(){
+
+ }else{
+
 const open=new Set([...document.querySelectorAll('#parents > details[open]')].map(x=>x.dataset.parent));
 firstParentRender=false;
 $('parents').innerHTML=state.parents.some(p=>p.id!=='parent-other-children')?state.parents.filter(p=>p.id!=='parent-other-children').map((p,i)=>
@@ -323,9 +324,11 @@ groupParentFields();
 applyCardFieldRows('#parents .parent-card');
 enhanceParentCards();
 decorateAdvanced('parent');
+
+ }
 }
 
-// v0.535: vanhempikortin tiivis, laskentaa muuttamaton esitystapa.
+
 function enhanceParentCards(){
  document.querySelectorAll('#parents .parent-card:not(.revised-parent)').forEach(card=>{
   const fields=card.querySelector('.fields');if(!fields)return;
@@ -375,7 +378,11 @@ const singleParentBenefit=c=>c.benefitRecipient&&state.parents.find(p=>p.id===c.
 function benefitFor(c,children=state.children){if(c.revisedChild)return revisedChildDeductions(c,children);return baseBenefitFor(c,children)+underThreeBenefit(c)+singleParentBenefit(c)}
 
 const revisedChildCosts=[['daycare','Päivähoitokulut'],['afterSchool','Koululaisen aamu- ja iltapäivätoiminta'],['education','Koulutuskustannukset'],['hobby','Erityisen harrastuksen kustannukset'],['insurance','Vakuutusmaksut'],['childHealth','Erityiset terveydenhoitokustannukset'],['otherSpecial','Muut erityiset kustannukset']];
-function renderCurrentChildren(){
+
+function renderChildren(){
+ // Molemmat tietomuodot käsitellään saman korttipiirtäjän kautta.
+ if(state.children.some(x=>x.revisedChild)){
+
  const opened=new Set([...document.querySelectorAll('#children > details[open]')].map(x=>x.dataset.child));
  const expanded=new Set([...document.querySelectorAll('#children .revised-child .child-extra[open]')].map(x=>x.closest('[data-child]')?.dataset.child+'|'+x.dataset.section));
  const ageOptions=[['0-2','0–2 vuotta'],['3-6','3–6 vuotta'],['7-12','7–12 vuotta'],['13-17','13–17 vuotta']];
@@ -399,12 +406,9 @@ function renderCurrentChildren(){
  '<div class="revised-total child-needs-total"><strong>Lapsen elatuksen tarve yhteensä <small>€/kk</small></strong><strong>'+money(total)+'</strong></div>'+
  '</div></div><div class="actions"><button class="danger" data-action="remove-child">Poista lapsi</button></div></details>';
  }).join('')||'<div class="empty">Ei lapsia.</div>';
-}
-// Kaikki lapsikorttien piirrot kulkevat tämän valintapisteen kautta.
-function renderChildren(){
- return state.children.some(c=>c.revisedChild)?renderCurrentChildren():renderLegacyChildren();
-}
-function renderLegacyChildren(){const opened=new Set([...document.querySelectorAll('#children > details[open]')].map(x=>x.dataset.child));
+
+ }else{
+const opened=new Set([...document.querySelectorAll('#children > details[open]')].map(x=>x.dataset.child));
 firstChildRender=false;
 const opts=state.parents.map(p=>'<option value="'+esc(p.id)+'">'+esc(p.name||'Nimetön vanhempi')+'</option>').join('');
 $('children').innerHTML=state.children.length?state.children.map((c,i)=>'<details class="parent-card child-card" data-child="'+esc(c.id)+
@@ -476,7 +480,11 @@ esc(fixed2(c.careDeduction??0))+'"></label><label class="shared-housing-method" 
 '"></label><label>Muut hyväksyttävät kulut €/kk<input data-field="other" type="number" min="0" step="1" value="'+esc(fixed2(c.other))+
 '"></label>')+'</div><div class="actions"><button class="danger" data-action="remove-child">Poista lapsi</button></div></div></details>').join(''):'<div class="empty">Ei lapsia.</div>';
 decorateAdvanced('child');
-applyCardFieldRows('#children .child-card')}
+applyCardFieldRows('#children .child-card')
+ }
+}
+
+
 function housingScope(c){return c.housingScope&&c.housingScope!=='auto'?c.housingScope:(c.livingArrangement==='shared'?'both':'primary')}
 function housingEligible(c,p){if(c.a!==p.id&&c.b!==p.id||housingScope(c)==='none')return false;if(num(c.a===p.id?c.nightsA:c.nightsB)<=0)return false;return housingScope(c)==='both'||c.resident===p.id}
 function housingWeight(c,p){if(c.housingShareMethod!=='nights'&&!(c.livingArrangement==='shared'&&c.sharedHousingMethod==='nights'))return 1;const own=num(c.a===p.id?c.nightsA:c.nightsB),both=num(c.nightsA)+num(c.nightsB);return both>0?Math.min(1,own/both):0}
