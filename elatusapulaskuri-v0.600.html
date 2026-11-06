@@ -245,7 +245,7 @@ function parentCapacity(p,i){const income=['income','business','unemployment','p
  const housingChildShare=housingNet*(ownKids?ownKids/(ownKids+1):0);
  const housingParent=Math.max(0,housingNet-housingChildShare);
  const living=sharedHousehold?livingPartner:livingSingle;
- const other=n(p.otherSupport)+n(p.otherChildCosts)+n(p.otherElsewhere);
+ const other=n(p.otherSupport)||n(p.otherChildCosts)+n(p.otherElsewhere);
  const expenses=living+housingParent+n(p.health)+n(p.work)+n(p.student)+Math.min(n(p.travel),147*state.children.length)+other;
  return {income,expenses,capacity:Math.max(n(p.childIncrement),income-expenses,0),housingNet,housingChildShare};
 }
@@ -260,10 +260,10 @@ function calculate(){
   const need=Math.max(0,costA+costB+special-reductions);
   const shareA=need*ratio,shareB=need*(1-ratio);
   const deduction=shared?0:careDeduction(c.age,n(c.nights));
-  const payment=shared?Math.max(0,shareB-costB):Math.max(0,Math.min(shareB,p[1].capacity)-deduction);
+  const payment=sum===0?0:shared?Math.max(0,shareB-costB):Math.max(0,Math.min(shareB,p[1].capacity)-deduction);
   return {name:c.name||'Lapsi',need,shareA,shareB,deduction,payment,costA,costB};
  });
- const rows=[['Vanhempi A: nettotulot',eur(p[0].income)],['Vanhempi A: hyväksytyt menot',eur(p[0].expenses)],['Vanhempi A: elatuskyky',eur(p[0].capacity)],['Vanhempi B: nettotulot',eur(p[1].income)],['Vanhempi B: hyväksytyt menot',eur(p[1].expenses)],['Vanhempi B: elatuskyky',eur(p[1].capacity)],['Elatuskyvyn jakosuhde A / B',(ratio*100).toFixed(1)+' % / '+((1-ratio)*100).toFixed(1)+' %']];
+ const rows=[['Vanhempi A: nettotulot',eur(p[0].income)],['Vanhempi A: hyväksytyt menot',eur(p[0].expenses)],['Vanhempi A: elatuskyky',eur(p[0].capacity)],['Vanhempi B: nettotulot',eur(p[1].income)],['Vanhempi B: hyväksytyt menot',eur(p[1].expenses)],['Vanhempi B: elatuskyky',eur(p[1].capacity)],['Elatuskyvyn jakosuhde A / B',sum?(ratio*100).toFixed(1)+' % / '+((1-ratio)*100).toFixed(1)+' %':'Ei elatuskykyä']];
  $('results').innerHTML='<div class="calc-card"><h3>Vanhempien elatuskyky</h3><div class="summary-grid">'+rows.map(x=>'<span>'+x[0]+'</span><strong>'+x[1]+'</strong>').join('')+'</div></div><div class="cards" style="margin-top:12px">'+result.map(x=>'<article class="calc-card"><h3>'+esc(x.name)+'</h3><div class="summary-grid">'+[['Elatuksen nettotarve',eur(x.need)],['Vanhempi A:n laskennallinen osuus',eur(x.shareA)],['Vanhempi B:n laskennallinen osuus',eur(x.shareB)],['Luonapitovähennys',eur(x.deduction)],['Arvioitu elatusapu B → A',eur(x.payment)]].map(y=>'<span>'+y[0]+'</span><strong>'+y[1]+'</strong>').join('')+'</div></article>').join('')+'</div><div class="calc-card" style="margin-top:12px"><div class="summary-grid"><strong>Elatusapu yhteensä / kk</strong><strong>'+eur(result.reduce((a,x)=>a+x.payment,0))+'</strong></div></div>';
 }
 function update(e){const field=e.target.dataset.key;if(!field)return;const card=e.target.closest('[data-parent],[data-child]');if(!card)return;const parent=card.dataset.parent!==undefined;const obj=parent?state.parents[+card.dataset.parent]:state.children[+card.dataset.child];obj[field]=e.target.type==='number'?n(e.target.value):e.target.value;calculate()}
