@@ -2,14 +2,31 @@
 <html lang="fi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Elatusapulaskuri</title>
 <style>
-:root{--bg:#061422;--panel:#0d2639;--head:#103f67;--line:#28617f;--text:#e9f8ff;--muted:#a5c6d7;--accent:#32d5ed;--field:#092033}
+/* 01 · Värit ja yhteiset CSS-muuttujat */
+:root {
+  --bg: #061422;
+  --panel: #0d2639;
+  --head: #103f67;
+  --line: #28617f;
+  --text: #e9f8ff;
+  --muted: #a5c6d7;
+  --accent: #32d5ed;
+  --field: #092033;
+}
+/* 02 · Sivun perustyylit ja runko */
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px Arial,sans-serif}.app{max-width:980px;margin:auto;padding-bottom:40px}
+/* 03 · Yläpalkki ja valikko */
 header{display:flex;align-items:center;gap:12px;padding:14px;background:linear-gradient(100deg,#003475,#0052cd,#00245e)}header strong{font-size:21px}.menu-holder{position:relative}.menu-trigger{background:transparent;border:0;font-size:23px;padding:5px 9px}.app-menu{position:absolute;top:calc(100% + 9px);left:0;width:min(320px,calc(100vw - 32px));z-index:50;padding:14px;border:1px solid var(--line);border-radius:9px;background:var(--panel);box-shadow:0 12px 35px #0009;color:var(--text)}.app-menu[hidden]{display:none}.app-menu .actions{display:grid;grid-template-columns:1fr}.app-menu .actions button{width:100%;text-align:left}.app-menu label{margin:10px 0}.menu-brand{font-weight:bold;margin-bottom:12px}header small{display:block;color:#c9e7f8}.version{margin-left:auto;border:1px solid #7cb3e0;border-radius:20px;padding:5px 10px;font-weight:bold;font-size:12px}
+/* 04 · Sisältöalueet ja paneelit */
 main{padding:8px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:15px;margin:9px 0}h2{font-size:19px;margin:0 0 12px}h3{font-size:16px;margin:14px 0 9px;border-bottom:1px solid var(--line);padding-bottom:6px}.muted{color:var(--muted);font-size:13px;line-height:1.5}
+/* 05 · Painikkeet ja lomakekentät */
 button{border:1px solid #368df7;background:#0757cf;color:white;border-radius:6px;padding:9px 12px;cursor:pointer;font:inherit}button.secondary{background:#17384c;border-color:#56839a}button.danger{background:#702b38;border-color:#b86b79}
 .actions{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}summary{cursor:pointer;padding:13px;background:var(--head);font-weight:bold}.card-body{padding:13px}label{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--muted)}input,select{width:100%;min-width:0;background:var(--field);color:var(--text);border:1px solid #63899d;border-radius:5px;padding:9px;font:15px Arial}input:focus,select:focus{outline:2px solid var(--accent)}.row{display:flex;gap:8px;align-items:center;justify-content:space-between}.result{font-size:25px;font-weight:bold;color:#62f0dc}.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}.tile{padding:12px;border:1px solid var(--line);border-radius:8px}.child-result{margin:10px 0;padding:0;border:0;border-radius:8px;background:var(--panel);overflow:hidden}.child-result>summary{list-style:none;display:block;padding:9px 12px;background:var(--head);color:var(--text);font-size:15px;font-weight:bold;text-align:left;overflow-wrap:anywhere}.child-result>summary::-webkit-details-marker{display:none}.child-result>summary:before{content:'▶';font-size:13px;color:var(--text);margin-right:8px;display:inline-block}.child-result[open]>summary:before{content:'▼'}.child-result>summary .child-label{flex:1}.child-result>summary .child-amount{white-space:nowrap}.child-result .child-inner{padding:2px 0 12px 20px}.child-result h3{margin-top:0}.result-lines{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 16px;align-items:baseline}.result-lines span:nth-child(even){text-align:right;font-variant-numeric:tabular-nums}.result-lines .total{font-weight:bold;border-top:1px solid var(--line);padding-top:9px}.result-note{margin-top:10px}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:9px 5px;border-bottom:1px solid var(--line)}.scroll{overflow-x:auto}.warning{padding:12px;border-left:3px solid #e6b55d;background:#203144;font-size:13px}.empty{padding:14px;border:1px dashed var(--line);border-radius:7px;color:var(--muted)}
+/* 06 · Väriteemat */
 body[data-theme=light]{--bg:#f4f8fc;--panel:#fff;--head:#e5f1fc;--line:#a7c5d9;--text:#15344b;--muted:#456477;--accent:#0757cf;--field:#fff}body[data-theme=forest]{--bg:#071b15;--panel:#123025;--head:#19503b;--line:#357e60;--text:#e4fff0;--muted:#add2bd;--accent:#61d9a0;--field:#0c251b}
+/* 07 · Responsiiviset tyylit */
 @media(max-width:600px){.fields{grid-template-columns:1fr}header strong{font-size:18px}.panel{padding:11px}table{font-size:13px}}
+/* 08 · Tulostusnäkymä */
 @media print{body{background:#fff;color:#000}.actions,.no-print,button{display:none!important}.panel,.tile{border-color:#888;break-inside:avoid}input,select{color:#000;background:#fff}summary{color:#000;background:#eee}}
 
 :root{--bg:#000c17;--panel:#001827;--head:#002b44;--line:#17677c;--text:#00d9ef;--muted:#7cb8c7;--accent:#168aff;--field:#081722;--border:#00cde5;--inputtext:#fff;--result:#00e6d8}
@@ -204,7 +221,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.552';
+const APP_VERSION='0.553';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
