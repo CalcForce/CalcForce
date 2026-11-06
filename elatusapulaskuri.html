@@ -204,7 +204,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.547';
+const APP_VERSION='0.548';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
@@ -375,9 +375,6 @@ const singleParentBenefit=c=>c.benefitRecipient&&state.parents.find(p=>p.id===c.
 function benefitFor(c,children=state.children){if(c.revisedChild)return revisedChildDeductions(c,children);return baseBenefitFor(c,children)+underThreeBenefit(c)+singleParentBenefit(c)}
 
 const revisedChildCosts=[['daycare','Päivähoitokulut'],['afterSchool','Koululaisen aamu- ja iltapäivätoiminta'],['education','Koulutuskustannukset'],['hobby','Erityisen harrastuksen kustannukset'],['insurance','Vakuutusmaksut'],['childHealth','Erityiset terveydenhoitokustannukset'],['otherSpecial','Muut erityiset kustannukset']];
-function revisedChildSpecial(c){return revisedChildCosts.reduce((v,[k])=>v+num(c[k]),0)}
-function revisedChildDeductions(c,children=state.children){return num(c.childBenefit)+num(c.childSingleSupplement)+num(c.studyIncome)+num(c.childCapital)}
-function revisedChildHousing(c){return num(c.housingCost)}
 function renderCurrentChildren(){
  const opened=new Set([...document.querySelectorAll('#children > details[open]')].map(x=>x.dataset.child));
  const expanded=new Set([...document.querySelectorAll('#children .revised-child .child-extra[open]')].map(x=>x.closest('[data-child]')?.dataset.child+'|'+x.dataset.section));
@@ -564,12 +561,15 @@ const costs=(p.livingMode==='manual'?num(p.living):estimatedLiving(p)) +num(p.wo
 const rawCapacity=cash+num(p.benefitAddition)+homeValue-housing-costs;
 return {cash,housing,costs,benefitAddition:num(p.benefitAddition),homeValue,rawCapacity,capacity:Math.max(0,rawCapacity)}}
 const careRates2026={'0-2':[0,37,51,67],'3-6':[0,37,51,67],'0-6':[0,37,51,67],'7-12':[0,41,55,71.5],'13-17':[0,44.5,62.5,77.5]};
-function automaticCareDeduction(age,nights){const n=num(nights),rates=careRates2026[age]||careRates2026['0-6'];return n<7?0:n<10?rates[1]:n<13?rates[2]:n<16?rates[3]:0}
 
 // Laskennan välivaiheet erillisinä, puhtaina funktioina.
 // Kaavat säilytetty ennallaan v0.520-rakenneuudistuksessa.
 // DOM-riippumaton laskentaydin. Funktiot pidetään samannimisinä yhteensopivuuden vuoksi.
 const CalculationCore=Object.freeze({
+revisedChildSpecial(c){return revisedChildCosts.reduce((v,[k])=>v+num(c[k]),0)},
+revisedChildDeductions(c,children=state.children){return num(c.childBenefit)+num(c.childSingleSupplement)+num(c.studyIncome)+num(c.childCapital)},
+revisedChildHousing(c){return num(c.housingCost)},
+automaticCareDeduction(age,nights){const n=num(nights),rates=careRates2026[age]||careRates2026['0-6'];return n<7?0:n<10?rates[1]:n<13?rates[2]:n<16?rates[3]:0},
 childNetNeed(totalCosts,benefit){return Math.max(0,totalCosts-benefit)},
 responsibilityRatio(mode,percent,capacityA,capacityB){
  const shareTotal=capacityA+capacityB;
@@ -579,7 +579,7 @@ sharedSupportPayment(payer,receiver,a,netA,netB){
  return payer?Math.min(Math.max(0,payer===a?netA:netB),Math.max(0,receiver===a?-netA:-netB)):null;
 }
 });
-const {childNetNeed,responsibilityRatio,sharedSupportPayment}=CalculationCore;
+const {childNetNeed,responsibilityRatio,sharedSupportPayment,revisedChildSpecial,revisedChildDeductions,revisedChildHousing,automaticCareDeduction}=CalculationCore;
 
 function allocate(parents,children){
 children=children.filter(c=>c.supportMode!=='exclude');
