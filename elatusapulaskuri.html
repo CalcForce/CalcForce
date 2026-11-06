@@ -203,7 +203,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.542';
+const APP_VERSION='0.543';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
@@ -567,14 +567,18 @@ function automaticCareDeduction(age,nights){const n=num(nights),rates=careRates2
 
 // Laskennan välivaiheet erillisinä, puhtaina funktioina.
 // Kaavat säilytetty ennallaan v0.520-rakenneuudistuksessa.
-function childNetNeed(totalCosts,benefit){return Math.max(0,totalCosts-benefit)}
-function responsibilityRatio(mode,percent,capacityA,capacityB){
+// DOM-riippumaton laskentaydin. Funktiot pidetään samannimisinä yhteensopivuuden vuoksi.
+const CalculationCore=Object.freeze({
+childNetNeed(totalCosts,benefit){return Math.max(0,totalCosts-benefit)},
+responsibilityRatio(mode,percent,capacityA,capacityB){
  const shareTotal=capacityA+capacityB;
  return mode==='parentAgreement'?percent/100:mode==='half'?0.5:mode==='custom'?percent/100:shareTotal?capacityA/shareTotal:0;
-}
-function sharedSupportPayment(payer,receiver,a,netA,netB){
+},
+sharedSupportPayment(payer,receiver,a,netA,netB){
  return payer?Math.min(Math.max(0,payer===a?netA:netB),Math.max(0,receiver===a?-netA:-netB)):null;
 }
+});
+const {childNetNeed,responsibilityRatio,sharedSupportPayment}=CalculationCore;
 
 function allocate(parents,children){
 children=children.filter(c=>c.supportMode!=='exclude');
