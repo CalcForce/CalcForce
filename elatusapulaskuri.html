@@ -155,13 +155,13 @@ function parentCard(p){
  field('name','Vanhemman nimi',p.name,'text')+
  field('livingSituation','Perhetilanne',p.values.livingSituation??'single','',[['single','Yksin asuva'],['partner','Parisuhteessa asuva']])+
  field('netIncome','Nettotulot',p.values.netIncome??'','€/kk')+
+ '<div class="field-row"><span class="field-label">Lapsilisät</span><output class="field-control readonly-benefit" data-benefit-total="'+escapeHtml(p.id)+'">0,00</output><span class="unit">€/kk</span></div>'+
  '<div class="field-row"><span class="field-label">Yksinhuoltajakorotukset</span><output class="field-control readonly-benefit" data-single-total="'+escapeHtml(p.id)+'">0,00</output><span class="unit">€/kk</span></div>'+
  '<div class="field-row"><span class="field-label">Alle 3-vuotiaan korotukset</span><output class="field-control readonly-benefit" data-under3-total="'+escapeHtml(p.id)+'">0,00</output><span class="unit">€/kk</span></div>'+
  field('expense.living','Yleiset elinkustannukset',p.values['expense.living']??'')+
  field('expense.housing','Asumiskustannukset',p.values['expense.housing']??'')+
  field('expense.housingAid','Asumistuki',p.values['expense.housingAid']??'')+
  '</div>'+
- '<div class="capacity-summary">Arvioitu elatuskyky <strong data-capacity="'+escapeHtml(p.id)+'"></strong><span class="unit">€/kk</span></div>'+
  '<div class="section-actions"><button class="danger" data-remove="parent" type="button">Poista vanhempi</button></div></div></details>'
 }
 function basicChildField(c,key,label){
