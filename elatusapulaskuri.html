@@ -1107,7 +1107,7 @@ body[data-theme=forest] .section-number {
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.562';
+const APP_VERSION='0.563';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
@@ -1127,16 +1127,16 @@ const defaults=()=>({includeIncome:true,...Object.fromEntries(parentFields.map((
 function estimatedTax(gross){const annual=num(gross)*12;if(!annual)return 0;const brackets=[[18000,.05],[30000,.15],[50000,.25],[80000,.34],[Infinity,.40]];let rest=annual,prev=0,tax=0;for(const [limit,rate] of brackets){const part=Math.min(rest,limit-prev);if(part>0){tax+=part*rate;rest-=part}prev=limit;if(rest<=0)break}return Math.round(tax/annual*1000)/10}
 // v0.520: valmiiksi luodut henkilöt, ei selaintallennusta.
 const initialParents=[
-{id:'parent-tero',name:'Tero',...defaults(),gross:3333,taxKind:'company',autoBenefit:971,homeBenefit:1134,housingMode:'benefit'},
-{id:'parent-enni',name:'Enni',...defaults(),gross:2000,housing:900,housingAid:500},
+{id:'parent-tero',name:'Tero',...defaults(),gross:2916.67,taxKind:'company',autoBenefit:971,homeBenefit:1134,housingMode:'benefit',living:726,livingMode:'manual'},
+{id:'parent-enni',name:'Enni',...defaults(),gross:579.80,housing:850,housingAid:0,living:726,livingMode:'manual'},
 {id:'parent-other-children',name:'Lasten toinen vanhempi',...defaults(),parentMode:'agreement',includeIncome:false}
 ];
 const ageOptions=[['0-2','0–2 vuotta'],['3-6','3–6 vuotta'],['7-12','7–12 vuotta'],['13-17','13–17 vuotta']];
 const ageCosts={'0-2':362,'3-6':362,'0-6':362,'7-12':422,'13-17':568};
 const initialChild=(id,name,age,a,b,extra={})=>({id,name,age,basic:ageCosts[age],basicMode:'auto',resident:'',benefit:0,benefitMode:'auto',under3:false,singleSupplement:false,benefitRecipient:'',nightsA:0,nightsB:0,careDeduction:0,supportMode:'payment',sharedResponsibilityMode:'half',sharedResponsibilityPct:50,agreementMode:'income',agreementType:'percent',agreementValue:50,housingCostMode:'auto',housingScope:'auto',housingCost:0,includeImputedHousing:'yes',sharedPaymentMode:'calculate',special:0,other:0,a,b,...extra});
 const initialChildren=[
-initialChild('child-venla','Venla','0-2','parent-tero','parent-enni',{resident:'parent-enni',nightsA:7,nightsB:23,benefitRecipient:'parent-enni',under3:true,singleSupplement:true}),
-initialChild('child-eetu','Eetu','3-6','parent-tero','parent-enni',{resident:'parent-enni',nightsA:7,nightsB:23,benefitRecipient:'parent-enni',singleSupplement:true}),
+initialChild('child-venla','Venla','0-2','parent-tero','parent-enni',{resident:'parent-enni',nightsA:0,nightsB:30,benefitRecipient:'parent-enni',under3:true,singleSupplement:true}),
+initialChild('child-eetu','Eetu','3-6','parent-tero','parent-enni',{resident:'parent-enni',nightsA:0,nightsB:30,benefitRecipient:'parent-enni',singleSupplement:true}),
 initialChild('child-arttu','Arttu','13-17','parent-tero','parent-other-children',{supportMode:'capacity',agreementMode:'agreed',agreementType:'percent',agreementValue:50,resident:'parent-tero',nightsA:16,nightsB:14,benefitRecipient:'',singleSupplement:true,livingArrangement:'shared',sharedPaymentMode:'zero'}),
 initialChild('child-vilho','Vilho','13-17','parent-tero','parent-other-children',{supportMode:'capacity',agreementMode:'agreed',agreementType:'percent',agreementValue:50,resident:'parent-tero',nightsA:16,nightsB:14,benefitRecipient:'',singleSupplement:true,livingArrangement:'shared',sharedPaymentMode:'zero'}),
 initialChild('child-alma','Alma','7-12','parent-tero','parent-other-children',{supportMode:'capacity',agreementMode:'agreed',agreementType:'percent',agreementValue:50,resident:'parent-tero',nightsA:16,nightsB:14,benefitRecipient:'',singleSupplement:true,livingArrangement:'shared',sharedPaymentMode:'zero'})
@@ -1146,7 +1146,7 @@ function baseBenefitForInitial(c){return c.benefitRecipient?94.88:0}
 function createRevisedChild(c){
  return {...c,revisedChild:true,visitingNights:c.nightsA,childBenefit:baseBenefitForInitial(c),childSingleSupplement:c.singleSupplement?73.30:0,studyIncome:0,childCapital:0,daycare:0,afterSchool:0,education:0,hobby:0,insurance:0,childHealth:0,otherSpecial:0,housingCost:0,housingCostMode:'manual',includeImputedHousing:'no'};
 }
-let state={version:APP_VERSION,parents:initialParents.map(p=>p.id==='parent-other-children'?p:{...p,revisedParent:true,earningsNet:0,businessNet:0,unemploymentNet:0,pensionNet:0,socialNet:0,singleSupplementNet:0,capitalNet:0,assetNet:0,miscNet:0,extraHousing:0}),children:initialChildren.map(createRevisedChild)},sequence=0;
+let state={version:APP_VERSION,parents:initialParents.map(p=>p.id==='parent-other-children'?p:{...p,revisedParent:true,earningsNet:p.id==='parent-tero'?600:0,businessNet:0,unemploymentNet:0,pensionNet:0,socialNet:p.id==='parent-enni'?579.80:0,singleSupplementNet:0,capitalNet:0,assetNet:0,miscNet:0,extraHousing:0}),children:initialChildren.map(createRevisedChild)},sequence=0;
 const id=prefix=>prefix+'-'+Date.now().toString(36)+'-'+(++sequence);
 const parentGroup=k=>({gross:'Tulot',housingSharePct:'Asuminen',work:'Erikseen selvitettävät menot',nonDeductible:'Menot, joita ei yleensä vähennetä'})[k]||'';
 const field=(k,label,kind,opts,labels,value)=>(parentGroup(k)?'<div class="field-group-heading">'+parentGroup(k)+'</div>':'')+(k==='nonDeductible'?'<p class="expense-guidance">Esimerkiksi ruoka, vaatteet, puhelin, harrastukset, kulutusluotot ja säästäminen sisältyvät yleiskuluihin tai eivät yleensä oikeuta erilliseen vähennykseen. Tähän merkitty summa ei vaikuta elatuskykyyn.</p>':k==='work'?'<p class="expense-guidance">Vain perusteltavat ja ohjeen mukaan hyväksyttävät menot. Säilytä selvitykset ja kuitit. Tavalliset elinkustannukset sisältyvät jo yleiskuluihin.</p>':'')+'<label>'+esc(label)+(kind==='select'?'<select data-field="'+k+'">'+opts.map((v,i)=>'<option value="'+v+'" '+(v===value?'selected':'')+'>'+esc(labels[i])+'</option>').join('')+'</select>':'<input data-field="'+k+'" type="number" min="0" step="1" value="'+esc(fixed2(value))+'">')+'</label>';
