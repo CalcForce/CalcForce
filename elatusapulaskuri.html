@@ -148,7 +148,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 }
 
 #children .child-card .child-all-fields>.field-group-heading:first-child{font-weight:700}
-#children .child-card .child-all-fields label:has(>input[readonly]){display:none!important}
+#children .child-card .child-all-fields label:has(>input[readonly]),
 #children .child-card .child-all-fields label:has(>select[data-field="basicMode"]),
 #children .child-card .child-all-fields label:has(>select[data-field="benefitMode"]),
 #children .child-card .child-all-fields label:has(>input[data-field="careDeduction"]){display:none!important}
@@ -200,7 +200,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.557';
+const APP_VERSION='0.558';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
