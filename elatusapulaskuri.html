@@ -1096,16 +1096,18 @@ body[data-theme=forest] .section-number {
   white-space:nowrap;
   text-align:right;
 }
+.support-result{border:1px solid var(--line);border-radius:7px;padding:12px;margin:12px 0;background:var(--panel)}
+.support-result h3{margin:0 0 10px}.support-result-line{display:flex;justify-content:space-between;gap:12px;padding:5px 0}.support-result-line strong{text-align:right;white-space:nowrap}.support-payment{border-top:1px solid var(--line);margin-top:8px;padding-top:10px;font-weight:bold}
+@media(max-width:420px){.support-result-line{font-size:13px;gap:8px}}
 </style></head><body data-theme="ocean"><div class="app"><header><div class="menu-holder"><button id="menuTrigger" class="menu-trigger" type="button" aria-label="Avaa valikko" aria-expanded="false" aria-controls="appMenu">☰</button><div id="appMenu" class="app-menu" hidden><div class="menu-brand"><strong>Elatusapulaskuri</strong><small>CalcForce</small></div><div class="menu-theme"><label for="theme">Teema</label><select id="theme"><option value="ocean">Sininen</option><option value="light">Vaalea</option><option value="forest">Vihreä</option></select></div><div class="menu-actions"><button id="print" type="button">▣ PDF-raportti (tulosta / tallenna PDF)</button><button id="save" type="button">▣ Tallenna laskelma tiedostoon</button><button id="load" type="button">▣ Avaa tallennettu laskelma</button><button id="clear" type="button" class="danger">▣ Tyhjennä laskuri</button></div><input id="file" type="file" accept=".json,application/json" hidden><div class="menu-version"></div></div></div><div><strong>CalcForce</strong><small>Elatusapulaskuri</small></div><span class="version"></span></header><main>
 <div class="warning">Suuntaa antava laskuri. Tulokset eivät ole virallinen elatusapupäätös. Elatuskyky, muiden lasten vastuu ja asumisjärjestelyt on arvioitava tapauskohtaisesti.</div>
 <section class="panel"><div class="row"><h2><span class="section-number">1</span>Vanhempien tiedot</h2></div><p class="muted">Avaa vanhempikortti nähdäksesi kaikki tulot ja menot.</p><div id="parents"></div></section>
 <section class="panel"><div class="row"><h2><span class="section-number">2</span>Lasten tiedot</h2><button id="addChild">+ Lisää lapsi</button></div><p class="muted">Avaa lapsikortti nähdäksesi valitun laskentatavan tiedot.</p><div id="children"></div></section>
-
-
+<section class="panel" id="support-section"><div class="row"><h2><span class="section-number">3</span>Elatusavun laskelma</h2></div><p class="muted">Laskelma päivittyy automaattisesti vanhempien ja lasten tiedoista. Maksu määräytyy lapsikohtaisesti.</p><div id="support-results" aria-live="polite"></div></section>
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.561';
+const APP_VERSION='0.562';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
@@ -1737,8 +1739,32 @@ function childCardTotals(c){
 function updateCardText(card,values){
  for(const [selector,value] of values){const el=card.querySelector(selector);if(el)el.textContent=value}
 }
+function supportResultMarkup(model,parents){
+ const names=new Map(parents.map(p=>[p.id,p.name||'Vanhempi']));
+ const display=id=>esc(names.get(id)||'Vanhempi');
+ const rows=model.rows.map(row=>{
+  const payment=Number.isFinite(row.payment)?money(row.payment)+' / kk':'Ei laskettavissa';
+  const route=row.payer&&row.receiver?'<p class="muted">Maksaja: '+display(row.payer)+' · Saaja: '+display(row.receiver)+'</p>':
+   row.shared?' <p class="muted">Vuoroasuminen: maksu arvioidaan asumis- ja kustannusjaon perusteella.</p>':
+   '<p class="muted">Maksajaa ei voida määrittää. Tarkista lapsen asuminen ja vanhemmat.</p>';
+  return '<article class="support-result"><h3>'+esc(row.name)+'</h3>'+
+   '<div class="support-result-line"><span>Lapsen elatuksen nettotarve</span><strong>'+money(row.need)+'</strong></div>'+
+   '<div class="support-result-line"><span>'+display(row.a)+' · elatusvastuu</span><strong>'+money(row.aa)+'</strong></div>'+
+   (row.b?'<div class="support-result-line"><span>'+display(row.b)+' · elatusvastuu</span><strong>'+money(row.bb)+'</strong></div>':'')+
+   '<div class="support-result-line"><span>Luonapitovähennys</span><strong>'+money(row.deduction||0)+'</strong></div>'+
+   '<div class="support-result-line support-payment"><span>Arvioitu elatusapu</span><strong>'+payment+'</strong></div>'+route+'</article>';
+ }).join('');
+ const warnings=model.warnings.map(w=>'<p class="warning">'+esc(w)+'</p>').join('');
+ return (rows||'<p class="muted">Lisää lapsi ja määritä lapsen juridiset vanhemmat, jotta laskelma voidaan muodostaa.</p>')+warnings;
+}
+function renderSupportResults(){
+ const target=document.getElementById('support-results');
+ if(!target)return;
+ const model=computeSupportModel(state.parents,state.children);
+ target.innerHTML=supportResultMarkup(model,state.parents);
+}
 function calculate(){
- // Päivitä vain korttien olemassa olevat summat. Kohta 3 säilyy tyhjänä.
+ // Päivitä korttien summat sekä kohdan 3 elatusapulaskelma.
  for(const card of document.querySelectorAll('#parents .revised-parent')){
   const p=state.parents.find(p=>p.id===card.dataset.parent);if(!p)continue;
   const {income,expense,available}=parentCardTotals(p);
@@ -1751,6 +1777,7 @@ function calculate(){
   const values=[['[data-section="special"]>summary span',money(special)+' / kk'],['[data-section="deductions"]>summary span',money(benefit)+' / kk'],['.child-needs-total strong:last-child',money(total)]];
   updateCardText(card,values);
  }
+ renderSupportResults();
 }
 
 // Tarkistetaan numeeriset syötteet kentästä poistuttaessa. Ei katkaista keskeneräistä kirjoittamista.
