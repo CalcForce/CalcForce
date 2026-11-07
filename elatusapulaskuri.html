@@ -77,15 +77,15 @@ function calculateAll(){
  const rows=state.children.map(c=>{
   const v=c.values,a=state.parents.find(p=>p.id===v.parentA),b=state.parents.find(p=>p.id===v.parentB),resident=state.parents.find(p=>p.id===v.resident);
   const n=childNeed(c),ca=capacities.get(a?.id)?.capacity??0,cb=capacities.get(b?.id)?.capacity??0;
-  const share=ca+cb>0?ca/(ca+cb):0.5;
+  const share=ca+cb>0?ca/(ca+cb):0;
   const payer=resident?.id===a?.id?b:resident?.id===b?.id?a:null;
-  const payerShare=payer?.id===a?.id?share:1-share;
+  const payerShare=ca+cb<=0?0:payer?.id===a?.id?share:1-share;
   const nights=clamp(val(c,'nights'),0,30);
   // Suuntaa antava luonapitovähennys, ei virallisen taulukon euromäärä.
   const care=nights>=7?Math.min(n.need*payerShare,n.need*clamp(nights/30,0,0.5)*0.3):0;
   const shared=nights>=13;
-  const base=payer?n.need*payerShare:0;
-  const final=payer?Math.max(0,base-care):0;
+  const base=payer&&ca+cb>0?n.need*payerShare:0;
+  const final=payer&&!shared?Math.max(0,base-care):0;
   return {c,n,a,b,resident,payer,share,care,shared,base,final,capacityA:ca,capacityB:cb};
  });
  return {capacities,rows};
@@ -94,7 +94,7 @@ function refreshResults(){
  const model=calculateAll(),node=document.getElementById('support-results');
  if(!node)return;
  node.innerHTML='<p class="note">Suuntaa antava laskelma. Tarkista tulot, lapsilisän saaja, asumisjärjestelyt ja luonapitovähennys. Laskenta ei ole viranomaisen vahvistama.</p>'+
- model.rows.map(r=>'<div class="result-card"><strong>'+escapeHtml(r.c.name)+'</strong><div>Elatuksen tarve: '+money(r.n.need)+'/kk</div><div>Elatusvastuu: '+escapeHtml(r.a?.name||'Vanhempi 1')+' '+(r.share*100).toFixed(1)+' % / '+escapeHtml(r.b?.name||'Vanhempi 2')+' '+((1-r.share)*100).toFixed(1)+' %</div><div>Luonapitovähennys (arvio): '+money(r.care)+'/kk</div><div>'+ (r.shared?'Vuoroasumisen kaltainen yöjako: erillinen tarkistus tarpeen. ':'')+(r.payer?'Maksaja: '+escapeHtml(r.payer.name)+' → '+escapeHtml(r.resident?.name||'vastaanottaja'):'Maksajaa ei määritetty')+'</div><div class="result-value">Arvioitu elatusapu: '+money(r.final)+'/kk</div></div>').join('')+
+ model.rows.map(r=>'<div class="result-card"><strong>'+escapeHtml(r.c.name)+'</strong><div>Elatuksen tarve: '+money(r.n.need)+'/kk</div><div>Elatusvastuu: '+escapeHtml(r.a?.name||'Vanhempi 1')+' '+(r.share*100).toFixed(1)+' % / '+escapeHtml(r.b?.name||'Vanhempi 2')+' '+((1-r.share)*100).toFixed(1)+' %</div><div>Luonapitovähennys (arvio): '+money(r.care)+'/kk</div><div>'+ (r.shared?'Vuoroasuminen: rahamäärää ei lasketa automaattisesti, erillinen kustannusjako tarvitaan. ':'')+(r.payer?'Maksaja: '+escapeHtml(r.payer.name)+' → '+escapeHtml(r.resident?.name||'vastaanottaja'):'Maksajaa ei määritetty')+'</div><div class="result-value">Arvioitu elatusapu: '+money(r.final)+'/kk</div></div>').join('')+
  '<h3>Vanhempien arvioitu elatuskyky</h3>'+state.parents.map(p=>'<div>'+escapeHtml(p.name)+': '+money(model.capacities.get(p.id)?.capacity)+'/kk</div>').join('');
  document.querySelectorAll('#children .card').forEach(card=>{const r=model.rows.find(x=>x.c.id===card.dataset.id),p=card.querySelector('[data-child-summary]');if(r&&p)p.textContent='Arvioitu elatuksen tarve '+money(r.n.need)+'/kk'});
 }
