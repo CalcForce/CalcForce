@@ -1164,7 +1164,7 @@ body[data-theme=forest] .section-number {
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.564';
+const APP_VERSION='0.565';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
@@ -1801,9 +1801,11 @@ function supportResultMarkup(model,parents){
  const display=id=>esc(names.get(id)||'Vanhempi');
  const rows=model.rows.map(row=>{
   const payment=Number.isFinite(row.payment)?money(row.payment)+' / kk':'Ei laskettavissa';
-  const route=row.payer&&row.receiver?'<p class="muted">Maksaja: '+display(row.payer)+' · Saaja: '+display(row.receiver)+'</p>':
-   row.shared?' <p class="muted">Vuoroasuminen: maksu arvioidaan asumis- ja kustannusjaon perusteella.</p>':
-   '<p class="muted">Maksajaa ei voida määrittää. Tarkista lapsen asuminen ja vanhemmat.</p>';
+  const recipient=row.receiver||(row.payer&&row.resident!==row.payer?row.resident:'');
+  const route=row.supportMode==='capacity'?'<p class="muted">Muu elatusvastuu: huomioidaan elatuskyvyssä, ei lasketa maksettavaa elatusapua.</p>':
+   row.payer&&recipient?'<p class="muted">Maksaja: '+display(row.payer)+' · Saaja: '+display(recipient)+'</p>':
+   row.shared?'<p class="muted">Vuoroasuminen: maksaja määräytyy kustannusten jaon perusteella.</p>':
+   '<p class="muted">Maksajaa ei voida määrittää. Tarkista lapsen asuinvanhempi ja vanhemmat.</p>';
   return '<article class="support-result"><h3>'+esc(row.name)+'</h3>'+
    '<div class="support-result-line"><span>Lapsen elatuksen nettotarve</span><strong>'+money(row.need)+'</strong></div>'+
    '<div class="support-result-line"><span>'+display(row.a)+' · elatusvastuu</span><strong>'+money(row.aa)+'</strong></div>'+
