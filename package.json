@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "scripts": {
+    "test": "node tests/elatusapulaskuri.test.cjs && node tests/elatusapulaskuri-dom.test.cjs"
+  },
+  "devDependencies": {
+    "css-tree": "3.2.1",
+    "jsdom": "31.0.0"
+  }
+}

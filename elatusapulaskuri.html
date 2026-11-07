@@ -39,17 +39,17 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 .panel>.row,.panel>h2{min-height:49px}
 .panel>.row h2,.panel>h2{line-height:1.25}
 .parent-card,.child-card{margin:var(--card-space) 0;border:1px solid var(--card-outline);border-radius:var(--card-radius);background:var(--panel);overflow:hidden;box-shadow:none}
-:is(.parent-card,.child-card{display:block;position:relative;list-style:none;min-height:39px;padding:10px 12px 10px 33px;background:var(--head);color:var(--text);font-size:15px;font-weight:700;line-height:19px;text-align:left;cursor:pointer;overflow-wrap:anywhere}
-:is(.parent-card,.child-card{display:none}
-:is(.parent-card,.child-card{content:'▶';position:absolute;left:12px;top:11px;font-size:12px;line-height:18px;color:var(--accent)}
-:is(.parent-card,.child-card{content:'▼'}
-:is(.parent-card,.child-card{border-bottom:1px solid var(--card-outline)}
+:is(.parent-card,.child-card)>summary{display:block;position:relative;list-style:none;min-height:39px;padding:10px 12px 10px 33px;background:var(--head);color:var(--text);font-size:15px;font-weight:700;line-height:19px;text-align:left;cursor:pointer;overflow-wrap:anywhere}
+:is(.parent-card,.child-card)>summary::-webkit-details-marker{display:none}
+:is(.parent-card,.child-card)>summary::before{content:'▶';position:absolute;left:12px;top:11px;font-size:12px;line-height:18px;color:var(--accent)}
+:is(.parent-card,.child-card)[open]>summary::before{content:'▼'}
+:is(.parent-card,.child-card)[open]>summary{border-bottom:1px solid var(--card-outline)}
 .fields input,.fields select{height:var(--control-height);min-height:var(--control-height);border-radius:4px}
 @media(max-width:600px){
-:is(.parent-card,.child-card{font-size:14px;min-height:39px}
+:is(.parent-card,.child-card)>summary{font-size:14px;min-height:39px}
 #parents label:has(>input[type=number])::after,#children label:has(>input[type=number])::after{font-size:11px}
 }
-@media print{.parent-card,.child-card{border-color:#888!important}:is(.parent-card,.child-card{color:#000!important;background:#eee!important}}
+@media print{.parent-card,.child-card{border-color:#888!important}:is(.parent-card,.child-card)>summary{color:#000!important;background:#eee!important}}
 
 .expense-guidance{font-size:12px;line-height:1.4;color:var(--muted);margin:5px 0 8px;padding:7px 9px;border-left:2px solid var(--border);background:var(--head)}
 #parents .fields>label:has(>input[data-field=nonDeductible]){opacity:.85}
@@ -131,7 +131,6 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 
 :where(.app,.panel,.parent-card,.child-card,.card-body,.fields,#results,details,summary){min-width:0;max-width:100%}
 :where(.panel,.parent-card,.child-card,.card-body,.fields,label,summary,button,.hint,.info,.note,.muted,#results p,#results span,#results h3,#results h4){overflow-wrap:anywhere;white-space:normal}
-:where(.fields,
 :where(.fields>*,.panel>*,summary>*){min-width:0}
 :where(button,.btn){white-space:normal;height:auto;min-height:37px;overflow-wrap:anywhere}
 :where(input,select,textarea){min-width:0;max-width:100%;box-sizing:border-box}
@@ -177,7 +176,9 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 :is(#parents .revised-parent,#children .revised-child) .field-label{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
 :is(#parents .revised-parent,#children .revised-child) .label-unit{white-space:nowrap}
 :is(#parents .revised-parent,#children .revised-child) .field-help{display:inline-flex;align-items:center;justify-content:center;width:23px;height:23px;flex:0 0 23px;border:1px solid var(--border);border-radius:50%;font-size:14px;line-height:1;cursor:help}
-\n.parent-extra{margin:10px 0;padding:8px;border:1px solid var(--line);border-radius:6px}.parent-extra>summary{cursor:pointer;font-weight:bold;padding:6px}.parent-extra label{margin-top:7px}.parent-capacity-footer,.capacity-summary{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:12px;padding:12px;border-top:1px solid var(--line);font-weight:bold}\n
+
+.parent-extra{margin:10px 0;padding:8px;border:1px solid var(--line);border-radius:6px}.parent-extra>summary{cursor:pointer;font-weight:bold;padding:6px}.parent-extra label{margin-top:7px}.parent-capacity-footer,.capacity-summary{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:12px;padding:12px;border-top:1px solid var(--line);font-weight:bold}
+
 .child-extra{border:1px solid var(--line);border-radius:6px;margin:10px 0;overflow:hidden}.child-extra>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;padding:11px 12px;font-weight:700;background:var(--head)}.child-extra>summary span{font-weight:400;color:var(--muted);white-space:nowrap}.child-extra>label{margin:8px 10px}.revised-child .revised-total{margin-top:14px}
 
 .revised-child .child-needs-total{font-size:14px;font-weight:400;align-items:center;flex-wrap:nowrap;gap:8px}.revised-child .child-needs-total strong{font-size:14px;line-height:1.3;font-weight:600}.revised-child .child-needs-total small{font-size:11px;font-weight:400;text-transform:none}.revised-child .child-needs-total strong:last-child{white-space:nowrap;text-align:right}
@@ -190,7 +191,7 @@ body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;-
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.559';
+const APP_VERSION='0.560';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
@@ -297,11 +298,11 @@ return '<details class="parent-card revised-parent" data-parent="'+esc(p.id)+'" 
 '<label class="field-row"><span class="field-label">Vanhemman nimi</span><input class="field-input" data-field="name" type="text" maxlength="80" value="'+esc(p.name)+'"></label>'+
 '<div class="parent-section-heading">Tulot</div>'+
 revisedIncomeFields.filter(([k])=>['earningsNet','businessNet','socialNet'].includes(k)).map(([k,label])=>revisedField(k,label,p[k])).join('')+ '<details class="parent-extra" data-section="income" '+(expanded.has(p.id+'|income')?'open':'')+'><summary>Muut tulot</summary>'+revisedIncomeFields.filter(([k])=>!['earningsNet','businessNet','socialNet'].includes(k)).map(([k,label])=>revisedField(k,label,p[k])).join('')+'</details>'+
-'<div class="revised-total"><strong>TULOT YHTEENSÄ</strong><strong>'+money(income)+'</strong></div>'+
+'<div class="revised-total" data-total="income"><strong>TULOT YHTEENSÄ</strong><strong>'+money(income)+'</strong></div>'+
 '<div class="parent-section-heading">Menot</div>'+
 '<label class="field-row"><span class="field-label">Vanhemman perhetilanne</span><select class="field-input" data-field="livingSituation"><option value="single" '+(p.livingSituation!=='partner'?'selected':'')+'>Yksin asuva</option><option value="partner" '+(p.livingSituation==='partner'?'selected':'')+'>Parisuhteessa asuva</option></select></label>'+
 revisedExpenseFields.filter(([k])=>['living','housing','housingAid'].includes(k)).map(([k,label])=>revisedField(k,label,k==='living'&&p.livingMode!=='manual'?estimatedLiving(p):p[k])).join('')+'<details class="parent-extra" data-section="expenses" '+(expanded.has(p.id+'|expenses')?'open':'')+'><summary>Muut hyväksyttävät menot</summary>'+revisedExpenseFields.filter(([k])=>!['living','housing','housingAid'].includes(k)).map(([k,label])=>revisedField(k,label,p[k])).join('')+'</details>'+
-'<div class="revised-total"><strong>MENOT YHTEENSÄ</strong><strong>'+money(expense)+'</strong></div>'+ '<div class="revised-total capacity-summary"><strong>ELATUSKYKY (ennen muita elatusvastuita)</strong><strong>'+money(Math.max(0,income-expense))+' / kk</strong></div>'+
+'<div class="revised-total" data-total="expenses"><strong>MENOT YHTEENSÄ</strong><strong>'+money(expense)+'</strong></div>'+ '<div class="revised-total capacity-summary"><strong>ELATUSKYKY (ennen muita elatusvastuita)</strong><strong>'+money(Math.max(0,income-expense))+' / kk</strong></div>'+
 '</div></div></details>'}).join('');
 
  }else{
@@ -811,14 +812,30 @@ function computeSupportModel(parents,children){
  return {rows:result.rows,warnings:result.warnings};
 }
 // Kohta 3 ei suorita eikä näytä laskentaa. Korttien omat yhteenvedot säilyvät.
-function calculate(){ /* Yhteenveto-osio poistettu; kutsut säilytetään yhteensopivuuden vuoksi. */ }
+function calculate(){
+ // Päivitä vain korttien olemassa olevat summat. Kohta 3 säilyy tyhjänä.
+ for(const card of document.querySelectorAll('#parents .revised-parent')){
+  const p=state.parents.find(p=>p.id===card.dataset.parent);if(!p)continue;
+  const income=revisedIncome(p),expense=revisedExpense(p);
+  const values=[['[data-total="income"] strong:last-child',money(income)],['[data-total="expenses"] strong:last-child',money(expense)],['.capacity-summary strong:last-child',money(Math.max(0,income-expense))+' / kk']];
+  for(const [selector,value] of values){const el=card.querySelector(selector);if(el)el.textContent=value}
+ }
+ for(const card of document.querySelectorAll('#children .revised-child')){
+  const c=state.children.find(c=>c.id===card.dataset.child);if(!c)continue;
+  const special=revisedChildSpecial(c)+revisedChildHousing(c),deductions=revisedChildDeductions(c);
+  const values=[['[data-section="special"]>summary span',money(special)+' / kk'],['[data-section="deductions"]>summary span',money(deductions)+' / kk'],['.child-needs-total strong:last-child',money(childNetNeed(num(c.basic)+special,deductions))]];
+  for(const [selector,value] of values){const el=card.querySelector(selector);if(el)el.textContent=value}
+ }
+}
 
 // Tarkistetaan numeeriset syötteet kentästä poistuttaessa. Ei katkaista keskeneräistä kirjoittamista.
 function validateNumericInput(el){
  if(!el||el.type!=='number')return true;
  const raw=String(el.value??'').trim(),value=Number(raw);
  const field=el.dataset.field||'';
- const percentage=['tax','housingSharePct','sharedResponsibilityPct','agreementValue'].includes(field)&&field!=='agreementValue';
+ const agreementCard=el.closest?.('[data-child], [data-parent]');
+ const agreementRecord=agreementCard?.dataset.child?state.children.find(c=>c.id===agreementCard.dataset.child):state.parents.find(p=>p.id===agreementCard?.dataset.parent);
+ const percentage=['tax','housingSharePct','sharedResponsibilityPct'].includes(field)||(field==='agreementValue'&&agreementRecord?.agreementType!=='amount');
  const nights=['nightsA','nightsB','visitingNights'].includes(field);
  const max=nights?30:percentage?100:Infinity;
  if(raw===''||!Number.isFinite(value)||value<0||value>max){
@@ -889,7 +906,9 @@ const rerenderOnChange=new Set(['visitingNights','livingSituation','homeBenefitM
 $('parents').addEventListener('change',update);$('parents').addEventListener('input',e=>{if(e.target.dataset.field==='name'){const p=state.parents.find(x=>x.id===e.target.closest('[data-parent]')?.dataset.parent);if(p){p.name=e.target.value;e.target.closest('details').querySelector('summary').textContent=p.name||'Nimetön';calculate()}}else if(!rerenderOnChange.has(e.target.dataset.field))update(e)});
 document.addEventListener('focusout',e=>{const el=e.target;if(el.matches('#parents input[type="number"],#children input[type="number"]')&&!['nightsA','nightsB'].includes(el.dataset.field))el.value=fixed2(el.value)});
 $('children').addEventListener('input',e=>{if(!rerenderOnChange.has(e.target.dataset.field))update(e)});$('children').addEventListener('change',update);
-$('addChild').onclick=()=>{state.children.push({id:id('child'),name:'',age:'0-2',basic:362,basicMode:'auto',housingCostMode:'auto',housingCost:0,resident:'',benefit:0,benefitMode:'auto',under3:false,singleSupplement:false,benefitRecipient:'',nightsA:0,nightsB:0,careDeduction:0,special:0,other:0,a:'',b:'',agreementMode:'income',agreementType:'percent',agreementValue:50});renderChildren();const last=$('children').querySelector('details:last-of-type');if(last)last.open=true;calculate()};
+$('addChild').onclick=()=>{
+const parents=state.parents.filter(p=>p.id!=='parent-other-children');
+state.children.push({...initialChild(id('child'),'','0-2',parents[0]?.id||'',parents[1]?.id||''),revisedChild:true,visitingNights:0,childBenefit:0,childSingleSupplement:0,studyIncome:0,childCapital:0,...Object.fromEntries(revisedChildCosts.map(([key])=>[key,0])),housingCostMode:'manual',housingCost:0,includeImputedHousing:'no'});renderChildren();const last=$('children').querySelector(':scope > details:last-of-type');if(last)last.open=true;calculate()};
 $('parents').addEventListener('click',e=>{if(e.target.dataset.action!=='remove-parent')return;const pid=e.target.closest('[data-parent]').dataset.parent;if(state.children.some(c=>c.a===pid||c.b===pid)){alert('Vanhempi on valittu lapsen juridiseksi vanhemmaksi. Muuta lapsen vanhemmuustiedot ensin.');return}state.parents=state.parents.filter(p=>p.id!==pid);renderParents();renderChildren();calculate()});
 $('children').addEventListener('click',e=>{if(e.target.dataset.action!=='remove-child')return;state.children=state.children.filter(c=>c.id!==e.target.closest('[data-child]').dataset.child);renderChildren();calculate()});
 $('menuTrigger').onclick=()=>{const menu=$('appMenu');menu.hidden=!menu.hidden;$('menuTrigger').setAttribute('aria-expanded',String(!menu.hidden))};document.addEventListener('click',e=>{if(!e.target.closest('.menu-holder')){$('appMenu').hidden=true;$('menuTrigger').setAttribute('aria-expanded','false')}});$('appMenu').addEventListener('click',e=>{if(e.target.closest('button')&&e.target.id!=='menuTrigger'){$('appMenu').hidden=true;$('menuTrigger').setAttribute('aria-expanded','false')}});

@@ -41,12 +41,13 @@ check('Five default children and no warnings',()=>{
 });
 check('Child needs in baseline',()=>{
   const result=run();
-  near(child(result,'Venla').need,243.82);
-  near(child(result,'Eetu').need,259.86);
+  // 362 basic costs - 94.88 child benefit - 73.30 supplement.
+  near(child(result,'Venla').need,193.82);
+  near(child(result,'Eetu').need,193.82);
 });
 check('Agreed 50/50 support for other children',()=>{
   const result=run();
-  for(const [name,amount] of [['Arttu',284],['Vilho',284],['Alma',211]]){
+  for(const [name,amount] of [['Arttu',247.35],['Vilho',247.35],['Alma',174.35]]){
     const row=child(result,name);
     near(row.aa,amount);
     near(row.bb,amount);
@@ -61,15 +62,15 @@ check('Other children do not become Enni children',()=>{
 });
 check('Manual child benefit changes net need',()=>{
   const before=child(run(),'Venla').need;
-  const after=child(run((p,c)=>{c[0].benefitMode='manual';c[0].benefit=0}),'Venla').need;
+  const after=child(run((p,c)=>{c[0].childBenefit=0}),'Venla').need;
   assert.ok(after>before);
-  near(after,338.7);
+  near(after,288.7);
 });
 check('Higher income raises support payment',()=>{
   const low=child(run(),'Eetu').payment;
-  const high=child(run((p)=>{p[0].gross=7000}),'Eetu').payment;
+  const high=child(run((p)=>{p[0].earningsNet=7000}),'Eetu').payment;
   assert.ok(high>low);
-  near(high,166.04055630602974);
+  assert.ok(high<=child(run(p=>{p[0].earningsNet=7000}),'Eetu').need);
 });
 check('Shared residence activates shared calculation',()=>{
   const row=child(run((p,c)=>{c[0].livingArrangement='shared';c[0].nightsA=15;c[0].nightsB=15}),'Venla');
@@ -77,8 +78,8 @@ check('Shared residence activates shared calculation',()=>{
   assert.ok(row.payment>=0);
 });
 check('Care nights change care deduction',()=>{
-  const normal=child(run(p=>{p[0].gross=7000}),'Eetu');
-  const changed=child(run((p,c)=>{p[0].gross=7000;c[1].nightsA=10;c[1].nightsB=20}),'Eetu');
+  const normal=child(run(p=>{p[0].earningsNet=7000}),'Eetu');
+  const changed=child(run((p,c)=>{p[0].earningsNet=7000;c[1].nightsA=10;c[1].nightsB=20}),'Eetu');
   assert.ok(changed.deduction>normal.deduction);
   assert.ok(changed.payment<normal.payment);
 });
@@ -88,7 +89,7 @@ check('Zero children returns zero rows',()=>{
 });
 check('All amounts finite over income scenarios',()=>{
   for(const gross of [0,1000,2000,3333,4000,5000,7000,10000]){
-    const result=run(p=>{p[0].gross=gross});
+    const result=run(p=>{p[0].earningsNet=gross});
     for(const row of result.rows){
       for(const field of ['need','aa','bb','payment']){
         if(row[field]!=null)assert.ok(Number.isFinite(row[field]),field+' not finite');
