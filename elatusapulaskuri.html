@@ -1099,6 +1099,63 @@ body[data-theme=forest] .section-number {
 .support-result{border:1px solid var(--line);border-radius:7px;padding:12px;margin:12px 0;background:var(--panel)}
 .support-result h3{margin:0 0 10px}.support-result-line{display:flex;justify-content:space-between;gap:12px;padding:5px 0}.support-result-line strong{text-align:right;white-space:nowrap}.support-payment{border-top:1px solid var(--line);margin-top:8px;padding-top:10px;font-weight:bold}
 @media(max-width:420px){.support-result-line{font-size:13px;gap:8px}}
+
+/* v0.564: Kaikki kenttien nimet rivittyvät. Syöttö pysyy samalla rivillä. */
+:is(#parents .parent-card,#children .child-card) .fields label.field-row{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(84px,150px) 38px!important;
+  align-items:center!important;
+  column-gap:8px!important;
+  height:auto!important;
+  min-height:42px!important;
+  padding:5px 8px!important;
+  position:relative!important;
+  overflow:visible!important;
+}
+:is(#parents .parent-card,#children .child-card) .fields label.field-row>.field-label{
+  display:flex!important;
+  position:static!important;
+  grid-column:1!important;
+  width:auto!important;
+  min-width:0!important;
+  margin:0!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  overflow-wrap:break-word!important;
+  line-height:1.35!important;
+  align-items:center;
+  flex-wrap:wrap;
+}
+:is(#parents .parent-card,#children .child-card) .fields label.field-row>.field-input{
+  position:static!important;
+  grid-column:2!important;
+  left:auto!important;
+  top:auto!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  align-self:center!important;
+}
+:is(#parents .parent-card,#children .child-card) .fields label.field-row>.agreement-input{
+  grid-column:2!important;
+  min-width:0!important;
+}
+:is(#parents .parent-card,#children .child-card) .fields label.field-row:has(>.field-input[type=number])::after{
+  position:static!important;
+  grid-column:3!important;
+  align-self:center!important;
+  white-space:normal!important;
+  overflow-wrap:break-word!important;
+}
+@media(max-width:420px){
+  :is(#parents .parent-card,#children .child-card) .fields label.field-row{
+    grid-template-columns:minmax(0,1fr) minmax(76px,110px) 27px!important;
+    column-gap:5px!important;
+    padding:5px 4px!important;
+  }
+}
 </style></head><body data-theme="ocean"><div class="app"><header><div class="menu-holder"><button id="menuTrigger" class="menu-trigger" type="button" aria-label="Avaa valikko" aria-expanded="false" aria-controls="appMenu">☰</button><div id="appMenu" class="app-menu" hidden><div class="menu-brand"><strong>Elatusapulaskuri</strong><small>CalcForce</small></div><div class="menu-theme"><label for="theme">Teema</label><select id="theme"><option value="ocean">Sininen</option><option value="light">Vaalea</option><option value="forest">Vihreä</option></select></div><div class="menu-actions"><button id="print" type="button">▣ PDF-raportti (tulosta / tallenna PDF)</button><button id="save" type="button">▣ Tallenna laskelma tiedostoon</button><button id="load" type="button">▣ Avaa tallennettu laskelma</button><button id="clear" type="button" class="danger">▣ Tyhjennä laskuri</button></div><input id="file" type="file" accept=".json,application/json" hidden><div class="menu-version"></div></div></div><div><strong>CalcForce</strong><small>Elatusapulaskuri</small></div><span class="version"></span></header><main>
 <div class="warning">Suuntaa antava laskuri. Tulokset eivät ole virallinen elatusapupäätös. Elatuskyky, muiden lasten vastuu ja asumisjärjestelyt on arvioitava tapauskohtaisesti.</div>
 <section class="panel"><div class="row"><h2><span class="section-number">1</span>Vanhempien tiedot</h2></div><p class="muted">Avaa vanhempikortti nähdäksesi kaikki tulot ja menot.</p><div id="parents"></div></section>
@@ -1107,7 +1164,7 @@ body[data-theme=forest] .section-number {
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.563';
+const APP_VERSION='0.564';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
