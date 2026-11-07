@@ -910,9 +910,7 @@ body[data-theme=forest] .section-number {
   display:none!important;
 }
 
-#parents .parent-card .fields>label:has(>input[data-field="housing"]) {
-  display:flex!important;
-}
+/* Asumiskustannukset käyttää samaa kenttärivien ruudukkoa kuin muutkin menot. */
 
 #parents .parent-card .fields>label:has(>input[data-field="housing"]):has(~label) {
   min-width:0;
@@ -1164,7 +1162,7 @@ body[data-theme=forest] .section-number {
 </main></div>
 <script>
 (()=>{'use strict';
-const APP_VERSION='0.565';
+const APP_VERSION='0.566';
 const syncVersion=()=>{document.title='Elatusapulaskuri v'+APP_VERSION;document.querySelectorAll('.version').forEach(el=>el.textContent='v'+APP_VERSION);document.querySelectorAll('.menu-version').forEach(el=>el.textContent='CalcForce · Versio '+APP_VERSION)};
 const $=id=>document.getElementById(id),num=x=>Math.max(0,Number(x)||0),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>Number(n||0).toLocaleString('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0});
 // Rahamäärät ja muut desimaaliluvut näytetään ilman desimaaleja.
