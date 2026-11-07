@@ -1,7 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "test": "node tests/elatusapulaskuri.test.cjs && node tests/elatusapulaskuri-dom.test.cjs"
+    "test": "node tests/elatusapulaskuri.test.cjs && node tests/elatusapulaskuri-dom.test.cjs && node tests/elatusapulaskuri-compat.test.cjs",
+    "test:refactor": "node tests/elatusapulaskuri-refactor.test.cjs"
   },
   "devDependencies": {
     "css-tree": "3.2.1",
