@@ -1,110 +1,193 @@
-<!doctype html><html lang="fi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tulolaskuri</title><style>:root{font-family:system-ui;color-scheme:dark;background:#101827;color:#e8edf5}body{max-width:1050px;margin:24px auto;padding:0 16px}h1{margin-bottom:4px}p,small{color:#aebbd0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px}.card{border:1px solid #33445d;border-radius:13px;padding:17px;background:#19253a;margin:12px 0}label{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:10px 0;font-size:14px}input{width:120px;min-width:0;padding:8px;border:1px solid #52627a;border-radius:7px;background:#101827;color:white;font:inherit}input[type=text]{width:145px}strong.value{font-size:21px;color:#86d9c5}hr{border:0;border-top:1px solid #33445d}button{border:1px solid #52627a;border-radius:8px;background:#28466a;color:white;padding:9px 13px;cursor:pointer}.result{display:flex;justify-content:space-between;gap:12px;margin:9px 0}.total{font-weight:700;border-top:1px solid #52627a;padding-top:12px}.note{font-size:13px}:root{--bg:#000c17;--panel:#001827;--head:#002b44;--line:#17677c;--text:#00d9ef;--border:#00cde5;--field:#081722}body{background:var(--bg);color:var(--text);font-family:Arial,sans-serif;max-width:900px}.card{background:var(--panel);border-color:var(--line);padding:0;overflow:hidden}.card>summary{background:var(--head);padding:13px;cursor:pointer;font-weight:bold}.card-body{padding:15px}.card input{border-color:var(--border);background:var(--field)}.card label{border-bottom:1px solid var(--line)}button{background:#0055e9;border-color:#2791ff}strong.value{color:var(--text)}header{background:linear-gradient(100deg,#003475,#0052cd,#00245e);padding:15px;color:white;border-radius:7px}header small{color:#c9e7f8}body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;--text:#075a85;--border:#70a7c4;--field:#fff}body[data-theme=forest]{--bg:#08120f;--panel:#10271f;--head:#163a2d;--line:#275b48;--text:#9de6c0;--border:#3baf87;--field:#091a15}/* Yhtenäinen pystyrivitys ja kenttäkoot kaikissa korteissa */.grid{display:block}.card-body{padding:12px}.card label{display:grid;grid-template-columns:minmax(0,1fr) minmax(90px,150px);align-items:center;column-gap:8px;min-height:46px;padding:6px 4px;margin:0;border-bottom:1px solid var(--line);font-size:14px;line-height:1.35}.card input{width:100%;min-width:0;max-width:100%;height:35px;box-sizing:border-box;font-size:14px;padding:4px 7px}.card input[type=text]{width:100%;text-align:left}.card .grid>div{width:100%}.card .result{min-height:42px;align-items:center}.card summary{min-height:45px;display:flex;align-items:center;justify-content:space-between;gap:10px}.card h2,.card h3{font-size:15px}.card hr{margin:12px 0}@media(max-width:420px){.card-body{padding:8px}.card label{grid-template-columns:minmax(0,1fr) minmax(80px,110px);gap:5px;padding:6px 2px;font-size:12px}.card input{height:35px;font-size:12px;padding:4px}}.app-header{display:flex;align-items:center;gap:12px;background:linear-gradient(100deg,#003475,#0052cd,#00245e);padding:13px 17px;color:#fff;position:relative;z-index:5;min-height:70px;border-radius:0}.app-header .header-brand{display:flex;flex-direction:column;gap:2px;min-width:0}.app-header .header-brand strong{font-size:24px;line-height:1.1;color:#fff}.app-header .header-brand small{display:block;color:#c9e7f8;font-size:12px}.app-header .version{margin-left:auto;border:1px solid #7cb3e0;border-radius:20px;padding:5px 10px;font-weight:bold;font-size:12px;color:white;white-space:nowrap}.menu-holder{position:relative;flex-shrink:0}.menu-trigger{display:grid;place-items:center;width:42px;height:42px;min-height:42px;background:#0055e9;border:1px solid #2791ff;border-radius:4px;color:white;font-size:23px;padding:0}.app-menu{position:absolute;top:calc(100% + 8px);left:0;z-index:50;width:min(310px,calc(100vw - 32px));background:#09263d;color:white;border:1px solid #2a9fc7;border-radius:6px;padding:14px;box-shadow:0 12px 35px #0009}.app-menu[hidden]{display:none}.app-menu .menu-brand{display:flex;flex-direction:column;gap:3px;margin-bottom:14px}.app-menu .menu-brand strong{font-size:18px}.app-menu .menu-brand small{font-size:12px;color:#c9e7f8}.app-menu label{display:block;margin:8px 0;color:white;font-size:13px}.app-menu .theme-picker{width:100%;max-width:none;background:var(--field);color:var(--text);border:1px solid var(--border);border-radius:4px;padding:7px}.app-menu .menu-note{font-size:12px;line-height:1.4;color:#c9e7f8;margin:15px 0}.app-menu .menu-version{border-top:1px solid #2a6987;padding-top:10px;color:#c9e7f8;font-size:12px}body[data-theme=forest] .app-header{background:linear-gradient(90deg,#125a44,#167c5a)}body[data-theme=forest] .app-menu{background:#10271f;border-color:#4ab48d}body[data-theme=light] .app-menu{background:#f5faff;color:#075a85;border-color:#70a7c4}body[data-theme=light] .app-menu label,body[data-theme=light] .app-menu .menu-brand strong{color:#075a85}body[data-theme=light] .app-menu .menu-note,body[data-theme=light] .app-menu .menu-brand small,body[data-theme=light] .app-menu .menu-version{color:#536f80}@media(max-width:600px){.app-header{padding:10px 12px;gap:10px;min-height:62px}.app-header .header-brand strong{font-size:19px}.app-header .version{font-size:11px;padding:5px 8px}.menu-trigger{width:39px;height:39px;min-height:39px}}.card select.recipient{width:100%;min-width:0;height:35px;border:1px solid var(--border);border-radius:4px;background:var(--field);color:var(--text);font:inherit;padding:4px 7px}.card input[type=checkbox]{width:20px;height:20px;justify-self:end}</style></head><body data-theme="dark"><header class="app-header"><div class="menu-holder"><button id="menuTrigger" class="menu-trigger" type="button" aria-label="Avaa valikko" aria-expanded="false" aria-controls="appMenu">☰</button><div id="appMenu" class="app-menu" hidden><div class="menu-brand"><strong>Tulolaskuri</strong><small>CalcForce</small></div><label for="theme">Väriteema</label><select id="theme" class="theme-picker"><option value="dark">Sininen</option><option value="light">Vaalea</option><option value="forest">Vihreä</option></select><p class="menu-note">Vanhempien tulot ja lasten elatustarve. Ei elatusavun laskentaa.</p><div class="menu-version">v0.07</div></div></div><div class="header-brand"><strong>CalcForce</strong><small>Tulolaskuri</small></div><span class="version">v0.07</span></header><h1>Tulolaskuri</h1><p>Vanhempien tulot ja käytettävissä oleva raha. Lasten elatustarve näytetään erikseen. Laskuri ei määritä elatusapua.</p><div class="grid" id="parents"></div><h2>Lasten elatustarve</h2><p class="note">Lapsilisät ja korotukset määräytyvät automaattisesti lapsen iän, saajan ja yksinhuoltajakorotuksen valinnan perusteella. Etuudet näkyvät saajan tuloissa. Elatustarvetta ei pienennetä niillä.</p><div id="children"></div><button id="add">+ Lisää lapsi</button><div class="card"><h2>Yhteenveto</h2><div id="summary"></div></div><script>
-const RULES={benefits:[94.88,104.84,133.79,173.24,192.69],single:73.30,under3:26};
-const defaults=[{name:'Tero',gross:3333,tax:20,other:0,benefits:0,housing:690,living:726,expenses:0,single:false,city:2,housingSupport:true,homeCare:false,homeCareTax:20,homeCareMunicipal:0,homeCareEligible:0},{name:'Enni',gross:0,tax:20,other:0,benefits:0,housing:850,living:726,expenses:0,single:false}];
-let parents=defaults.map((x,i)=>({...x,city:i===0?2:1,homeCare:i===1,homeCareEligible:i===1?2:0}));
-let children=[
-{name:'Arttu',age:15,general:568,housing:0,special:0,otherIncome:0,recipient:2,resident:0},
-{name:'Vilho',age:15,general:568,housing:0,special:0,otherIncome:0,recipient:2,resident:0},
-{name:'Alma',age:10,general:422,housing:0,special:0,otherIncome:0,recipient:0,resident:0},
-{name:'Eetu',age:5,general:362,housing:0,special:0,otherIncome:0,recipient:1,resident:1},
-{name:'Venla',age:1,general:362,housing:0,special:0,otherIncome:0,recipient:1,resident:1}
+<!doctype html><html lang="fi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tulolaskuri</title><style>:root{font-family:system-ui;color-scheme:dark;background:#101827;color:#e8edf5}body{max-width:1050px;margin:24px auto;padding:0 16px}h1{margin-bottom:4px}p,small{color:#aebbd0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px}.card{border:1px solid #33445d;border-radius:13px;padding:17px;background:#19253a;margin:12px 0}label{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:10px 0;font-size:14px}input{width:120px;min-width:0;padding:8px;border:1px solid #52627a;border-radius:7px;background:#101827;color:white;font:inherit}input[type=text]{width:145px}strong.value{font-size:21px;color:#86d9c5}hr{border:0;border-top:1px solid #33445d}button{border:1px solid #52627a;border-radius:8px;background:#28466a;color:white;padding:9px 13px;cursor:pointer}.result{display:flex;justify-content:space-between;gap:12px;margin:9px 0}.total{font-weight:700;border-top:1px solid #52627a;padding-top:12px}.note{font-size:13px}:root{--bg:#000c17;--panel:#001827;--head:#002b44;--line:#17677c;--text:#00d9ef;--border:#00cde5;--field:#081722}body{background:var(--bg);color:var(--text);font-family:Arial,sans-serif;max-width:900px}.card{background:var(--panel);border-color:var(--line);padding:0;overflow:hidden}.card>summary{background:var(--head);padding:13px;cursor:pointer;font-weight:bold}.card-body{padding:15px}.card input{border-color:var(--border);background:var(--field)}.card label{border-bottom:1px solid var(--line)}button{background:#0055e9;border-color:#2791ff}strong.value{color:var(--text)}header{background:linear-gradient(100deg,#003475,#0052cd,#00245e);padding:15px;color:white;border-radius:7px}header small{color:#c9e7f8}body[data-theme=light]{--bg:#f3f7fb;--panel:#fff;--head:#e4f1fa;--line:#d9e9f6;--text:#075a85;--border:#70a7c4;--field:#fff}body[data-theme=forest]{--bg:#08120f;--panel:#10271f;--head:#163a2d;--line:#275b48;--text:#9de6c0;--border:#3baf87;--field:#091a15}/* Yhtenäinen pystyrivitys ja kenttäkoot kaikissa korteissa */.grid{display:block}.card-body{padding:12px}.card label{display:grid;grid-template-columns:minmax(0,1fr) minmax(90px,150px);align-items:center;column-gap:8px;min-height:46px;padding:6px 4px;margin:0;border-bottom:1px solid var(--line);font-size:14px;line-height:1.35}.card input{width:100%;min-width:0;max-width:100%;height:35px;box-sizing:border-box;font-size:14px;padding:4px 7px}.card input[type=text]{width:100%;text-align:left}.card .grid>div{width:100%}.card .result{min-height:42px;align-items:center}.card summary{min-height:45px;display:flex;align-items:center;justify-content:space-between;gap:10px}.card h2,.card h3{font-size:15px}.card hr{margin:12px 0}@media(max-width:420px){.card-body{padding:8px}.card label{grid-template-columns:minmax(0,1fr) minmax(80px,110px);gap:5px;padding:6px 2px;font-size:12px}.card input{height:35px;font-size:12px;padding:4px}}.app-header{display:flex;align-items:center;gap:12px;background:linear-gradient(100deg,#003475,#0052cd,#00245e);padding:13px 17px;color:#fff;position:relative;z-index:5;min-height:70px;border-radius:0}.app-header .header-brand{display:flex;flex-direction:column;gap:2px;min-width:0}.app-header .header-brand strong{font-size:24px;line-height:1.1;color:#fff}.app-header .header-brand small{display:block;color:#c9e7f8;font-size:12px}.app-header .version{margin-left:auto;border:1px solid #7cb3e0;border-radius:20px;padding:5px 10px;font-weight:bold;font-size:12px;color:white;white-space:nowrap}.menu-holder{position:relative;flex-shrink:0}.menu-trigger{display:grid;place-items:center;width:42px;height:42px;min-height:42px;background:#0055e9;border:1px solid #2791ff;border-radius:4px;color:white;font-size:23px;padding:0}.app-menu{position:absolute;top:calc(100% + 8px);left:0;z-index:50;width:min(310px,calc(100vw - 32px));background:#09263d;color:white;border:1px solid #2a9fc7;border-radius:6px;padding:14px;box-shadow:0 12px 35px #0009}.app-menu[hidden]{display:none}.app-menu .menu-brand{display:flex;flex-direction:column;gap:3px;margin-bottom:14px}.app-menu .menu-brand strong{font-size:18px}.app-menu .menu-brand small{font-size:12px;color:#c9e7f8}.app-menu label{display:block;margin:8px 0;color:white;font-size:13px}.app-menu .theme-picker{width:100%;max-width:none;background:var(--field);color:var(--text);border:1px solid var(--border);border-radius:4px;padding:7px}.app-menu .menu-note{font-size:12px;line-height:1.4;color:#c9e7f8;margin:15px 0}.app-menu .menu-version{border-top:1px solid #2a6987;padding-top:10px;color:#c9e7f8;font-size:12px}body[data-theme=forest] .app-header{background:linear-gradient(90deg,#125a44,#167c5a)}body[data-theme=forest] .app-menu{background:#10271f;border-color:#4ab48d}body[data-theme=light] .app-menu{background:#f5faff;color:#075a85;border-color:#70a7c4}body[data-theme=light] .app-menu label,body[data-theme=light] .app-menu .menu-brand strong{color:#075a85}body[data-theme=light] .app-menu .menu-note,body[data-theme=light] .app-menu .menu-brand small,body[data-theme=light] .app-menu .menu-version{color:#536f80}@media(max-width:600px){.app-header{padding:10px 12px;gap:10px;min-height:62px}.app-header .header-brand strong{font-size:19px}.app-header .version{font-size:11px;padding:5px 8px}.menu-trigger{width:39px;height:39px;min-height:39px}}.card select.recipient{width:100%;min-width:0;height:35px;border:1px solid var(--border);border-radius:4px;background:var(--field);color:var(--text);font:inherit;padding:4px 7px}.card input[type=checkbox]{width:20px;height:20px;justify-self:end}.audit{margin-top:14px;border:1px solid var(--line);border-radius:6px;padding:6px 10px}.audit>summary{cursor:pointer;color:var(--text);font-weight:bold;min-height:40px;display:list-item!important}.audit-body{padding:12px 4px}.audit-body h4{font-size:14px;margin:12px 0 6px}.audit-body ul{margin:6px 0 10px;padding-left:22px}.audit-body li{font-size:13px;line-height:1.5;padding:3px 0}.audit-body .formula{background:var(--field);border:1px solid var(--line);padding:10px;border-radius:6px;font-size:12px;line-height:1.6}.note-warn{color:#eca542}.note-block{color:#ff7979}.card select.recipient{width:100%;min-width:0;max-width:100%;height:35px;box-sizing:border-box;background:var(--field);color:var(--text);border:1px solid var(--border);padding:3px 6px;border-radius:4px}.card input[type=checkbox]{width:20px;height:20px;justify-self:end}.audit .result{font-size:12px}@media(max-width:420px){.audit-body .result{font-size:11px}}</style></head><body data-theme="dark"><header class="app-header"><div class="menu-holder"><button id="menuTrigger" class="menu-trigger" type="button" aria-label="Avaa valikko" aria-expanded="false" aria-controls="appMenu">☰</button><div id="appMenu" class="app-menu" hidden><div class="menu-brand"><strong>Tulolaskuri</strong><small>CalcForce</small></div><label for="theme">Väriteema</label><select id="theme" class="theme-picker"><option value="dark">Sininen</option><option value="light">Vaalea</option><option value="forest">Vihreä</option></select><p class="menu-note">Vanhempien tulot ja lasten elatustarve. Ei elatusavun laskentaa.</p><div class="menu-version">v0.08</div></div></div><div class="header-brand"><strong>CalcForce</strong><small>Tulolaskuri</small></div><span class="version">v0.08</span></header><h1>Tulolaskuri</h1><p>Vanhempien tulot ja käytettävissä oleva raha. Lasten elatustarve näytetään erikseen. Laskuri ei määritä elatusapua.</p><div class="grid" id="parents"></div><h2>Lasten elatustarve</h2><p class="note">Kelan etuuslaskelmissa tarkistetaan asumismuoto, ruokakunta, varallisuus ja kotihoidon edellytykset. Puuttuvista tiedoista tulee huomautus. Avaa vanhemman kortista ”Tukien tarkistus ja laskentakaavat”.</p><div id="children"></div><button id="add">+ Lisää lapsi</button><div class="card"><h2>Yhteenveto</h2><div id="summary"></div></div><script>
+const RULES={benefits:[94.88,104.84,133.79,173.24,192.69],single:73.30,under3:26,housingCaps:[[563,808,1019,1188,148],[447,652,828,981,134],[394,574,734,875,129]],care:[377.68,113.07,72.66,202.12]};
+const defaults=[
+{name:'Tero',gross:3333,tax:20,other:0,benefits:0,housing:690,living:726,expenses:0,single:false,city:2,housingMode:'estimate',housingType:'unknown',housingWater:0,housingHeat:0,adults:1,partnerGross:0,otherKelaGross:0,assetsOther:0,bankDeposits:0,longDebt:0,assetsKnown:false,homeCareMode:'off',homeCareTax:20,homeCareMunicipal:0,homeCareDecisionNet:0,housingDecision:0},
+{name:'Enni',gross:0,tax:20,other:0,benefits:0,housing:850,living:726,expenses:0,single:false,city:1,housingMode:'estimate',housingType:'rent',housingWater:0,housingHeat:0,adults:1,partnerGross:0,otherKelaGross:0,assetsOther:0,bankDeposits:0,longDebt:0,assetsKnown:false,homeCareMode:'estimate',homeCareTax:20,homeCareMunicipal:0,homeCareDecisionNet:0,housingDecision:0}
 ];
-const eur=n=>new Intl.NumberFormat('fi-FI',{style:'currency',currency:'EUR'}).format(n||0);
+let parents=defaults.map(x=>({...x}));
+let children=[
+{name:'Arttu',age:15,general:568,housing:0,special:0,otherIncome:0,recipient:2,resident:0,careStatus:'unknown',parentalAllowance:'unknown'},
+{name:'Vilho',age:15,general:568,housing:0,special:0,otherIncome:0,recipient:2,resident:0,careStatus:'unknown',parentalAllowance:'unknown'},
+{name:'Alma',age:10,general:422,housing:0,special:0,otherIncome:0,recipient:2,resident:0,careStatus:'unknown',parentalAllowance:'unknown'},
+{name:'Eetu',age:5,general:362,housing:0,special:0,otherIncome:0,recipient:1,resident:1,careStatus:'unknown',parentalAllowance:'no'},
+{name:'Venla',age:1,general:362,housing:0,special:0,otherIncome:0,recipient:1,resident:1,careStatus:'home',parentalAllowance:'unknown'}
+];
+const eur=n=>new Intl.NumberFormat('fi-FI',{style:'currency',currency:'EUR'}).format(Number(n)||0);
 const num=x=>Number(x)||0;
+const money=x=>Math.round((Number(x)||0)*100)/100;
 const esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function field(label,obj,key,idx,kind='number',group='p'){
-return '<label>'+label+'<input aria-label="'+esc(label)+'" type="'+kind+'" '+(kind==='number'?'step="0.01"':'')+' data-group="'+group+'" data-idx="'+idx+'" data-key="'+key+'" value="'+esc(obj[key])+'"></label>';
+return '<label>'+esc(label)+'<input aria-label="'+esc(label)+'" type="'+kind+'" '+(kind==='number'?'step="0.01" min="0"':'')+' data-group="'+group+'" data-idx="'+idx+'" data-key="'+key+'" value="'+esc(obj[key])+'"></label>';
 }
-function selectRecipient(c,i){
-return '<label>Lapsilisän saaja<select class="recipient" data-group="c" data-idx="'+i+'" data-key="recipient">'+parents.map((p,j)=>'<option value="'+j+'" '+(num(c.recipient)===j?'selected':'')+'>'+esc(p.name)+'</option>').join('')+'<option value="2" '+(num(c.recipient)===2?'selected':'')+'>Toinen vanhempi</option></select></label>';
+function select(label,obj,key,idx,options,group='p'){
+return '<label>'+esc(label)+'<select class="recipient" data-group="'+group+'" data-idx="'+idx+'" data-key="'+key+'">'+options.map(([value,title])=>'<option value="'+esc(value)+'" '+(String(obj[key])===String(value)?'selected':'')+'>'+esc(title)+'</option>').join('')+'</select></label>';
 }
-function selectResidence(c,i){return '<label>Pääasiallinen asuminen<select class="recipient" data-group="c" data-idx="'+i+'" data-key="resident">'+parents.map((p,j)=>'<option value="'+j+'" '+(num(c.resident)===j?'selected':'')+'>'+esc(p.name)+'</option>').join('')+'</select></label>'}function benefitFor(c,i){
+function flag(label,obj,key,idx){return '<label>'+esc(label)+'<input type="checkbox" data-group="p" data-idx="'+idx+'" data-key="'+key+'" '+(obj[key]?'checked':'')+'></label>';}
+function result(label,value,cls=''){return '<div class="result '+cls+'"><span>'+esc(label)+'</span><b>'+eur(value)+'</b></div>';}
+function benefitFor(c,i){
 const preceding=children.slice(0,i).filter(x=>num(x.recipient)===num(c.recipient)).length;
-return {base:RULES.benefits[Math.min(preceding,4)],single:parents[num(c.recipient)]?.single?RULES.single:0,under3:num(c.age)<3?RULES.under3:0};
+return {base:num(c.age)<17?RULES.benefits[Math.min(preceding,4)]:0,single:num(c.age)<17&&parents[num(c.recipient)]?.single?RULES.single:0,under3:num(c.age)<3?RULES.under3:0};
 }
-function parentBenefits(i){
-return children.reduce((a,c,j)=>{if(num(c.recipient)===i){let b=benefitFor(c,j);a.base+=b.base;a.single+=b.single;a.under3+=b.under3;}return a},{base:0,single:0,under3:0});
+function parentBenefits(i){return children.reduce((r,c,j)=>{if(num(c.recipient)===i){let b=benefitFor(c,j);r.base+=b.base;r.single+=b.single;r.under3+=b.under3;}return r;},{base:0,single:0,under3:0});}
+function careEstimate(p,i){
+const warnings=[],blocks=[],info=[];
+const atHome=children.filter(c=>num(c.resident)===i&&num(c.age)<7);
+const under3=atHome.filter(c=>num(c.age)>=.5&&num(c.age)<3&&c.careStatus==='home'&&c.parentalAllowance!=='yes');
+const older=atHome.filter(c=>num(c.age)>=3&&c.careStatus==='home');
+for(const c of atHome){
+ if(c.careStatus==='unknown')warnings.push(esc(c.name)+': tarkista varhaiskasvatus ja kotihoito.');
+ if(num(c.age)<3&&c.parentalAllowance==='unknown')warnings.push(esc(c.name)+': tarkista vanhempainrahan maksaminen samasta lapsesta.');
+ if(num(c.age)<3&&c.parentalAllowance==='yes')info.push(esc(c.name)+': vanhempainraha samasta lapsesta, lapsi ei mukana kotihoidon tuen arviossa.');
 }
-
-function optionField(label,key,i,options){return '<label>'+label+'<select class="recipient" data-group="p" data-idx="'+i+'" data-key="'+key+'">'+options.map(([v,t])=>'<option value="'+v+'" '+(String(parents[i][key])===String(v)?'selected':'')+'>'+t+'</option>').join('')+'</select></label>'}
-function homeCare(p,i){if(!p.homeCare)return {base:0,supplement:0,municipal:0,tax:0,net:0};
-let eligible=children.filter(c=>num(c.resident)===i && num(c.age)>=0.5 && num(c.age)<3).length;
-if(!eligible)return {base:0,supplement:0,municipal:0,tax:0,net:0};
-let siblings=children.filter(c=>num(c.resident)===i&&num(c.age)>=3&&num(c.age)<7).length;
-let base=377.68+Math.max(0,eligible-1)*113.07+siblings*72.66;
-let familySize=Math.min(4,1+children.filter(c=>num(c.resident)===i&&num(c.age)<7).length);
-let threshold=familySize>=4?1700:familySize===3?1430:1160;
-let rate=familySize>=4?.079:familySize===3?.094:.115;
-let supplement=Math.max(0,202.12-Math.max(0,num(p.gross)+num(p.other)-threshold)*rate);
-let municipal=num(p.homeCareMunicipal);
+if(!under3.length)blocks.push('Ei laskentaan hyväksyttyä alle 3-vuotiasta kotihoidossa; hoitoraha on 0 €.');
+if(under3.some(c=>num(c.age)<1))warnings.push('Tuen alkaminen perustuu 160 arkipäivän ikärajaan, jota pelkkä vuosina annettu ikä ei tarkista.');
+let base=under3.length?RULES.care[0]+(under3.length-1)*RULES.care[1]+older.length*RULES.care[2]:0;
+let count=Math.min(4,Math.max(2,num(p.adults)+atHome.filter(c=>c.careStatus==='home').length));
+let threshold=count>=4?1700:count===3?1430:1160;
+let rate=count>=4?.079:count===3?.094:.115;
+let income=Math.max(0,num(p.gross))+Math.max(0,num(p.partnerGross))+Math.max(0,num(p.otherKelaGross));
+let excess=Math.max(0,income-threshold);
+let supplement=under3.length?Math.max(0,RULES.care[3]-excess*rate):0;
+let municipal=under3.length?num(p.homeCareMunicipal):0;
 let tax=(base+supplement+municipal)*num(p.homeCareTax)/100;
-return {base,supplement,municipal,tax,net:base+supplement+municipal-tax};
+let net=base+supplement+municipal-tax;
+if(num(p.adults)>1&&num(p.partnerGross)===0)warnings.push('Toisen aikuisen bruttotulot on syötetty nollaksi. Tarkista tulot.');
+if(num(p.other)>0&&num(p.otherKelaGross)===0)warnings.push('Muut tulot on ilmoitettu nettomääräisenä: selvitä Kelan huomioima bruttotulo.');
+if(municipal>0)warnings.push('Kuntalisän määrä ja oikeus on varmistettava kotikunnasta.');
+info.push('Hoitolisä = max(0; 202,12 € − '+eur(rate*100).replace('€','%')+' × max(0; '+eur(income)+' − '+eur(threshold)+')).');
+return {base:money(base),supplement:money(supplement),municipal:money(municipal),tax:money(tax),net:money(net),income,threshold,rate,familySize:count,eligible:under3.length,older:older.length,warnings,blocks,info};
 }
-function housingSupport(p,i,care){if(!p.housingSupport)return 0;
-let kids=children.filter(c=>num(c.resident)===i).length;
-let persons=kids+1;
-let maxes=num(p.city)===0?[563,808,1019,1188,148]:num(p.city)===1?[447,652,828,981,134]:[394,574,734,875,129];
-let cap=persons<=4?maxes[persons-1]:maxes[3]+(persons-4)*maxes[4];
-let income=num(p.gross)+num(p.other)+care.base+care.supplement;
-let deductible=Math.max(0,.5*(income-(667+94+296*kids)));
-let amount=Math.max(0,.7*(Math.min(num(p.housing),cap)-deductible));
-return amount<15?0:amount;
+function careSupport(p,i){
+let auto=careEstimate(p,i),mode=p.homeCareMode,decision=mode==='decision';
+if(mode==='off')return {...auto,base:0,supplement:0,municipal:0,tax:0,net:0,active:false,mode};
+return {...auto,net:decision?Math.max(0,num(p.homeCareDecisionNet)):auto.net,active:true,mode};
+}
+function housingEstimate(p,i,care){
+const warnings=[],blocks=[],info=[];
+const adults=Math.max(1,Math.min(6,num(p.adults)||1));
+const kids=children.filter(c=>num(c.resident)===i).length;
+const persons=adults+kids;
+const caps=RULES.housingCaps[num(p.city)]||RULES.housingCaps[2];
+const cap=persons<=4?caps[persons-1]:caps[3]+(persons-4)*caps[4];
+const housingType=p.housingType;
+let rent=Math.max(0,num(p.housing));
+let water=Math.min(Math.max(0,num(p.housingWater)),20*persons);
+let heating=Math.min(Math.max(0,num(p.housingHeat)),46+16*(persons-1));
+let accepted=Math.min(cap,rent+water+heating);
+const bankAssets=Math.max(0,num(p.bankDeposits)-2000*adults);
+const netAssets=Math.max(0,num(p.assetsOther)+bankAssets-num(p.longDebt));
+const threshold=adults===1?10000:20000;
+const assetIncome=Math.max(0,netAssets-threshold)*.2/12;
+const income=Math.max(0,num(p.gross))+Math.max(0,num(p.partnerGross))+Math.max(0,num(p.otherKelaGross))+care.base+care.supplement+care.municipal+assetIncome;
+const exempt=667+94*adults+296*kids;
+const deductible=Math.max(0,.5*(income-exempt));
+let amount=money(Math.max(0,.7*(accepted-deductible)));
+if(amount<15)amount=0;
+if(housingType==='owner')blocks.push('Omistusasuntoon ei makseta yleistä asumistukea.');
+if(housingType==='unknown')warnings.push('Asumismuoto puuttuu: tarkista, onko kyse tuen piiriin kuuluvasta vuokra-asunnosta.');
+if(housingType==='other')warnings.push('Erityisasumismuotoa ei lasketa varmasti tällä yleisellä vuokramallilla.');
+if(!p.assetsKnown)warnings.push('Ruokakunnan talletukset, muu omaisuus ja pitkäaikaiset velat ovat tarkistamatta.');
+if(netAssets>=50000)blocks.push('Huomioitava nettovarallisuus vähintään 50 000 €: yleistä asumistukea ei makseta.');
+if(num(p.other)>0&&num(p.otherKelaGross)===0)warnings.push('Muut nettotulot voivat vaikuttaa tukeen: syötä Kelan huomioimat bruttotulot.');
+if(num(p.adults)>1&&num(p.partnerGross)===0)warnings.push('Tarkista muiden aikuisten tulot.');
+if(num(p.gross)>0)warnings.push('Kelan palkkatuloon voivat kuulua myös luontoisedut. Tarkista, ettei verotusarvo puutu tai ole kahteen kertaan.');
+if(num(p.housingWater)>20*persons)info.push('Vesimaksusta hyväksytty enintään 20 € henkilöä kohti.');
+if(num(p.housingHeat)>46+16*(persons-1))info.push('Erillisestä lämmityksestä käytetty Kelan normimäärä.');
+if(housingType==='unknown'||housingType==='other'||housingType==='owner'||netAssets>=50000)amount=0;
+info.push('Yleinen asumistuki = 70 % × max(0; '+eur(accepted)+' − '+eur(deductible)+').');
+return {active:true,mode:p.housingMode,amount,adults,kids,persons,cap,accepted,income,exempt,deductible,netAssets,assetIncome,rent,water,heating,warnings,blocks,info};
+}
+function housingSupport(p,i,care){
+const x=housingEstimate(p,i,care);
+if(p.housingMode==='off')return {...x,amount:0,active:false};
+if(p.housingMode==='decision')return {...x,amount:Math.max(0,num(p.housingDecision)),active:true};
+return x;
 }
 function calcParent(p,i){
-let taxable=num(p.gross),tax=taxable*num(p.tax)/100,b=parentBenefits(i),care=homeCare(p,i),housingAid=housingSupport(p,i,care);
+let taxable=num(p.gross),tax=taxable*num(p.tax)/100,b=parentBenefits(i),care=careSupport(p,i),housingAid=housingSupport(p,i,careEstimate(p,i));
 let benefitTotal=b.base+b.single+b.under3;
-let cash=taxable-tax+num(p.other)+num(p.benefits)+benefitTotal+care.net+housingAid;
-return {taxable,tax,cash,b,benefitTotal,care,housingAid,available:cash-num(p.housing)-num(p.living)-num(p.expenses)};
+let cash=taxable-tax+num(p.other)+num(p.benefits)+benefitTotal+care.net+housingAid.amount;
+return {taxable,tax,b,care,housingAid,benefitTotal,cash,available:cash-num(p.housing)-num(p.housingWater)-num(p.housingHeat)-num(p.living)-num(p.expenses)};
 }
 function need(c){return num(c.general)+num(c.housing)+num(c.special)-num(c.otherIncome)}
-function benefitLines(b){return '<div class="result"><span>Lapsilisät</span><b>'+eur(b.base)+'</b></div><div class="result"><span>Yksinhuoltajakorotukset</span><b>'+eur(b.single)+'</b></div><div class="result"><span>Alle 3-vuotiaan korotukset</span><b>'+eur(b.under3)+'</b></div><div class="result total"><span>Lapsietuudet yhteensä</span><b>'+eur(b.base+b.single+b.under3)+'</b></div>'}
+function benefitLines(b){return result('Lapsilisät',b.base)+result('Yksinhuoltajakorotukset',b.single)+result('Alle 3-vuotiaan korotukset',b.under3)+result('Lapsietuudet yhteensä',b.base+b.single+b.under3,'total');}
+function statusNotes(data,title){
+let notes=data.warnings.map(x=>'<li class="note-warn">'+x+'</li>').concat(data.blocks.map(x=>'<li class="note-block">'+x+'</li>'));
+let status=data.blocks.length?'Ehdot estävät tai rajoittavat':notes.length?'Tarkistettavaa':'Lähtötiedot kunnossa';
+return '<div class="check-section"><h4>'+esc(title)+' · '+status+'</h4>'+(notes.length?'<ul>'+notes.join('')+'</ul>':'<p class="note">Ei havaittuja puuttuvia kenttiä. Tämä ei ole Kelan päätös.</p>')+'</div>';
+}
+function auditSection(p,i,x){
+const h=x.housingAid,c=x.care,auto=careEstimate(p,i);
+return '<details class="audit" data-audit="'+i+'"><summary>Tukien tarkistus ja laskentakaavat</summary><div class="audit-body">'+
+statusNotes(h,'Yleinen asumistuki')+
+result('Ruokakunta (aikuiset)',h.adults)+result('Ruokakunta (lapset)',h.kids)+result('Asumismenojen yläraja',h.cap)+result('Hyväksyttävät asumismenot',h.accepted)+result('Varallisuus laskennassa',h.netAssets)+result('Varallisuuden vaikutus tuloon / kk',h.assetIncome)+result('Asumistuen bruttotulot / kk',h.income)+result('Omavastuun tulovähennysraja',h.exempt)+result('Perusomavastuu',h.deductible)+result('Asumistuen kaava-arvio',housingEstimate(p,i,auto).amount)+
+'<p class="formula">Kaava: 70 % × max(0; hyväksyttävät asumismenot − max(0; 50 % × (bruttotulot − (667 € + 94 € × aikuiset + 296 € × lapset)))). Varallisuuden laskennallinen tulo lisätään bruttotuloihin. Alle 15 euron tukea ei makseta.</p>'+
+statusNotes(auto,'Kotihoidon tuki')+result('Hoitolisän tulot / kk',auto.income)+result('Hoitolisän täyden määrän tuloraja',auto.threshold)+result('Hoitoraha',auto.base)+result('Hoitolisä',auto.supplement)+result('Kuntalisä',auto.municipal)+result('Tuen veroarvio',auto.tax)+result('Kotihoidon tuen nettoarvio',auto.net)+
+'<p class="formula">Hoitoraha: 377,68 € ensimmäisestä alle 3-vuotiaasta + 113,07 € muista alle 3-vuotiaista + 72,66 € kotihoidossa olevista muista alle kouluikäisistä. Hoitolisä: max(0; 202,12 € − ('+(auto.rate*100).toLocaleString('fi-FI')+' % × max(0; bruttotulot − '+eur(auto.threshold)+'))). Kuntalisä ja veroprosentti syötetään erikseen.</p>'+
+'<p class="note">Arvioon ei sisälly kaikkia Kelan erityissäännöksiä. Esimerkiksi YEL-työtulo, muut etuudet ja vanhempainrahajaksojen yhteensovitus voivat muuttaa tulosta. <a target="_blank" rel="noopener" href="https://www.kela.fi/miten-tulot-ja-menot-vaikuttavat">Asumistuen ohje</a> · <a target="_blank" rel="noopener" href="https://www.kela.fi/kotihoidontuki">Kotihoidon tuen ohje</a>.</p></div></details>';
+}
+function parentCard(p,i){
+const x=calcParent(p,i),h=x.housingAid,c=x.care;
+const warnings=(p.housingMode==='estimate'?h.warnings.length+h.blocks.length:0)+(p.homeCareMode==='estimate'?c.warnings.length+c.blocks.length:0);
+return '<details class="card" data-card="p'+i+'"><summary>'+esc(p.name)+' · '+eur(x.available)+(warnings?' · tarkistuksia '+warnings:'')+'</summary><div class="card-body">'+
+field('Nimi',p,'name',i,'text')+field('Rahapalkka brutto €/kk',p,'gross',i)+field('Ennakonpidätys, arvio %',p,'tax',i)+field('Muut rahatulot netto €/kk',p,'other',i)+field('Muut verottomat etuudet €/kk',p,'benefits',i)+
+flag('Oikeus lapsilisän yksinhuoltajakorotukseen',p,'single',i)+
+'<hr><h3>Yleinen asumistuki</h3>'+
+select('Asumistuen laskentatapa',p,'housingMode',i,[['estimate','Laske Kelan kaavalla (arvio)'],['decision','Kelan päätöksen määrä'],['off','Ei asumistukea']])+
+select('Asumismuoto',p,'housingType',i,[['unknown','Ei vielä tarkistettu'],['rent','Vuokra-asunto'],['owner','Omistusasunto'],['other','Muu / erityistilanne']])+
+select('Kuntaryhmä',p,'city',i,[[0,'Helsinki / Espoo / Vantaa / Kauniainen'],[1,'Turku / ryhmä II'],[2,'Pori / muut kunnat']])+
+select('Ruokakunnan aikuisia',p,'adults',i,[[1,'1'],[2,'2'],[3,'3'],[4,'4']])+
+field('Muiden aikuisten bruttotulot €/kk',p,'partnerGross',i)+field('Muut Kelan huomioimat bruttotulot €/kk',p,'otherKelaGross',i)+
+field('Kelan päätöksen asumistuki €/kk',p,'housingDecision',i)+
+field('Pankkitalletukset €/ruokakunta',p,'bankDeposits',i)+field('Muu huomioitava omaisuus €',p,'assetsOther',i)+field('Pitkäaikaiset velat €',p,'longDebt',i)+
+flag('Ruokakunnan varallisuustiedot tarkistettu',p,'assetsKnown',i)+
+'<hr><h3>Kotihoidon tuki</h3>'+
+select('Kotihoidon tuen laskentatapa',p,'homeCareMode',i,[['estimate','Laske Kelan kaavalla (arvio)'],['decision','Kelan päätöksen nettomäärä'],['off','Ei kotihoidon tukea']])+
+field('Kotihoidon tuen veroarvio %',p,'homeCareTax',i)+field('Kuntalisä €/kk (tarkista kunnalta)',p,'homeCareMunicipal',i)+
+field('Kotihoidon tuen päätöksen netto €/kk',p,'homeCareDecisionNet',i)+
+'<hr><h3>Menot</h3>'+field('Vuokra / asumismenot €/kk',p,'housing',i)+field('Erikseen maksettava vesi €/kk',p,'housingWater',i)+field('Erikseen maksettava lämmitys €/kk',p,'housingHeat',i)+field('Yleiset elinkustannukset €/kk',p,'living',i)+field('Muut menot €/kk',p,'expenses',i)+
+'<hr>'+result('Verotettava palkka',x.taxable)+result('Palkkaveron arvio',x.tax)+benefitLines(x.b)+result('Asumistuki '+(p.housingMode==='decision'?'(päätös)':'(arvio)'),h.amount)+
+result('Kotihoidon hoitoraha (arvio)',c.base)+result('Kotihoidon hoitolisä (arvio)',c.supplement)+result('Kotihoidon kuntalisä (arvio)',c.municipal)+result('Kotihoidon tuen verot (arvio)',c.tax)+result('Kotihoidon tuki netto '+(p.homeCareMode==='decision'?'(päätös)':'(arvio)'),c.net)+result('Rahaa ennen menoja',x.cash)+result('Rahaa menojen jälkeen',x.available,'total')+
+auditSection(p,i,x)+'</div></details>';
+}
+function childCard(c,i){
+const b=benefitFor(c,i);
+return '<details class="card" data-card="c'+i+'"><summary>'+esc(c.name)+' · '+eur(need(c))+'</summary><div class="card-body">'+
+field('Nimi',c,'name',i,'text','c')+field('Ikä (vuotta)',c,'age',i,'number','c')+
+select('Lapsilisän saaja',c,'recipient',i,[[0,parents[0].name],[1,parents[1].name],[2,'Toinen vanhempi']],'c')+
+select('Pääasiallinen asuminen',c,'resident',i,[[0,parents[0].name],[1,parents[1].name]],'c')+
+select('Varhaiskasvatus / hoito',c,'careStatus',i,[['unknown','Ei tiedossa'],['home','Kotihoidossa'],['municipal','Kunnallinen varhaiskasvatus'],['private','Yksityinen hoito']],'c')+
+select('Vanhempainraha samasta lapsesta',c,'parentalAllowance',i,[['unknown','Ei tiedossa'],['yes','Kyllä'],['no','Ei']],'c')+
+field('Yleiskustannukset €/kk',c,'general',i)+field('Asumisosuus €/kk',c,'housing',i)+field('Erityismenot €/kk',c,'special',i)+field('Lapsen muut tulot €/kk',c,'otherIncome',i)+
+'<hr>'+benefitLines(b)+result('Elatustarve / kk (etuuksia vähentämättä)',need(c),'total')+'<button data-remove="'+i+'">Poista lapsi</button></div></details>';
+}
 function render(){
 const opened=new Set([...document.querySelectorAll('details.card[open]')].map(x=>x.dataset.card));
-document.getElementById('parents').innerHTML=parents.map((p,i)=>{
+const auditOpen=new Set([...document.querySelectorAll('details.audit[open]')].map(x=>x.dataset.audit));
+document.getElementById('parents').innerHTML=parents.map(parentCard).join('');
+document.getElementById('children').innerHTML=children.map(childCard).join('');
+document.getElementById('summary').innerHTML=parents.map((p,i)=>{
 let x=calcParent(p,i);
-return '<details class="card" data-card="p'+i+'"><summary>'+esc(p.name)+' · '+eur(x.available)+'</summary><div class="card-body">'+
-field('Nimi',p,'name',i,'text')+field('Rahapalkka brutto €/kk',p,'gross',i)+field('Ennakonpidätys, arvio %',p,'tax',i)+field('Muut rahatulot netto €/kk',p,'other',i)+field('Muut verottomat etuudet €/kk',p,'benefits',i)+
-'<label>Oikeus yksinhuoltajakorotukseen<input type="checkbox" data-group="p" data-idx="'+i+'" data-key="single" '+(p.single?'checked':'')+'></label>'+
-'<hr><h3>Asumistuki ja kotihoidon tuki</h3>'+
-optionField('Asumistuen kuntaryhmä','city',i,[[0,'Pääkaupunkiseutu'],[1,'Turku / ryhmä II'],[2,'Pori / muut kunnat']])+
-'<label>Laske asumistuen arvio<input type="checkbox" data-group="p" data-idx="'+i+'" data-key="housingSupport" '+(p.housingSupport?'checked':'')+'></label>'+
-'<label>Laske kotihoidon tuki<input type="checkbox" data-group="p" data-idx="'+i+'" data-key="homeCare" '+(p.homeCare?'checked':'')+'></label>'+
-field('Kotihoidon tuen veroarvio %',p,'homeCareTax',i)+field('Kotihoidon kuntalisä €/kk',p,'homeCareMunicipal',i)+
-'<hr>'+field('Asumismenot €/kk',p,'housing',i)+field('Yleiset elinkustannukset €/kk',p,'living',i)+field('Muut menot €/kk',p,'expenses',i)+
-'<hr><div class="result"><span>Verotettava tulo</span><b>'+eur(x.taxable)+'</b></div><div class="result"><span>Arvioitu vero</span><b>'+eur(x.tax)+'</b></div>'+
-benefitLines(x.b)+
-'<div class="result"><span>Asumistuki (arvio, veroton)</span><b>'+eur(x.housingAid)+'</b></div>'+
-'<div class="result"><span>Kotihoidon hoitoraha (brutto)</span><b>'+eur(x.care.base)+'</b></div>'+
-'<div class="result"><span>Kotihoidon hoitolisä (brutto)</span><b>'+eur(x.care.supplement)+'</b></div>'+
-'<div class="result"><span>Kotihoidon kuntalisä (brutto)</span><b>'+eur(x.care.municipal)+'</b></div>'+
-'<div class="result"><span>Kotihoidon tuen arvioitu vero</span><b>'+eur(x.care.tax)+'</b></div>'+
-'<div class="result total"><span>Kotihoidon tuki netto</span><b>'+eur(x.care.net)+'</b></div>'+
-'<div class="result"><span>Rahaa käytettävissä ennen menoja</span><b>'+eur(x.cash)+'</b></div><div class="result total"><span>Rahaa menojen jälkeen</span><strong class="value">'+eur(x.available)+'</strong></div></div></details>';
-}).join('');
-document.getElementById('children').innerHTML=children.map((c,i)=>{
-let b=benefitFor(c,i);
-return '<details class="card" data-card="c'+i+'"><summary>'+esc(c.name)+' · '+eur(need(c))+'</summary><div class="card-body">'+field('Nimi',c,'name',i,'text','c')+
-field('Ikä (vuotta)',c,'age',i,'number','c')+selectRecipient(c,i)+selectResidence(c,i)+field('Yleiskustannukset €/kk',c,'general',i,'number','c')+field('Asumisosuus €/kk',c,'housing',i,'number','c')+
-field('Erityismenot €/kk',c,'special',i,'number','c')+field('Lapsen muut tulot €/kk',c,'otherIncome',i,'number','c')+
-'<hr>'+benefitLines(b)+'<div class="result total"><span>Elatustarve / kk (ilman lapsietuuksien vähennystä)</span><strong class="value">'+eur(need(c))+'</strong></div>'+
-'<button data-remove="'+i+'">Poista lapsi</button></div></details>';
-}).join('');
-document.getElementById('summary').innerHTML=parents.map((p,i)=>{let x=calcParent(p,i);return '<h3>'+esc(p.name)+'</h3><div class="result"><span>Rahapalkka verojen jälkeen ja muut rahatulot</span><b>'+eur(x.cash-x.benefitTotal-x.care.net-x.housingAid)+'</b></div>'+benefitLines(x.b)+
-'<div class="result"><span>Asumistuki</span><b>'+eur(x.housingAid)+'</b></div>'+
-'<div class="result"><span>Kotihoidon hoitoraha</span><b>'+eur(x.care.base)+'</b></div>'+
-'<div class="result"><span>Kotihoidon hoitolisä</span><b>'+eur(x.care.supplement)+'</b></div>'+
-'<div class="result"><span>Kotihoidon kuntalisä</span><b>'+eur(x.care.municipal)+'</b></div>'+
-'<div class="result"><span>Kotihoidon tuen verot</span><b>'+eur(x.care.tax)+'</b></div>'+
-'<div class="result total"><span>Rahaa menojen jälkeen</span><b>'+eur(x.available)+'</b></div>'}).join('')+
-'<div class="result total"><span>Lasten elatustarve yhteensä</span><strong class="value">'+eur(children.reduce((a,c)=>a+need(c),0))+'</strong></div>'+
-'<p class="note">Laskentakaavat ja hoitorahan sekä hoitolisän määrät perustuvat Kelan julkaistuihin sääntöihin (kela.fi/kotihoidontuki ja kela.fi/miten-tulot-ja-menot-vaikuttavat). Asumistuki ja kotihoidon tuki ovat silti arvioita: asumistuen varallisuus-, asumismuoto- ja ruokakuntarajoituksia sekä kotihoidon tuen hoito- ja vanhempainrahapoikkeuksia ei tarkisteta. Kotihoidon tuki lasketaan vain kun se on valittu ja taloudessa on alle 3-vuotias lapsi. Tarkista oikea määrä Kelasta. Lapsietuudet kirjataan vain valitun saajan tuloihin. Niitä ei vähennetä lasten elatustarpeesta. Verot ovat arvioita. Lapsilisien porrastus perustuu tähän laskuriin merkittyihin saman saajan lapsiin; muita lapsia ei huomioida. Yksinhuoltajakorotuksen oikeus valitaan erikseen.</p>';
+const noteCount=(p.housingMode==='estimate'?x.housingAid.warnings.length+x.housingAid.blocks.length:0)+(p.homeCareMode==='estimate'?x.care.warnings.length+x.care.blocks.length:0);
+return '<h3>'+esc(p.name)+(noteCount?' · Tarkista '+noteCount+' asiaa':'')+'</h3>'+
+result('Palkka verojen jälkeen ja muut rahatulot',x.cash-x.benefitTotal-x.care.net-x.housingAid.amount)+benefitLines(x.b)+
+result('Asumistuki',x.housingAid.amount)+result('Kotihoidon tuki netto',x.care.net)+result('Rahaa menojen jälkeen',x.available,'total')+
+(noteCount?'<p class="note note-warn">Tarkista '+noteCount+' asiaa '+esc(p.name)+'-kortin kohdasta ”Tukien tarkistus ja laskentakaavat”.</p>':'');
+}).join('')+result('Lasten elatustarve yhteensä',children.reduce((n,c)=>n+need(c),0),'total')+
+'<p class="note">Etuudet kohdistetaan niiden saajalle eivätkä vähennä lapsen elatustarvetta. Kela-arviot eivät korvaa päätöstä. Syötä tarvittaessa Kelan päätöksen euromäärä. Palkkaveroprosentti on yksinkertaistettu arvio.</p>';
 document.querySelectorAll('details.card').forEach(x=>{if(opened.has(x.dataset.card))x.open=true});
+document.querySelectorAll('details.audit').forEach(x=>{if(auditOpen.has(x.dataset.audit))x.open=true});
 }
-document.addEventListener('change',e=>{let el=e.target;if(el.dataset.group){let arr=el.dataset.group==='p'?parents:children;arr[+el.dataset.idx][el.dataset.key]=el.type==='checkbox'?el.checked:el.type==='number'||el.tagName==='SELECT'?num(el.value):el.value;render()}});
+document.addEventListener('change',e=>{
+let el=e.target;
+if(el.dataset.group){let arr=el.dataset.group==='p'?parents:children;
+arr[+el.dataset.idx][el.dataset.key]=el.type==='checkbox'?el.checked:el.type==='number'?num(el.value):el.value;
+render();
+}});
 document.addEventListener('click',e=>{if(e.target.dataset.remove!==undefined){children.splice(+e.target.dataset.remove,1);render()}});
 document.getElementById('menuTrigger').onclick=()=>{const menu=document.getElementById('appMenu');menu.hidden=!menu.hidden;document.getElementById('menuTrigger').setAttribute('aria-expanded',String(!menu.hidden))};
 document.addEventListener('click',e=>{if(!e.target.closest('.menu-holder')){document.getElementById('appMenu').hidden=true;document.getElementById('menuTrigger').setAttribute('aria-expanded','false')}});
 document.getElementById('theme').onchange=e=>document.body.dataset.theme=e.target.value;
-document.getElementById('add').onclick=()=>{children.push({name:'Uusi lapsi',age:0,general:362,housing:0,special:0,otherIncome:0,recipient:1,resident:1});render()};
+document.getElementById('add').onclick=()=>{children.push({name:'Uusi lapsi',age:0,general:362,housing:0,special:0,otherIncome:0,recipient:1,resident:1,careStatus:'unknown',parentalAllowance:'unknown'});render()};
 render();
 </script></body></html>
