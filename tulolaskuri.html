@@ -171,7 +171,7 @@ field('Nimi',p,'name',i,'text')+
 field('Bruttotulo €/kk',p,'gross',i)+
 field('Asumismenot €/kk',p,'housing',i)+
 '<div class="basic-only overview">'+
-result('Veroprosentti (arvio)',x.pay.rate)+'<p class="note">Yllä oleva veroarvio prosentteina.</p>'+
+countResult('Veroprosentti (arvio)',x.pay.rate.toLocaleString('fi-FI',{maximumFractionDigits:1})+' %')+
 result('Nettotulo / kk',x.pay.net)+
 result('Lapsilisät ja korotukset',totalBenefits)+
 result('Asumistuki',h.amount)+result('Kotihoidon tuki (netto)',c.net)+
